@@ -38,10 +38,20 @@ pip install -r requirements.txt
 ```
 
 #### 5. Run the server
+Optional: it can take a while to load all of the data for cities_light. If you want to speed up your build time locally, update your settings.py file to restrict which regions and cities are loaded into your database:
+
+```python
+CITIES_LIGHT_INCLUDE_COUNTRIES = ['US', 'CA']
+```
+
+Then run the following commands to spin up the application:
+
 ```bash
-# Make migrationsp
-python manage.py makemigrations
+# Set up database
 python manage.py migrate
+
+# Import countries/regions/cities
+python manage.py cities_light
 
 # Run the server
 python manage.py runserver 0:8001
@@ -50,3 +60,4 @@ python manage.py runserver 0:8001
 ```
 Try opening [http://localhost:8001](http://localhost:8001) in the browser.
 Now you are good to go.
+
