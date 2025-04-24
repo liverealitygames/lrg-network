@@ -8,6 +8,7 @@ on:
 
 jobs:
   check_migrations:
+    name: Check Migrations
     runs-on: ubuntu-latest
     env:
       DJANGO_SETTINGS_MODULE: lrgnetwork.settings
@@ -25,6 +26,7 @@ jobs:
         run: python manage.py makemigrations --check --dry-run
 
   check_formatting:
+    name: Check Code Formatting
     runs-on: ubuntu-latest
     env:
       DJANGO_SETTINGS_MODULE: lrgnetwork.settings
@@ -43,6 +45,7 @@ jobs:
         run: black --check .
 
   run_tests:
+    name: Run Tests
     runs-on: ubuntu-latest
     env:
       DJANGO_SETTINGS_MODULE: lrgnetwork.settings
