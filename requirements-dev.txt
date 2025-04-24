@@ -1,0 +1,8 @@
+-r requirements.txt
+
+black
+coverage
+django-debug-toolbar
+pytest
+pytest-django
+pre-commit
