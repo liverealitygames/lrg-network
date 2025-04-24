@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "cities_light",
     "smart_selects",
-    "games"
+    "games",
 ]
 
 MIDDLEWARE = [

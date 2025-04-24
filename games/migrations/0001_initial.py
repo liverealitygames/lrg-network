@@ -11,56 +11,203 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('cities_light', '0011_alter_city_country_alter_city_region_and_more'),
+        ("cities_light", "0011_alter_city_country_alter_city_region_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Game',
+            name="Game",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200)),
-                ('game_format', models.CharField(choices=[('AR', 'Amazing Race'), ('BB', 'Big Brother'), ('SU', 'Survivor'), ('TM', 'Task Master'), ('CH', 'The Challenge'), ('MO', 'The Mole'), ('TR', 'The Traitors'), ('OF', 'Original Format'), ('VA', 'Various')], max_length=2)),
-                ('active', models.BooleanField(null=True)),
-                ('game_duration', models.CharField(blank=True, choices=[('SD', 'Single Day'), ('MD', 'Multiple Days'), ('SE', 'Semester')], max_length=2, null=True)),
-                ('number_of_days', models.IntegerField(blank=True, null=True, validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(100)])),
-                ('filming_status', models.CharField(blank=True, choices=[('FI', 'Filmed'), ('NF', 'Not Filmed'), ('EP', 'Episodes'), ('LI', 'Livestreamed')], max_length=2, null=True)),
-                ('for_charity', models.BooleanField(null=True)),
-                ('friends_and_family', models.BooleanField(null=True)),
-                ('college_game', models.BooleanField(null=True)),
-                ('college_name', models.CharField(blank=True, max_length=200, null=True)),
-                ('host', models.CharField(blank=True, max_length=200, null=True)),
-                ('email', models.EmailField(blank=True, max_length=254, null=True)),
-                ('website', models.URLField(blank=True, null=True)),
-                ('instagram_hanlde', models.CharField(blank=True, max_length=200, null=True)),
-                ('facebook_link', models.CharField(blank=True, max_length=200, null=True)),
-                ('youtube_link', models.CharField(blank=True, max_length=200, null=True)),
-                ('lrg_wiki_page', models.CharField(blank=True, max_length=200, null=True)),
-                ('casting_link', models.URLField(blank=True, null=True)),
-                ('description', models.TextField(blank=True, null=True)),
-                ('city', smart_selects.db_fields.ChainedForeignKey(auto_choose=True, blank=True, chained_field='region', chained_model_field='region', null=True, on_delete=django.db.models.deletion.PROTECT, to='cities_light.city')),
-                ('country', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='cities_light.country')),
-                ('region', smart_selects.db_fields.ChainedForeignKey(auto_choose=True, blank=True, chained_field='country', chained_model_field='country', null=True, on_delete=django.db.models.deletion.PROTECT, to='cities_light.region')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200)),
+                (
+                    "game_format",
+                    models.CharField(
+                        choices=[
+                            ("AR", "Amazing Race"),
+                            ("BB", "Big Brother"),
+                            ("SU", "Survivor"),
+                            ("TM", "Task Master"),
+                            ("CH", "The Challenge"),
+                            ("MO", "The Mole"),
+                            ("TR", "The Traitors"),
+                            ("OF", "Original Format"),
+                            ("VA", "Various"),
+                        ],
+                        max_length=2,
+                    ),
+                ),
+                ("active", models.BooleanField(null=True)),
+                (
+                    "game_duration",
+                    models.CharField(
+                        blank=True,
+                        choices=[
+                            ("SD", "Single Day"),
+                            ("MD", "Multiple Days"),
+                            ("SE", "Semester"),
+                        ],
+                        max_length=2,
+                        null=True,
+                    ),
+                ),
+                (
+                    "number_of_days",
+                    models.IntegerField(
+                        blank=True,
+                        null=True,
+                        validators=[
+                            django.core.validators.MinValueValidator(1),
+                            django.core.validators.MaxValueValidator(100),
+                        ],
+                    ),
+                ),
+                (
+                    "filming_status",
+                    models.CharField(
+                        blank=True,
+                        choices=[
+                            ("FI", "Filmed"),
+                            ("NF", "Not Filmed"),
+                            ("EP", "Episodes"),
+                            ("LI", "Livestreamed"),
+                        ],
+                        max_length=2,
+                        null=True,
+                    ),
+                ),
+                ("for_charity", models.BooleanField(null=True)),
+                ("friends_and_family", models.BooleanField(null=True)),
+                ("college_game", models.BooleanField(null=True)),
+                (
+                    "college_name",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
+                ("host", models.CharField(blank=True, max_length=200, null=True)),
+                ("email", models.EmailField(blank=True, max_length=254, null=True)),
+                ("website", models.URLField(blank=True, null=True)),
+                (
+                    "instagram_hanlde",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
+                (
+                    "facebook_link",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
+                (
+                    "youtube_link",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
+                (
+                    "lrg_wiki_page",
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
+                ("casting_link", models.URLField(blank=True, null=True)),
+                ("description", models.TextField(blank=True, null=True)),
+                (
+                    "city",
+                    smart_selects.db_fields.ChainedForeignKey(
+                        auto_choose=True,
+                        blank=True,
+                        chained_field="region",
+                        chained_model_field="region",
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="cities_light.city",
+                    ),
+                ),
+                (
+                    "country",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="cities_light.country",
+                    ),
+                ),
+                (
+                    "region",
+                    smart_selects.db_fields.ChainedForeignKey(
+                        auto_choose=True,
+                        blank=True,
+                        chained_field="country",
+                        chained_model_field="country",
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="cities_light.region",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='GameDate',
+            name="GameDate",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('start_date', models.DateField(blank=True, null=True)),
-                ('end_date', models.DateField(blank=True, null=True)),
-                ('display_text', models.CharField(blank=True, help_text="Optional custom label like 'Fall 2025' or 'August 2025'. Overrides automatic display.", max_length=100)),
-                ('game', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='next_season_date', to='games.game')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("start_date", models.DateField(blank=True, null=True)),
+                ("end_date", models.DateField(blank=True, null=True)),
+                (
+                    "display_text",
+                    models.CharField(
+                        blank=True,
+                        help_text="Optional custom label like 'Fall 2025' or 'August 2025'. Overrides automatic display.",
+                        max_length=100,
+                    ),
+                ),
+                (
+                    "game",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="next_season_date",
+                        to="games.game",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Season',
+            name="Season",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('number', models.IntegerField(validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(100)])),
-                ('name', models.CharField(blank=True, max_length=200, null=True)),
-                ('link', models.URLField(blank=True, null=True)),
-                ('game', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='seasons', to='games.game')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "number",
+                    models.IntegerField(
+                        validators=[
+                            django.core.validators.MinValueValidator(1),
+                            django.core.validators.MaxValueValidator(100),
+                        ]
+                    ),
+                ),
+                ("name", models.CharField(blank=True, max_length=200, null=True)),
+                ("link", models.URLField(blank=True, null=True)),
+                (
+                    "game",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="seasons",
+                        to="games.game",
+                    ),
+                ),
             ],
         ),
     ]

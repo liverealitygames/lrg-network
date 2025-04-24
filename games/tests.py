@@ -4,13 +4,13 @@ from django.test import TestCase
 from .models import Game, GameDate, Season
 from cities_light.models import Country
 
+
 class GameModelTest(TestCase):
     def setUp(self):
         # Create a Country instance for testing
         self.country = Country.objects.create(name="Test Country")
 
         # Create a Game instance
-        
 
     def test_basic_game(self):
         game = self.game = Game.objects.create(
@@ -26,7 +26,7 @@ class GameModelTest(TestCase):
         self.assertEqual(self.game.name, "Test Game")
         self.assertEqual(self.game.game_format, Game.GameFormat.AMAZING_RACE)
         self.assertTrue(self.game.active)
-        self.assertEqual(str(self.game), "Test Game") 
+        self.assertEqual(str(self.game), "Test Game")
 
     def test_invalid_game_format(self):
         game = Game.objects.create(
@@ -40,6 +40,8 @@ class GameModelTest(TestCase):
         )
         with self.assertRaises(ValidationError):
             game.full_clean()  # This will raise a ValidationError for invalid choices
+
+
 class GameDateModelTest(TestCase):
     def setUp(self):
         self.game = Game.objects.create(
@@ -77,6 +79,7 @@ class GameDateModelTest(TestCase):
         game_date.full_clean()
         self.assertEqual(self.game_date.display_text, "Spring 2025")
         self.assertEqual(str(self.game_date), "Spring 2025")
+
 
 class SeasonModelTest(TestCase):
     def setUp(self):
