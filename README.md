@@ -31,10 +31,10 @@ source lrgvenv/bin/activate
 ```
 
 #### 4. Install requirements
-Make sure you have the latest version of pip and then install the project's dependencies, including Django:
+Make sure you have the latest version of pip and then install the project's dependencies, including Django, as well as dependencies for development and testing:
 ```bash
 python -m pip install --upgrade pip
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 #### 5. Run the server
