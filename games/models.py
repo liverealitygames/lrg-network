@@ -3,33 +3,6 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from cities_light.models import Country, Region, City
 from smart_selects.db_fields import ChainedForeignKey
-
-# TO-DO - need to make sure the admin interface handles game dates in-line as part of the game model
-class GameDate(models.Model):
-    start_date = models.DateField(null=True, blank=True)
-    end_date = models.DateField(null=True, blank=True)
-
-    display_text = models.CharField(
-        max_length=100,
-        blank=True,
-        help_text="Optional custom label like 'Fall 2025' or 'August 2025'. Overrides automatic display.",
-    )
-
-    def __str__(self):
-        if self.display_text:
-            return self.display_text
-        elif self.start_date and self.end_date:
-            if self.start_date == self.end_date:
-                return self.start_date.strftime("%B %d, %Y")
-            elif self.start_date.month == self.end_date.month:
-                return f"{self.start_date.strftime('%B %d')}–{self.end_date.strftime('%d, %Y')}"
-            elif self.start_date.year == self.end_date.year:
-                return f"{self.start_date.strftime('%B %d')} – {self.end_date.strftime('%B %d, %Y')}"
-            else:
-                return f"{self.start_date.strftime('%B %d, %Y')} – {self.end_date.strftime('%B %d, %Y')}"
-        elif self.start_date:
-            return self.start_date.strftime("%B %d, %Y")
-        return "TBD"
     
 class Game(models.Model):
     name = models.CharField(max_length=200)
@@ -72,7 +45,7 @@ class Game(models.Model):
         SINGLE_DAY = 'SD', _('Single Day')
         MULTIPLE_DAYS = 'MD', _('Multiple Days')
         SEMESTER = 'SE', _('Semester')
-    multiple_days = models.CharField(max_length=2, choices=GameDuration.choices, blank=True, null=True)
+    game_duration = models.CharField(max_length=2, choices=GameDuration.choices, blank=True, null=True)
     number_of_days = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(1), MaxValueValidator(100)])
     class FilmingStatus(models.TextChoices):
         FILMED = 'FI', _('Filmed')
@@ -93,14 +66,35 @@ class Game(models.Model):
     youtube_link = models.CharField(max_length=200, blank=True, null=True)
     lrg_wiki_page = models.CharField(max_length=200, blank=True, null=True)
     casting_link = models.URLField(blank=True, null=True)
-    next_season_date = models.ForeignKey(
-        GameDate,
-        blank=True,
-        null=True,
-        on_delete=models.PROTECT,
-    )
     description = models.TextField(blank=True, null=True)
 
+# TO-DO - need to make sure the admin interface handles game dates in-line as part of the game model
+class GameDate(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="next_season_date")
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+
+    display_text = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Optional custom label like 'Fall 2025' or 'August 2025'. Overrides automatic display.",
+    )
+
+    def __str__(self):
+        if self.display_text:
+            return self.display_text
+        elif self.start_date and self.end_date:
+            if self.start_date == self.end_date:
+                return self.start_date.strftime("%B %d, %Y")
+            elif self.start_date.month == self.end_date.month:
+                return f"{self.start_date.strftime('%B %d')}–{self.end_date.strftime('%d, %Y')}"
+            elif self.start_date.year == self.end_date.year:
+                return f"{self.start_date.strftime('%B %d')} – {self.end_date.strftime('%B %d, %Y')}"
+            else:
+                return f"{self.start_date.strftime('%B %d, %Y')} – {self.end_date.strftime('%B %d, %Y')}"
+        elif self.start_date:
+            return self.start_date.strftime("%B %d, %Y")
+        return "TBD"
 class Season(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="seasons")
     number = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
