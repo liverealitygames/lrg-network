@@ -30,7 +30,7 @@ class GameDate(models.Model):
         elif self.start_date:
             return self.start_date.strftime("%B %d, %Y")
         return "TBD"
-
+    
 class Game(models.Model):
     name = models.CharField(max_length=200)
     class GameFormat(models.TextChoices):
@@ -100,3 +100,9 @@ class Game(models.Model):
         on_delete=models.PROTECT,
     )
     description = models.TextField(blank=True, null=True)
+
+class Season(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="seasons")
+    number = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
+    name = models.CharField(max_length=200, blank=True, null=True)
+    link = models.URLField(blank=True, null=True)
