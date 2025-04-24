@@ -68,6 +68,10 @@ class Game(models.Model):
     casting_link = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
+
+    def __str__(self):
+        return f"{self.name}"
+
 # TO-DO - need to make sure the admin interface handles game dates in-line as part of the game model
 class GameDate(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="next_season_date")
@@ -100,3 +104,6 @@ class Season(models.Model):
     number = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
     name = models.CharField(max_length=200, blank=True, null=True)
     link = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.game.name} - Season {self.number} ({self.name})"
