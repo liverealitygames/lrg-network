@@ -4,8 +4,10 @@ from django.utils.translation import gettext_lazy as _
 from cities_light.models import Country, Region, City
 from smart_selects.db_fields import ChainedForeignKey
 
+from core.models import CoreModel
 
-class Game(models.Model):
+
+class Game(CoreModel):
     name = models.CharField(max_length=200)
 
     class GameFormat(models.TextChoices):
@@ -85,8 +87,7 @@ class Game(models.Model):
         return f"{self.name}"
 
 
-# TO-DO - need to make sure the admin interface handles game dates in-line as part of the game model
-class GameDate(models.Model):
+class GameDate(CoreModel):
     game = models.ForeignKey(
         Game, on_delete=models.CASCADE, related_name="next_season_date"
     )
@@ -116,7 +117,7 @@ class GameDate(models.Model):
         return "TBD"
 
 
-class Season(models.Model):
+class Season(CoreModel):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="seasons")
     number = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(100)]
