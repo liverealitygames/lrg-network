@@ -2,7 +2,77 @@ from datetime import date
 from django.forms import ValidationError
 from django.test import TestCase
 from .models import Game, GameDate, Season
+from django.contrib.auth import get_user_model
 from cities_light.models import Country
+
+
+class CoreModelFieldsTest(TestCase):
+    def setUp(self):
+        # Create a test user
+        self.user = get_user_model().objects.create_user(
+            username="testuser", password="password"
+        )
+
+        # Create a Country instance for testing
+        self.country = Country.objects.create(name="Test Country")
+
+    def test_created_by_and_modified_by(self):
+        # Create a Game instance with created_by and modified_by
+        game = Game.objects.create(
+            name="Test Game",
+            game_format=Game.GameFormat.AMAZING_RACE,
+            active=True,
+            country=self.country,
+            created_by=self.user,
+            modified_by=self.user,
+        )
+
+        # Validate the created_by and modified_by fields
+        self.assertEqual(game.created_by, self.user)
+        self.assertEqual(game.modified_by, self.user)
+
+    def test_auto_populated_timestamps(self):
+        # Create a Game instance
+        game = Game.objects.create(
+            name="Test Game",
+            game_format=Game.GameFormat.SURVIVOR,
+            active=True,
+            country=self.country,
+            created_by=self.user,
+        )
+
+        # Initially, created and modified should be the same
+        self.assertEqual(game.created, game.modified)
+
+        # Update the Game instance
+        game.name = "Updated Test Game"
+        game.save()
+
+        # Reload the instance from the database to get updated timestamps
+        game.refresh_from_db()
+
+        # Assert that created and modified are now different
+        self.assertNotEqual(game.created, game.modified)
+        self.assertEqual(game.name, "Updated Test Game")
+
+    def test_soft_delete(self):
+        # Create a Game instance
+        game = Game.objects.create(
+            name="Test Game",
+            game_format=Game.GameFormat.THE_MOLE,
+            active=True,
+            country=self.country,
+            created_by=self.user,
+        )
+
+        # Soft delete the instance
+        game.delete()
+
+        # Validate that the instance is marked as removed
+        self.assertTrue(game.is_removed)
+
+        # Validate that the instance is excluded from the default queryset
+        self.assertEqual(Game.objects.filter(is_removed=False).count(), 0)
 
 
 class GameModelTest(TestCase):

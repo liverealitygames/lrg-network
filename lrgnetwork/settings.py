@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "cities_light",
     "smart_selects",
+    "model_utils",
+    "core",
     "games",
 ]
 
