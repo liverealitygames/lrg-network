@@ -2,7 +2,6 @@
 
 import django.core.validators
 import django.db.models.deletion
-import smart_selects.db_fields
 from django.db import migrations, models
 
 
@@ -114,11 +113,8 @@ class Migration(migrations.Migration):
                 ("description", models.TextField(blank=True, null=True)),
                 (
                     "city",
-                    smart_selects.db_fields.ChainedForeignKey(
-                        auto_choose=True,
+                    models.ForeignKey(
                         blank=True,
-                        chained_field="region",
-                        chained_model_field="region",
                         null=True,
                         on_delete=django.db.models.deletion.PROTECT,
                         to="cities_light.city",
@@ -133,11 +129,8 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "region",
-                    smart_selects.db_fields.ChainedForeignKey(
-                        auto_choose=True,
+                    models.ForeignKey(
                         blank=True,
-                        chained_field="country",
-                        chained_model_field="country",
                         null=True,
                         on_delete=django.db.models.deletion.PROTECT,
                         to="cities_light.region",
