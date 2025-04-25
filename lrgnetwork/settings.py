@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "cities_light",
-    "smart_selects",
     "model_utils",
+    "dal",
+    "dal_select2",
     "core",
     "games",
 ]

@@ -2,7 +2,6 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from cities_light.models import Country, Region, City
-from smart_selects.db_fields import ChainedForeignKey
 
 from core.models import CoreModel
 
@@ -24,28 +23,8 @@ class Game(CoreModel):
     game_format = models.CharField(max_length=2, choices=GameFormat)
     active = models.BooleanField(null=True)
     country = models.ForeignKey(Country, on_delete=models.PROTECT)
-    region = ChainedForeignKey(
-        Region,
-        chained_field="country",  # field on this model
-        chained_model_field="country",  # field on Region model
-        show_all=False,
-        auto_choose=True,
-        sort=True,
-        blank=True,
-        null=True,
-        on_delete=models.PROTECT,
-    )
-    city = ChainedForeignKey(
-        City,
-        chained_field="region",  # field on this model
-        chained_model_field="region",  # field on City model
-        show_all=False,
-        auto_choose=True,
-        sort=True,
-        blank=True,
-        null=True,
-        on_delete=models.PROTECT,
-    )
+    region = models.ForeignKey(Region, blank=True, null=True, on_delete=models.PROTECT)
+    city = models.ForeignKey(City, blank=True, null=True, on_delete=models.PROTECT)
 
     class GameDuration(models.TextChoices):
         SINGLE_DAY = "SD", _("Single Day")
