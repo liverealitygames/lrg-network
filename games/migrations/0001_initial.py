@@ -9,10 +9,6 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        ("cities_light", "0011_alter_city_country_alter_city_region_and_more"),
-    ]
-
     operations = [
         migrations.CreateModel(
             name="Game",
