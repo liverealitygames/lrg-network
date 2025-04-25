@@ -1,10 +1,15 @@
 from django.contrib import admin
 
 from core.admin_mixins import AuditAdminMixin
-from dal import autocomplete
+from cities_light.models import Country, Region, City, SubRegion
 
 from games.form import GameAdminForm
 from .models import Game, GameDate, Season
+
+admin.site.unregister(Country)
+admin.site.unregister(Region)
+admin.site.unregister(City)
+admin.site.unregister(SubRegion)
 
 
 class SeasonInline(admin.TabularInline):
