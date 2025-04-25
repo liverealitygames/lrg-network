@@ -14,12 +14,12 @@ class CoreModel(TimeStampedModel, SoftDeletableModel):
         on_delete=models.SET_NULL,
         related_name="%(class)s_created",
     )
-    updated_by = models.ForeignKey(
+    modified_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name="%(class)s_updated",
+        related_name="%(class)s_modified",
     )
 
     class Meta:
