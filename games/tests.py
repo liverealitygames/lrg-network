@@ -16,20 +16,20 @@ class CoreModelFieldsTest(TestCase):
         # Create a Country instance for testing
         self.country = Country.objects.create(name="Test Country")
 
-    def test_created_by_and_updated_by(self):
-        # Create a Game instance with created_by and updated_by
+    def test_created_by_and_modified_by(self):
+        # Create a Game instance with created_by and modified_by
         game = Game.objects.create(
             name="Test Game",
             game_format=Game.GameFormat.AMAZING_RACE,
             active=True,
             country=self.country,
             created_by=self.user,
-            updated_by=self.user,
+            modified_by=self.user,
         )
 
-        # Validate the created_by and updated_by fields
+        # Validate the created_by and modified_by fields
         self.assertEqual(game.created_by, self.user)
-        self.assertEqual(game.updated_by, self.user)
+        self.assertEqual(game.modified_by, self.user)
 
     def test_auto_populated_timestamps(self):
         # Create a Game instance
