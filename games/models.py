@@ -83,13 +83,19 @@ class Game(CoreModel):
 
         # Use the region code if we have a city, otherwise use the region name
         if city_name and self.region:
-            region_part = self.region.code if self.region.code else self.region.name
+            region_part = (
+                self.region.geoname_code
+                if self.region.geoname_code
+                else self.region.name
+            )
         else:
             region_part = self.region.name if self.region else None
 
         # Use ISO country code if we have a region, otherwise use the full country name
         if region_part and self.country:
-            country_part = self.country.code if self.country.code else self.country.name
+            country_part = (
+                self.country.code2 if self.country.code2 else self.country.name
+            )
         else:
             country_part = self.country.name if self.country else None
 

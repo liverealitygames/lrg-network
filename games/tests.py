@@ -154,9 +154,9 @@ class GameDateModelTest(TestCase):
 
 class GameLocationDisplayTests(TestCase):
     def setUp(self):
-        self.country = Country.objects.create(name="United States", code="US")
+        self.country = Country.objects.create(name="United States", code2="US")
         self.region = Region.objects.create(
-            name="California", code="CA", country=self.country
+            name="California", geoname_code="CA", country=self.country
         )
         self.city = City.objects.create(
             name="Los Angeles", region=self.region, country=self.country
