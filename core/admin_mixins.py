@@ -9,15 +9,16 @@ class AuditAdminMixin(admin.ModelAdmin):
         obj.modified_by = request.user
         super().save_model(request, obj, form, change)
 
+    def get_readonly_fields(self, request, obj=None):
+        # Show as read-only only when editing
+        if obj:
+            return getattr(self, "readonly_fields", ()) + ("created_by", "modified_by")
+        return getattr(self, "readonly_fields", ())
+
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
 
-        if obj:  # Editing → show as read-only
-            self.readonly_fields = getattr(self, "readonly_fields", ()) + (
-                "created_by",
-                "modified_by",
-            )
-        else:  # Creating → hide the fields
+        if not obj:  # Creating → hide the fields
             for field in ("created_by", "modified_by"):
                 if field in form.base_fields:
                     form.base_fields[field].widget = forms.HiddenInput()
