@@ -1,5 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from cities_light.models import Country, Region, City
 
@@ -8,6 +9,7 @@ from core.models import CoreModel
 
 class Game(CoreModel):
     name = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, blank=True)
 
     class GameFormat(models.TextChoices):
         AMAZING_RACE = "AR", _("Amazing Race")
@@ -64,6 +66,16 @@ class Game(CoreModel):
 
     def __str__(self):
         return f"{self.name}"
+
+    def save(self, *args, **kwargs):
+        base_slug = slugify(self.name)
+        slug = base_slug
+        counter = 1
+        while Game.objects.filter(slug=slug).exists():
+            slug = f"{base_slug}-{counter}"
+            counter += 1
+        self.slug = slug
+        super().save(*args, **kwargs)
 
 
 class GameDate(CoreModel):

@@ -38,6 +38,7 @@ class GameDateInline(admin.TabularInline):
 class GameAdmin(AuditAdminMixin):
     form = GameAdminForm
     inlines = [GameDateInline, SeasonInline]
+    exclude = ("slug",)
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
