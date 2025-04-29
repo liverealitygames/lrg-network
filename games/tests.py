@@ -1,6 +1,7 @@
 from datetime import date
 from django.forms import ValidationError
 from django.test import TestCase
+from django.urls import reverse
 from .models import Game, GameDate, Season
 from django.contrib.auth import get_user_model
 from cities_light.models import Country
@@ -172,3 +173,43 @@ class SeasonModelTest(TestCase):
         self.assertEqual(self.season.name, "Borneo")
         self.assertEqual(self.season.link, "http://example.com")
         self.assertEqual(str(self.season), "Test Game - Season 1 (Borneo)")
+
+
+class GameListViewTest(TestCase):
+    def setUp(self):
+        # Create a Country instance for testing
+        self.country = Country.objects.create(name="Test Country")
+
+        # Create some Game instances
+        self.game1 = Game.objects.create(
+            name="Game 1",
+            game_format=Game.GameFormat.AMAZING_RACE,
+            active=True,
+            country=self.country,
+        )
+        self.game2 = Game.objects.create(
+            name="Game 2",
+            game_format=Game.GameFormat.SURVIVOR,
+            active=True,
+            country=self.country,
+        )
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get("/games/")
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse("game_list"))
+        self.assertTemplateUsed(response, "games/game_list.html")
+
+    def test_view_returns_all_games(self):
+        response = self.client.get(reverse("game_list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(self.game1, response.context["games"])
+        self.assertIn(self.game2, response.context["games"])
+
+    def test_view_handles_no_games(self):
+        Game.objects.all().delete()  # Remove all games
+        response = self.client.get(reverse("game_list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerySetEqual(response.context["games"], [])
