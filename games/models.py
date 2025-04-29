@@ -77,6 +77,26 @@ class Game(CoreModel):
         self.slug = slug
         super().save(*args, **kwargs)
 
+    def location_display(self):
+        # Display city first, if available
+        city_name = self.city.name if self.city else None
+
+        # Use the region code if we have a city, otherwise use the region name
+        if city_name and self.region:
+            region_part = self.region.code if self.region.code else self.region.name
+        else:
+            region_part = self.region.name if self.region else None
+
+        # Use ISO country code if we have a region, otherwise use the full country name
+        if region_part and self.country:
+            country_part = self.country.code if self.country.code else self.country.name
+        else:
+            country_part = self.country.name if self.country else None
+
+        # Combine parts, prioritizing city, then region, then country
+        parts = [city_name, region_part, country_part]
+        return ", ".join(part for part in parts if part)
+
 
 class GameDate(CoreModel):
     game = models.ForeignKey(
