@@ -9,7 +9,7 @@
     <h1>Game List</h1>
     <ul>
         {% for game in games %}
-            <li>{{ game.name }}</li>
+            <li><a href="{% url 'game_detail' slug=game.slug %}">{{ game.name }}</a></li>
         {% endfor %}
     </ul>
 </body>
