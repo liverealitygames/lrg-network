@@ -97,7 +97,7 @@ class Game(CoreModel):
                 self.country.code2 if self.country.code2 else self.country.name
             )
         else:
-            country_part = self.country.name if self.country else None
+            country_part = self.country.name
 
         # Combine parts, prioritizing city, then region, then country
         parts = [city_name, region_part, country_part]

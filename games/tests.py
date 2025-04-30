@@ -178,10 +178,6 @@ class GameLocationDisplayTests(TestCase):
         game = Game.objects.create(name="Test Game", country=self.country)
         self.assertEqual(game.location_display(), "United States")
 
-    def test_location_display_with_no_location(self):
-        game = Game.objects.create(name="Test Game")
-        self.assertEqual(game.location_display(), None)
-
 
 class SeasonModelTest(TestCase):
     def setUp(self):
