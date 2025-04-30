@@ -144,3 +144,9 @@ class Season(CoreModel):
 
     def __str__(self):
         return f"{self.game.name} - Season {self.number} ({self.name})"
+
+    def display_link(self):
+        name = self.name if self.name else f"Season {self.number}"
+        if self.link:
+            return f'<a href="{self.link}" target="_blank">{name}</a>'
+        return name

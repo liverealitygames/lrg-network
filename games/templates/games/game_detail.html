@@ -19,5 +19,13 @@
         {% if game.lrg_wiki_page %}<a href="https://live-reality-games.fandom.com/wiki/{{ game.lrg_wiki_page }}">LRG Wiki</a>{% endif %}
     </p>
     <p>{{ game.description }}</p>
+    <p> {% if game.casting_link %}<a href="{{ casting_link }}">Application</a>{% endif %} </p>
+    {% if game.seasons.exists %}
+        <ul>
+            {% for season in game.seasons.all %}
+                <li>{{ season.display_link|safe }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 </body>
 </html>
