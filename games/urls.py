@@ -1,4 +1,4 @@
-from .views import game_list
+from .views import game_list, game_detail
 from django.urls import path
 from . import autocomplete
 
@@ -19,4 +19,5 @@ urlpatterns = [
         name="city-autocomplete",
     ),
     path("", game_list, name="game_list"),
+    path("<slug:slug>/", game_detail, name="game_detail"),
 ]

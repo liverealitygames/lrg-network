@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ game.name }}</title>
+</head>
+<body>
+    <h1>{{ game.name }}</h1>
+    <p>{{ game.location_display }}</p>
+    <p>{{ game.next_season_date.first }}</p>
+    <p>{{ game.get_game_format_display }}, {{ game.get_game_duration_display }}</p>
+    <p>{% if game.friends_and_family %}Closed Casting{% else %}Open Casting{% endif %}</p>
+    <p>
+        {% if game.email %}<a href="mailto:{{ game.email }}">Email</a>{% endif %}
+        {% if game.instagram_hanlde %}<a href="https://www.instagram.com/{{ game.instagram_hanlde }}">Instagram</a>{% endif %}
+        {% if game.facebook_link %}<a href="https://www.facebook.com/{{ game.facebook_link }}">Facebook</a>{% endif %}
+        {% if game.youtube_link %}<a href="https://www.youtube.com/{{ game.youtube_link }}">YouTube</a>{% endif %}
+        {% if game.lrg_wiki_page %}<a href="https://live-reality-games.fandom.com/wiki/{{ game.lrg_wiki_page }}">LRG Wiki</a>{% endif %}
+    </p>
+    <p>{{ game.description }}</p>
+    <p> {% if game.casting_link %}<a href="{{ casting_link }}">Application</a>{% endif %} </p>
+    {% if game.seasons.exists %}
+        <ul>
+            {% for season in game.seasons.all %}
+                <li>{{ season.display_link|safe }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>

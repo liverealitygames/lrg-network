@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.urls import reverse
 from .models import Game, GameDate, Season
 from django.contrib.auth import get_user_model
-from cities_light.models import Country
+from cities_light.models import Country, Region, City
 
 
 class CoreModelFieldsTest(TestCase):
@@ -150,6 +150,33 @@ class GameDateModelTest(TestCase):
         game_date.full_clean()
         self.assertEqual(self.game_date.display_text, "Spring 2025")
         self.assertEqual(str(self.game_date), "Spring 2025")
+
+
+class GameLocationDisplayTests(TestCase):
+    def setUp(self):
+        self.country = Country.objects.create(name="United States", code2="US")
+        self.region = Region.objects.create(
+            name="California", geoname_code="CA", country=self.country
+        )
+        self.city = City.objects.create(
+            name="Los Angeles", region=self.region, country=self.country
+        )
+
+    def test_location_display_with_city_region_country(self):
+        game = Game.objects.create(
+            name="Test Game", country=self.country, region=self.region, city=self.city
+        )
+        self.assertEqual(game.location_display(), "Los Angeles, CA, US")
+
+    def test_location_display_with_region_country(self):
+        game = Game.objects.create(
+            name="Test Game", country=self.country, region=self.region
+        )
+        self.assertEqual(game.location_display(), "California, US")
+
+    def test_location_display_with_country_only(self):
+        game = Game.objects.create(name="Test Game", country=self.country)
+        self.assertEqual(game.location_display(), "United States")
 
 
 class SeasonModelTest(TestCase):
