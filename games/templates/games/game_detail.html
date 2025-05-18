@@ -1,31 +1,101 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ game.name }}</title>
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .game-title {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .game-info-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .game-details {
+            line-height: 1.6;
+        }
+        .game-logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: start;
+        }
+        .game-logo {
+            max-width: 300px;
+            height: auto;
+        }
+        .game-links {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .game-links a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #0066cc;
+        }
+        .game-links a:hover {
+            text-decoration: underline;
+        }
+        .seasons-list {
+            margin-top: 40px;
+        }
+    </style>
 </head>
 <body>
-    <h1>{{ game.name }}</h1>
-    <p>{{ game.location_display }}</p>
-    <p>{{ game.next_season_date.first }}</p>
-    <p>{{ game.get_game_format_display }}, {{ game.get_game_duration_display }}</p>
-    <p>{% if game.friends_and_family %}Closed Casting{% else %}Open Casting{% endif %}</p>
-    <p>
-        {% if game.email %}<a href="mailto:{{ game.email }}">Email</a>{% endif %}
-        {% if game.instagram_hanlde %}<a href="https://www.instagram.com/{{ game.instagram_hanlde }}">Instagram</a>{% endif %}
-        {% if game.facebook_link %}<a href="https://www.facebook.com/{{ game.facebook_link }}">Facebook</a>{% endif %}
-        {% if game.youtube_link %}<a href="https://www.youtube.com/{{ game.youtube_link }}">YouTube</a>{% endif %}
-        {% if game.lrg_wiki_page %}<a href="https://live-reality-games.fandom.com/wiki/{{ game.lrg_wiki_page }}">LRG Wiki</a>{% endif %}
-    </p>
-    <p>{{ game.description }}</p>
-    <p> {% if game.casting_link %}<a href="{{ casting_link }}">Application</a>{% endif %} </p>
-    {% if game.seasons.exists %}
-        <ul>
-            {% for season in game.seasons.all %}
-                <li>{{ season.display_link|safe }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    <div class="container">
+        <div class="game-title">
+            <h1>{{ game.name }}</h1>
+        </div>
+
+        <div class="game-info-section">
+            <div class="game-details">
+                <p>{{ game.location_display }}</p>
+                <p>{{ game.next_season_date.first }}</p>
+                <p>{{ game.get_game_format_display }}, {{ game.get_game_duration_display }}</p>
+                <p>{% if game.friends_and_family %}Closed Casting{% else %}Open Casting{% endif %}</p>
+                <p>{{ game.description }}</p>
+                {% if game.casting_link %}
+                    <p><a href="{{ casting_link }}">Application</a></p>
+                {% endif %}
+            </div>
+            <div class="game-logo-container">
+                {% if game.logo %}
+                    <img src="{{ game.logo.url }}" alt="{{ game.name }} logo" class="game-logo">
+                {% else %}
+                    {% with 'games/images/default_logos/'|add:game.game_format|lower|add:'.jpg' as default_logo %}
+                        <img src="{% static default_logo %}" alt="{{ game.get_game_format_display }} logo" class="game-logo">
+                    {% endwith %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="game-links">
+            {% if game.email %}<a href="mailto:{{ game.email }}">Email</a>{% endif %}
+            {% if game.instagram_hanlde %}<a href="https://www.instagram.com/{{ game.instagram_hanlde }}">Instagram</a>{% endif %}
+            {% if game.facebook_link %}<a href="https://www.facebook.com/{{ game.facebook_link }}">Facebook</a>{% endif %}
+            {% if game.youtube_link %}<a href="https://www.youtube.com/{{ game.youtube_link }}">YouTube</a>{% endif %}
+            {% if game.lrg_wiki_page %}<a href="https://live-reality-games.fandom.com/wiki/{{ game.lrg_wiki_page }}">LRG Wiki</a>{% endif %}
+        </div>
+
+        {% if game.seasons.exists %}
+            <div class="seasons-list">
+                <h2>Seasons</h2>
+                <ul>
+                    {% for season in game.seasons.all %}
+                        <li>{{ season.display_link|safe }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
 </body>
 </html>
