@@ -9,6 +9,7 @@ from core.models import CoreModel
 
 class Game(CoreModel):
     name = models.CharField(max_length=200)
+    logo = models.ImageField(upload_to="game_logos/", blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True)
 
     class GameFormat(models.TextChoices):

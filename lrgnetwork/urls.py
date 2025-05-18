@@ -18,9 +18,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.http import HttpResponseRedirect
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("", lambda request: HttpResponseRedirect("/games/")),  # Redirect home to games
     path("admin/", admin.site.urls),
     path("games/", include("games.urls")),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
