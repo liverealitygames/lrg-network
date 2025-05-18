@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,6 +70,10 @@
             <div class="game-logo-container">
                 {% if game.logo %}
                     <img src="{{ game.logo.url }}" alt="{{ game.name }} logo" class="game-logo">
+                {% else %}
+                    {% with 'games/images/default_logos/'|add:game.game_format|lower|add:'.jpg' as default_logo %}
+                        <img src="{% static default_logo %}" alt="{{ game.get_game_format_display }} logo" class="game-logo">
+                    {% endwith %}
                 {% endif %}
             </div>
         </div>
