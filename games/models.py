@@ -21,7 +21,6 @@ class Game(CoreModel):
         THE_MOLE = "MO", _("The Mole")
         THE_TRAITORS = "TR", ("The Traitors")
         ORIGINAL_FORMAT = "OF", _("Original Format")
-        VARIOUS = "VA", _("Various")
 
     game_format = models.CharField(max_length=2, choices=GameFormat)
     active = models.BooleanField(null=True)
