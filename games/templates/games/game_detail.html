@@ -4,6 +4,16 @@
 {% block title %}{{ game.name }} - LRG Network{% endblock %}
 
 {% block content %}
+<style>
+    .btn-hover-scale {
+        transition: all 0.2s ease;
+    }
+    .btn-hover-scale:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+</style>
+
     <div class="row mb-4">
         <div class="col-12">
             <nav aria-label="breadcrumb">
@@ -48,32 +58,32 @@
     <div class="mb-4">
         <div class="d-flex flex-wrap align-items-center justify-content-evenly mb-4">
             {% if game.email %}
-                <a href="mailto:{{ game.email }}" class="text-black fs-2" title="Email">
+                <a href="mailto:{{ game.email }}" class="social-icon email" title="Email">
                     <i class="bi bi-envelope"></i>
                 </a>
             {% endif %}
             {% if game.website %}
-                <a href="{{ game.website }}" class="text-black fs-2" target="_blank" title="Website">
+                <a href="{{ game.website }}" class="social-icon website" target="_blank" title="Website">
                     <i class="bi bi-globe"></i>
                 </a>
             {% endif %}
             {% if game.instagram_hanlde %}
-                <a href="https://www.instagram.com/{{ game.instagram_hanlde }}" class="text-black fs-2" target="_blank" title="Instagram">
+                <a href="https://www.instagram.com/{{ game.instagram_hanlde }}" class="social-icon instagram" target="_blank" title="Instagram">
                     <i class="bi bi-instagram"></i>
                 </a>
             {% endif %}
             {% if game.facebook_link %}
-                <a href="{{ game.facebook_link }}" class="text-black fs-2" target="_blank" title="Facebook">
+                <a href="https://www.facebook.com/{{ game.facebook_link }}" class="social-icon facebook" target="_blank" title="Facebook">
                     <i class="bi bi-facebook"></i>
                 </a>
             {% endif %}
             {% if game.youtube_link %}
-                <a href="{{ game.youtube_link }}" class="text-black fs-2" target="_blank" title="YouTube">
+                <a href="{{ game.youtube_link }}" class="social-icon youtube" target="_blank" title="YouTube">
                     <i class="bi bi-youtube"></i>
                 </a>
             {% endif %}
             {% if game.lrg_wiki_page %}
-                <a href="https://live-reality-games.fandom.com/wiki/{{ game.lrg_wiki_page }}" class="text-black fs-2" target="_blank" title="LRG Wiki">
+                <a href="https://live-reality-games.fandom.com/wiki/{{ game.lrg_wiki_page }}" class="social-icon wiki" target="_blank" title="LRG Wiki">
                     <i class="bi bi-wikipedia"></i>
                 </a>
             {% endif %}
@@ -85,7 +95,7 @@
 
         {% if game.casting_link %}
             <div class="text-center">
-                <a href="{{ game.casting_link }}" class="btn btn-primary" target="_blank">
+                <a href="{{ game.casting_link }}" class="btn btn-primary btn-hover-scale" target="_blank">
                     Apply Now
                 </a>
             </div>
