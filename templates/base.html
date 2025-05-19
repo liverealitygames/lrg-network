@@ -29,6 +29,12 @@
             font-family: 'Roboto Condensed', sans-serif;
             font-weight: 700;
         }
+
+        /* Content width constraint */
+        .container-md {
+            max-width: 720px !important;
+            width: 100%;
+        }
     </style>
 
     {% block extra_css %}{% endblock %}
@@ -55,7 +61,7 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="container py-4 flex-grow-1">
+    <main class="container-md py-4 px-4 flex-grow-1">
         {% bootstrap_messages %}
         {% block content %}{% endblock %}
     </main>
