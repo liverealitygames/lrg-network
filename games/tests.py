@@ -187,19 +187,25 @@ class SeasonModelTest(TestCase):
             active=True,
             country=Country.objects.create(name="Test Country"),
         )
+
+    def test_season(self):
         self.season = Season.objects.create(
             game=self.game,
             number=1,
             name="Borneo",
             link="http://example.com",
         )
-
-    def test_season(self):
-        self.season.full_clean()
         self.assertEqual(self.season.number, 1)
         self.assertEqual(self.season.name, "Borneo")
         self.assertEqual(self.season.link, "http://example.com")
-        self.assertEqual(str(self.season), "Test Game - Season 1 (Borneo)")
+        self.assertEqual(str(self.season), "Borneo")
+
+    def test_season_no_name(self):
+        self.season = Season.objects.create(
+            game=self.game,
+            number=1,
+        )
+        self.assertEqual(str(self.season), "Season 1")
 
 
 class GameListViewTest(TestCase):
