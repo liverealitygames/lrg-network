@@ -20,15 +20,17 @@
         <h1 class="display-3 fw-bold">{{ game.name }}</h1>
     </div>
 
-    <div class="mb-4">
+    <div class="my-4">
         <div class="row g-0">
             <div class="col-6 col-sm-6 d-flex flex-column justify-content-center">
-                <p class="mb-2">{{ game.get_game_format_display }}</p>
-                <p class="mb-2">{{ game.location_display }}</p>
+                <p class="my-1 lead">{{ game.get_game_format_display }}</p>
+                <p class="my-1 lead">{{ game.location_display }}</p>
                 {% if game.next_season_date.first %}
-                    <p class="mb-2">{{ game.next_season_date.first }}</p>
+                    <p class="my-1 lead">{{ game.next_season_date.first }}</p>
                 {% endif %}
-                <p class="mb-2">{% if game.friends_and_family %}Friends and Family Only{% endif %}</p>
+                {% if game.friends_and_family %}
+                    <p class="my-1 lead">Friends and Family Only</p>
+                {% endif %}
             </div>
             <div class="col-6 col-sm-6 d-flex align-items-start justify-content-center">
                 {% if game.logo %}
@@ -76,9 +78,9 @@
         </div>
 
         {% if game.casting_link %}
-            <div>
+            <div class="text-center">
                 <a href="{{ game.casting_link }}" class="btn btn-primary" target="_blank">
-                    <i class="bi bi-pencil-square me-2"></i>Apply Now
+                    Apply Now
                 </a>
             </div>
         {% endif %}
