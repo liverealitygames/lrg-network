@@ -4,16 +4,6 @@
 {% block title %}{{ game.name }} - LRG Network{% endblock %}
 
 {% block content %}
-<style>
-    .btn-hover-scale {
-        transition: all 0.2s ease;
-    }
-    .btn-hover-scale:hover {
-        transform: scale(1.1);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-</style>
-
     <div class="row mb-4">
         <div class="col-12">
             <nav aria-label="breadcrumb">
@@ -103,13 +93,19 @@
     </div>
 
     {% if game.seasons.exists %}
-        <div class="mt-5">
-            <h2 class="h4 mb-4">Seasons</h2>
-            <div class="list-group list-group-flush">
+        <div class="text-center mt-5">
+            <h2 class="h4 mb-4">Past Seasons</h2>
+            <div class="container d-flex flex-wrap gap-2 justify-content-center">
                 {% for season in game.seasons.all %}
-                    <div class="list-group-item bg-transparent px-0">
-                        {{ season.display_link|safe }}
-                    </div>
+                    {% if season.link %}
+                        <a href="{{ season.link }}" class="btn btn-success btn-hover-scale" target="_blank">
+                            {{ season }}
+                        </a>
+                    {% else %}
+                        <button type="button" class="btn btn-secondary" disabled>
+                            {{ season }}
+                        </button>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>
