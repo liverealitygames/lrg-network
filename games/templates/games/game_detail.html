@@ -1,101 +1,117 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ game.name }}</title>
-    <style>
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .game-title {
-            margin-bottom: 40px;
-            text-align: center;
-        }
-        .game-info-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        .game-details {
-            line-height: 1.6;
-        }
-        .game-logo-container {
-            display: flex;
-            justify-content: center;
-            align-items: start;
-        }
-        .game-logo {
-            max-width: 300px;
-            height: auto;
-        }
-        .game-links {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .game-links a {
-            margin: 0 10px;
-            text-decoration: none;
-            color: #0066cc;
-        }
-        .game-links a:hover {
-            text-decoration: underline;
-        }
-        .seasons-list {
-            margin-top: 40px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="game-title">
-            <h1>{{ game.name }}</h1>
-        </div>
 
-        <div class="game-info-section">
-            <div class="game-details">
-                <p>{{ game.location_display }}</p>
-                <p>{{ game.next_season_date.first }}</p>
-                <p>{{ game.get_game_format_display }}, {{ game.get_game_duration_display }}</p>
-                <p>{% if game.friends_and_family %}Closed Casting{% else %}Open Casting{% endif %}</p>
-                <p>{{ game.description }}</p>
-                {% if game.casting_link %}
-                    <p><a href="{{ casting_link }}">Application</a></p>
+{% block title %}{{ game.name }} - LRG Network{% endblock %}
+
+{% block content %}
+<style>
+    .btn-hover-scale {
+        transition: all 0.2s ease;
+    }
+    .btn-hover-scale:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+</style>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'game_list' %}" class="text-decoration-none">Games</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ game.name }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="text-center mb-5">
+        <h1 class="display-3 fw-bold">{{ game.name }}</h1>
+    </div>
+
+    <div class="my-4">
+        <div class="row g-0">
+            <div class="col-6 col-sm-6 d-flex flex-column justify-content-center">
+                <p class="my-1 lead">{{ game.location_display }}</p>
+                {% if game.next_season_date.first %}
+                    <p class="my-1 lead">{{ game.next_season_date.first }}</p>
+                {% else %}
+                    <p class="my-1 lead">{{ game.get_game_duration_display }}</p>
+                {% endif %}
+                <p class="my-1 lead">{{ game.get_game_format_display }}</p>
+                {% if game.friends_and_family %}
+                    <p class="my-1 lead">Friends and Family Only</p>
                 {% endif %}
             </div>
-            <div class="game-logo-container">
+            <div class="col-6 col-sm-6 d-flex align-items-start justify-content-center">
                 {% if game.logo %}
-                    <img src="{{ game.logo.url }}" alt="{{ game.name }} logo" class="game-logo">
+                    <img src="{{ game.logo.url }}" class="img-fluid" alt="{{ game.name }} logo" style="min-height: 120px; max-height: min(250px, 50vh); object-fit: contain;">
                 {% else %}
                     {% with 'games/images/default_logos/'|add:game.game_format|lower|add:'.jpg' as default_logo %}
-                        <img src="{% static default_logo %}" alt="{{ game.get_game_format_display }} logo" class="game-logo">
+                        <img src="{% static default_logo %}" class="img-fluid" alt="{{ game.get_game_format_display }} logo" style="min-height: 120px; max-height: min(250px, 50vh); object-fit: contain;">
                     {% endwith %}
                 {% endif %}
             </div>
         </div>
+    </div>
 
-        <div class="game-links">
-            {% if game.email %}<a href="mailto:{{ game.email }}">Email</a>{% endif %}
-            {% if game.instagram_hanlde %}<a href="https://www.instagram.com/{{ game.instagram_hanlde }}">Instagram</a>{% endif %}
-            {% if game.facebook_link %}<a href="https://www.facebook.com/{{ game.facebook_link }}">Facebook</a>{% endif %}
-            {% if game.youtube_link %}<a href="https://www.youtube.com/{{ game.youtube_link }}">YouTube</a>{% endif %}
-            {% if game.lrg_wiki_page %}<a href="https://live-reality-games.fandom.com/wiki/{{ game.lrg_wiki_page }}">LRG Wiki</a>{% endif %}
+    <div class="mb-4">
+        <div class="d-flex flex-wrap align-items-center justify-content-evenly mb-4">
+            {% if game.email %}
+                <a href="mailto:{{ game.email }}" class="social-icon email" title="Email">
+                    <i class="bi bi-envelope"></i>
+                </a>
+            {% endif %}
+            {% if game.website %}
+                <a href="{{ game.website }}" class="social-icon website" target="_blank" title="Website">
+                    <i class="bi bi-globe"></i>
+                </a>
+            {% endif %}
+            {% if game.instagram_hanlde %}
+                <a href="https://www.instagram.com/{{ game.instagram_hanlde }}" class="social-icon instagram" target="_blank" title="Instagram">
+                    <i class="bi bi-instagram"></i>
+                </a>
+            {% endif %}
+            {% if game.facebook_link %}
+                <a href="https://www.facebook.com/{{ game.facebook_link }}" class="social-icon facebook" target="_blank" title="Facebook">
+                    <i class="bi bi-facebook"></i>
+                </a>
+            {% endif %}
+            {% if game.youtube_link %}
+                <a href="{{ game.youtube_link }}" class="social-icon youtube" target="_blank" title="YouTube">
+                    <i class="bi bi-youtube"></i>
+                </a>
+            {% endif %}
+            {% if game.lrg_wiki_page %}
+                <a href="https://live-reality-games.fandom.com/wiki/{{ game.lrg_wiki_page }}" class="social-icon wiki" target="_blank" title="LRG Wiki">
+                    <i class="bi bi-wikipedia"></i>
+                </a>
+            {% endif %}
         </div>
 
-        {% if game.seasons.exists %}
-            <div class="seasons-list">
-                <h2>Seasons</h2>
-                <ul>
-                    {% for season in game.seasons.all %}
-                        <li>{{ season.display_link|safe }}</li>
-                    {% endfor %}
-                </ul>
+        <div class="mb-4">
+            <p class="lead">{{ game.description }}</p>
+        </div>
+
+        {% if game.casting_link %}
+            <div class="text-center">
+                <a href="{{ game.casting_link }}" class="btn btn-primary btn-hover-scale" target="_blank">
+                    Apply Now
+                </a>
             </div>
         {% endif %}
     </div>
-</body>
-</html>
+
+    {% if game.seasons.exists %}
+        <div class="mt-5">
+            <h2 class="h4 mb-4">Seasons</h2>
+            <div class="list-group list-group-flush">
+                {% for season in game.seasons.all %}
+                    <div class="list-group-item bg-transparent px-0">
+                        {{ season.display_link|safe }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
