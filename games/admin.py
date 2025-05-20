@@ -4,7 +4,7 @@ from core.admin_mixins import AuditAdminMixin
 from cities_light.models import Country, Region, City, SubRegion
 
 from games.form import GameAdminForm
-from .models import Game, GameDate, Season
+from .models import Game, GameDate, GameImages, Season
 
 admin.site.unregister(Country)
 admin.site.unregister(Region)
@@ -34,10 +34,20 @@ class GameDateInline(admin.TabularInline):
         return qs.filter(is_removed=False)
 
 
+class GameImagesInline(admin.TabularInline):
+    model = GameImages
+    extra = 1
+    fields = ["image", "description"]
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(is_removed=False)
+
+
 @admin.register(Game)
 class GameAdmin(AuditAdminMixin):
     form = GameAdminForm
-    inlines = [GameDateInline, SeasonInline]
+    inlines = [GameDateInline, SeasonInline, GameImagesInline]
     exclude = ("slug",)
 
     def get_form(self, request, obj=None, **kwargs):
