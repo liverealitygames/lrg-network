@@ -1,5 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.forms import ValidationError
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from cities_light.models import Country, Region, City
@@ -53,7 +54,7 @@ class Game(CoreModel):
     friends_and_family = models.BooleanField(null=True)
     college_game = models.BooleanField(null=True)
     college_name = models.CharField(max_length=200, blank=True, null=True)
-    # Eventually we'll may want to connect this to a user, but starting with just a string field for host(s)
+    # Eventually we may want to connect this to a user, but starting with just a string field for host(s)
     host = models.CharField(max_length=200, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     website = models.URLField(blank=True, null=True)
@@ -66,6 +67,12 @@ class Game(CoreModel):
 
     def __str__(self):
         return f"{self.name}"
+
+    def clean(self):
+        if not self.college_game and self.college_name:
+            raise ValidationError(
+                "college_name can only be set if college_game is True."
+            )
 
     def save(self, *args, **kwargs):
         base_slug = slugify(self.name)
