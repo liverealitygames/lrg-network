@@ -37,9 +37,6 @@ class Game(CoreModel):
     game_duration = models.CharField(
         max_length=2, choices=GameDuration.choices, blank=True, null=True
     )
-    number_of_days = models.IntegerField(
-        blank=True, null=True, validators=[MinValueValidator(1), MaxValueValidator(100)]
-    )
 
     class FilmingStatus(models.TextChoices):
         FILMED = "FI", _("Filmed")
