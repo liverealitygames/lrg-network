@@ -113,4 +113,30 @@
             </div>
         </div>
     {% endif %}
+
+    {% if game.images.exists %}
+        <div id="gameGalleryCarousel" class="carousel slide mt-5" data-bs-ride="carousel" data-bs-interval="3000">
+            <h2 class="h4 mb-4 text-center">Gallery</h2>
+            <div class="carousel-inner align-items-center">
+                {% if game.images.first %}
+                    <div class="carousel-item active">
+                        <img src="{{ game.images.first.image.url }}" alt="{{ game.images.first.alt_text }}" class="d-block w-100" style="max-height: 500px; object-fit: cover;">
+                    </div>
+                {% endif %}
+                {% for image in game.images.all %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="d-block w-100" style="max-height: 500px; object-fit: cover;">
+                    </div>
+                {% endfor %}
+                <button class="carousel-control-prev" type="button" data-bs-target="#gameGalleryCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#gameGalleryCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
