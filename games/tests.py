@@ -166,7 +166,7 @@ class GameLocationDisplayTests(TestCase):
         game = Game.objects.create(
             name="Test Game", country=self.country, region=self.region, city=self.city
         )
-        self.assertEqual(game.location_display(), "Los Angeles, CA")
+        self.assertEqual(game.location_display(), "Los Angeles, California")
 
     def test_location_display_with_region_country(self):
         game = Game.objects.create(
