@@ -166,7 +166,7 @@ class GameLocationDisplayTests(TestCase):
         game = Game.objects.create(
             name="Test Game", country=self.country, region=self.region, city=self.city
         )
-        self.assertEqual(game.location_display(), "Los Angeles, CA")
+        self.assertEqual(game.location_display(), "Los Angeles, California")
 
     def test_location_display_with_region_country(self):
         game = Game.objects.create(
@@ -235,14 +235,40 @@ class GameListViewTest(TestCase):
         response = self.client.get(reverse("game_list"))
         self.assertTemplateUsed(response, "games/game_list.html")
 
-    def test_view_returns_all_games(self):
+    def test_view_returns_paginated_games(self):
+        # Create additional games to exceed the pagination limit
+        for i in range(10):
+            Game.objects.create(
+                name=f"Game {i + 3}",
+                game_format=Game.GameFormat.AMAZING_RACE,
+                active=True,
+                country=self.country,
+            )
+
         response = self.client.get(reverse("game_list"))
         self.assertEqual(response.status_code, 200)
-        self.assertIn(self.game1, response.context["games"])
-        self.assertIn(self.game2, response.context["games"])
+        self.assertEqual(len(response.context["page_obj"]), 10)
+        self.assertIn(self.game1, response.context["page_obj"])
+        self.assertIn(self.game2, response.context["page_obj"])
 
     def test_view_handles_no_games(self):
         Game.objects.all().delete()  # Remove all games
         response = self.client.get(reverse("game_list"))
         self.assertEqual(response.status_code, 200)
-        self.assertQuerySetEqual(response.context["games"], [])
+        self.assertQuerySetEqual(response.context["page_obj"], [])
+
+    def test_view_handles_second_page(self):
+        # Create additional games to exceed the pagination limit
+        for i in range(15):
+            Game.objects.create(
+                name=f"Game {i + 3}",
+                game_format=Game.GameFormat.AMAZING_RACE,
+                active=True,
+                country=self.country,
+            )
+
+        response = self.client.get(reverse("game_list") + "?page=2")
+        self.assertEqual(response.status_code, 200)
+        self.assertGreater(
+            len(response.context["page_obj"]), 0
+        )  # Ensure second page has games

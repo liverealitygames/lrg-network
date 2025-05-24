@@ -82,18 +82,8 @@ class Game(CoreModel):
         super().save(*args, **kwargs)
 
     def location_display(self):
-        # Display city first, if available
         city_name = self.city.name if self.city else None
-
-        # Use the region code if we have a city, otherwise use the region name
-        if city_name and self.region:
-            region_part = (
-                self.region.geoname_code
-                if self.region.geoname_code
-                else self.region.name
-            )
-        else:
-            region_part = self.region.name if self.region else None
+        region_part = self.region.name if self.region else None
 
         # If we have a city, we won't use the country. If we have a region, but no city
         # we'll use the ISO country code. If we just have a country we'll use the full name
