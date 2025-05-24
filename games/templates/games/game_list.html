@@ -11,7 +11,7 @@
 </div>
 
 <div class="row g-4">
-    {% for game in games %}
+    {% for game in page_obj %}
     <div class="col-12">
         <a href="{% url 'game_detail' slug=game.slug %}" class="text-decoration-none text-body">
             <div class="card bg-body-tertiary border h-100 hover-shadow transition">
