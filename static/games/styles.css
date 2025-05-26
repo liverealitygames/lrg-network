@@ -123,6 +123,15 @@ h1, h2, h3, h4, h5, h6,
     overflow: hidden; /* Clip any child content that overflows */
 }
 
-.minimalist-pagination .page-item .page-link {
-    border-radius: 50%; /* Ensure the link itself is circular */
+.minimalist-pagination .page-item.disabled .page-link {
+    opacity: 0.4;
+    cursor: not-allowed;
+    color: #999; /* override Bootstrap */
+    background: none; /* override Bootstrap */
+    border: none;     /* override Bootstrap */
+}
+
+.minimalist-pagination .page-link:focus {
+    box-shadow: none !important;
+    outline: none !important;
 }
