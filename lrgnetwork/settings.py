@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     "core",
     "games",
+    "compressor",
 ]
 
 MIDDLEWARE = [
@@ -125,6 +126,10 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 # Media files (Uploads)
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
@@ -133,3 +138,17 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+COMPRESS_ENABLED = True
+COMPRESS_CSS_FILTERS = [
+    "compressor.filters.css_default.CssAbsoluteFilter",
+    "compressor.filters.cssmin.CSSMinFilter",
+]
+
+COMPRESS_ROOT = STATIC_ROOT
+
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "compressor.finders.CompressorFinder",
+]
