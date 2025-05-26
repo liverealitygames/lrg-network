@@ -107,6 +107,55 @@
             background-color: #0d6efd !important;
             border-color: #0d6efd !important;
         }
+
+        /* Pagination styles */
+        .minimalist-pagination .page-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            margin: 0 0.25rem;
+            padding: 0;
+            background: none;
+            border: none;
+            border-radius: 50%; /* Ensure circular shape */
+            color: #333;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .minimalist-pagination .page-link:hover {
+            background-color: rgba(0, 0, 0, 0.05); /* Subtle gray circle */
+            color: #000;
+            border-radius: 50%; /* Explicitly apply border-radius */
+        }
+
+        .minimalist-pagination .active .page-link {
+            background-color: #198754;
+            color: white;
+            font-weight: 600;
+            box-shadow: none;
+        }
+
+        .minimalist-pagination .page-item {
+            border-radius: 50%; /* Ensure the parent container is circular */
+            overflow: hidden; /* Clip any child content that overflows */
+        }
+
+        .minimalist-pagination .page-item .page-link {
+            border-radius: 50%; /* Ensure the link itself is circular */
+        }
+
+        .minimalist-pagination .disabled .page-link {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .minimalist-pagination .page-link:focus {
+            box-shadow: none !important;
+            outline: none !important;
+        }
     </style>
 
     {% block extra_css %}{% endblock %}
