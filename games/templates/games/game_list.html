@@ -10,6 +10,31 @@
     </div>
 </div>
 
+<form method="get" class="mb-4">
+    <div class="input-group position-relative">
+        <input
+            type="text"
+            name="q"
+            id="searchInput"
+            class="form-control pe-5"
+            placeholder="Search games..."
+            value="{{ request.GET.q }}"
+        />
+        {% if request.GET.q %}
+            <button
+                type="button"
+                id="clearSearch"
+                class="btn p-0 border-0 bg-transparent position-absolute top-50 translate-middle-y"
+                style="right: 5rem; z-index: 5; pointer-events: auto;"
+                aria-label="Clear"
+            >
+                <i class="bi bi-x fs-5 text-muted"></i>
+            </button>
+        {% endif %}
+        <button type="submit" class="btn btn-outline-secondary">Search</button>
+    </div>
+</form>
+
 <div class="row g-4">
     {% for game in page_obj %}
     <div class="col-12">
@@ -51,29 +76,29 @@
     <ul class="pagination minimalist-pagination justify-content-center mt-4">
         {% if page_obj.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                    &laquo;
-                </a>
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ request.GET.q }}" aria-label="Previous">
+                &laquo;
+            </a>
             </li>
         {% else %}
             <li class="page-item disabled">
-                <span class="page-link">&laquo;</span>
+            <span class="page-link">&laquo;</span>
             </li>
         {% endif %}
 
         {% for num in page_obj.paginator.page_range %}
             {% if num == page_obj.number %}
-                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
             {% elif num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
-                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ num }}&q={{ request.GET.q }}">{{ num }}</a></li>
             {% endif %}
         {% endfor %}
 
         {% if page_obj.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                    &raquo;
-                </a>
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ request.GET.q }}" aria-label="Next">
+                &raquo;
+            </a>
             </li>
         {% else %}
             <li class="page-item disabled">
@@ -82,5 +107,17 @@
         {% endif %}
     </ul>
 </nav>
+
+<script>
+    const clearBtn = document.getElementById('clearSearch');
+    const searchInput = document.getElementById('searchInput');
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            searchInput.form.submit();
+        });
+    }
+</script>
 
 {% endblock %}
