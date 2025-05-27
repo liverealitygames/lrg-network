@@ -11,8 +11,26 @@
 </div>
 
 <form method="get" class="mb-4">
-    <div class="input-group">
-        <input type="text" name="q" class="form-control" placeholder="Search games..." value="{{ request.GET.q }}">
+    <div class="input-group position-relative">
+        <input
+            type="text"
+            name="q"
+            id="searchInput"
+            class="form-control pe-5"
+            placeholder="Search games..."
+            value="{{ request.GET.q }}"
+        />
+        {% if request.GET.q %}
+            <button
+                type="button"
+                id="clearSearch"
+                class="btn p-0 border-0 bg-transparent position-absolute top-50 translate-middle-y"
+                style="right: 5rem; z-index: 5; pointer-events: auto;"
+                aria-label="Clear"
+            >
+                <i class="bi bi-x fs-5 text-muted"></i>
+            </button>
+        {% endif %}
         <button type="submit" class="btn btn-outline-secondary">Search</button>
     </div>
 </form>
@@ -89,5 +107,17 @@
         {% endif %}
     </ul>
 </nav>
+
+<script>
+    const clearBtn = document.getElementById('clearSearch');
+    const searchInput = document.getElementById('searchInput');
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            searchInput.form.submit();
+        });
+    }
+</script>
 
 {% endblock %}
