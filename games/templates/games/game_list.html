@@ -37,7 +37,7 @@
     <div class="row g-3 align-items-end mt-0">
         <div class="col-md-4">
             <label for="game_format" class="form-label">Game Format</label>
-            <select id="game_format" name="game_format" class="form-select">
+            <select id="game_format" name="game_format" class="form-select" onchange="submitFormWithNonEmptyParams()">
                 <option value="">All</option>
                 {% for format in game_formats %}
                     <option value="{{ format.0 }}" {% if format.0 == selected_game_format %}selected{% endif %}>{{ format.1 }}</option>
@@ -47,7 +47,7 @@
 
         <div class="col-md-4">
             <label for="game_duration" class="form-label">Game Duration</label>
-            <select id="game_duration" name="game_duration" class="form-select">
+            <select id="game_duration" name="game_duration" class="form-select" onchange="submitFormWithNonEmptyParams()">
                 <option value="">All</option>
                 {% for duration in game_durations %}
                     <option value="{{ duration.0 }}" {% if duration.0 == selected_game_duration %}selected{% endif %}>{{ duration.1 }}</option>
@@ -57,7 +57,7 @@
 
         <div class="col-md-4">
             <label for="filming_status" class="form-label">Filming Status</label>
-            <select id="filming_status" name="filming_status" class="form-select">
+            <select id="filming_status" name="filming_status" class="form-select" onchange="submitFormWithNonEmptyParams()">
                 <option value="">All</option>
                 {% for status in filming_statuses %}
                     <option value="{{ status.0 }}" {% if status.0 == selected_filming_status %}selected{% endif %}>{{ status.1 }}</option>
@@ -186,10 +186,6 @@
         const action = form.getAttribute('action') || window.location.pathname;
         window.location.href = `${action}?${queryString}`;
     }
-
-    document.getElementById('game_format').addEventListener('change', submitFormWithNonEmptyParams);
-    document.getElementById('game_duration').addEventListener('change', submitFormWithNonEmptyParams);
-    document.getElementById('filming_status').addEventListener('change', submitFormWithNonEmptyParams);
 
     const clearBtn = document.getElementById('clearSearch');
     const searchInput = document.getElementById('searchInput');
