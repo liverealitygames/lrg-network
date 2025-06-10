@@ -33,6 +33,16 @@
         {% endif %}
         <button type="submit" class="btn btn-outline-secondary">Search</button>
     </div>
+
+    <div class="mt-3">
+        <label for="game_format" class="form-label">Game Format</label>
+        <select id="game_format" name="game_format" class="form-select">
+            <option value="">All</option>
+            {% for format in game_formats %}
+                <option value="{{ format.0 }}" {% if format.0 == selected_game_format %}selected{% endif %}>{{ format.1 }}</option>
+            {% endfor %}
+        </select>
+    </div>
 </form>
 
 <div class="row g-4">
@@ -109,15 +119,39 @@
 </nav>
 
 <script>
+    const form = document.querySelector('form');
+
+    function submitFormWithNonEmptyParams() {
+        const formData = new FormData(form);
+        const params = new URLSearchParams();
+
+        for (const [key, value] of formData.entries()) {
+            if (value) {
+                params.append(key, value);
+            }
+        }
+
+        const queryString = params.toString();
+        const action = form.getAttribute('action') || window.location.pathname;
+        window.location.href = `${action}?${queryString}`;
+    }
+
+    document.getElementById('game_format').addEventListener('change', submitFormWithNonEmptyParams);
+
     const clearBtn = document.getElementById('clearSearch');
     const searchInput = document.getElementById('searchInput');
 
     if (clearBtn) {
         clearBtn.addEventListener('click', () => {
             searchInput.value = '';
-            searchInput.form.submit();
+            submitFormWithNonEmptyParams();
         });
     }
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        submitFormWithNonEmptyParams();
+    });
 </script>
 
 {% endblock %}
