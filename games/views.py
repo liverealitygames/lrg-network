@@ -8,6 +8,12 @@ from games.models import Game
 def game_list(request):
     query = request.GET.get("q", "")
     game_format = request.GET.get("game_format")
+    game_duration = request.GET.get("game_duration")
+    filming_status = request.GET.get("filming_status")
+    only_active = request.GET.get("only_active") == "on"
+    only_for_charity = request.GET.get("only_for_charity") == "on"
+    include_college_games = request.GET.get("include_college_games") == "on"
+    include_friends_and_family = request.GET.get("include_friends_and_family") == "on"
 
     games = Game.objects.all().order_by("name")
 
@@ -17,11 +23,33 @@ def game_list(request):
     if game_format:
         games = games.filter(game_format=game_format)
 
+    if game_duration:
+        games = games.filter(game_duration=game_duration)
+
+    if filming_status:
+        games = games.filter(filming_status=filming_status)
+
+    if only_active:
+        games = games.filter(active=True)
+
+    if only_for_charity:
+        games = games.filter(for_charity=True)
+
+    if not include_college_games:
+        games = games.filter(Q(college_game=False) | Q(college_game__isnull=True))
+
+    if not include_friends_and_family:
+        games = games.filter(
+            Q(friends_and_family=False) | Q(friends_and_family__isnull=True)
+        )
+
     paginator = Paginator(games, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
     game_formats = Game.GameFormat.choices
+    game_durations = Game.GameDuration.choices
+    filming_statuses = Game.FilmingStatus.choices
 
     return render(
         request,
@@ -30,7 +58,15 @@ def game_list(request):
             "page_obj": page_obj,
             "query": query,
             "game_formats": game_formats,
+            "game_durations": game_durations,
+            "filming_statuses": filming_statuses,
             "selected_game_format": game_format,
+            "selected_game_duration": game_duration,
+            "selected_filming_status": filming_status,
+            "only_active": only_active,
+            "only_for_charity": only_for_charity,
+            "include_college_games": include_college_games,
+            "include_friends_and_family": include_friends_and_family,
         },
     )
 

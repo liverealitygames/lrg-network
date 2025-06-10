@@ -34,14 +34,65 @@
         <button type="submit" class="btn btn-outline-secondary">Search</button>
     </div>
 
-    <div class="mt-3">
-        <label for="game_format" class="form-label">Game Format</label>
-        <select id="game_format" name="game_format" class="form-select">
-            <option value="">All</option>
-            {% for format in game_formats %}
-                <option value="{{ format.0 }}" {% if format.0 == selected_game_format %}selected{% endif %}>{{ format.1 }}</option>
-            {% endfor %}
-        </select>
+    <div class="row g-3 align-items-end mt-0">
+        <div class="col-md-4">
+            <label for="game_format" class="form-label">Game Format</label>
+            <select id="game_format" name="game_format" class="form-select">
+                <option value="">All</option>
+                {% for format in game_formats %}
+                    <option value="{{ format.0 }}" {% if format.0 == selected_game_format %}selected{% endif %}>{{ format.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label for="game_duration" class="form-label">Game Duration</label>
+            <select id="game_duration" name="game_duration" class="form-select">
+                <option value="">All</option>
+                {% for duration in game_durations %}
+                    <option value="{{ duration.0 }}" {% if duration.0 == selected_game_duration %}selected{% endif %}>{{ duration.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label for="filming_status" class="form-label">Filming Status</label>
+            <select id="filming_status" name="filming_status" class="form-select">
+                <option value="">All</option>
+                {% for status in filming_statuses %}
+                    <option value="{{ status.0 }}" {% if status.0 == selected_filming_status %}selected{% endif %}>{{ status.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="row g-3 align-items-end mt-0">
+        <div class="col-md-6">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="only_active" name="only_active" onchange="submitFormWithNonEmptyParams()" {% if only_active %}checked{% endif %}>
+                <label class="form-check-label" for="only_active">Only Active</label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="include_college_games" name="include_college_games" onchange="submitFormWithNonEmptyParams()" {% if include_college_games %}checked{% endif %}>
+                <label class="form-check-label" for="include_college_games">Include College Games</label>
+            </div>
+        </div>
+    </div>
+    <div class="row g-3 align-items-end mt-0">
+        <div class="col-md-6">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="only_for_charity" name="only_for_charity" onchange="submitFormWithNonEmptyParams()" {% if only_for_charity %}checked{% endif %}>
+                <label class="form-check-label" for="only_for_charity">Only For Charity</label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="include_friends_and_family" name="include_friends_and_family" onchange="submitFormWithNonEmptyParams()" {% if include_friends_and_family %}checked{% endif %}>
+                <label class="form-check-label" for="include_friends_and_family">Include Friends & Family Games</label>
+            </div>
+        </div>
     </div>
 </form>
 
@@ -137,6 +188,8 @@
     }
 
     document.getElementById('game_format').addEventListener('change', submitFormWithNonEmptyParams);
+    document.getElementById('game_duration').addEventListener('change', submitFormWithNonEmptyParams);
+    document.getElementById('filming_status').addEventListener('change', submitFormWithNonEmptyParams);
 
     const clearBtn = document.getElementById('clearSearch');
     const searchInput = document.getElementById('searchInput');
