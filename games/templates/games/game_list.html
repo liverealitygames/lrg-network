@@ -38,7 +38,7 @@
     <div class="row g-3 align-items-end mt-0">
         <div class="col-md-4">
             <label for="country" class="form-label">Country</label>
-            <select id="country" name="country" class="form-select django-autocomplete-light-widget" data-autocomplete-light-url="/autocomplete/country/" data-autocomplete-light-function="select2" data-autocomplete-light-forward="{}">
+            <select id="country" name="country" class="form-select">
                 <option value="">All</option>
                 {% for country in countries %}
                     <option value="{{ country.id }}" {% if country.id|stringformat:"s" == selected_country %}selected{% endif %}>{{ country.name }}</option>
@@ -47,7 +47,7 @@
         </div>
         <div class="col-md-4">
             <label for="region" class="form-label">State/Region</label>
-            <select id="region" name="region" class="form-select" data-autocomplete-light-url="/autocomplete/region/" data-autocomplete-light-forward="{&quot;country&quot;: &quot;#country&quot;}" {% if not selected_country %}disabled{% endif %}>
+            <select id="region" name="region" class="form-select" {% if not selected_country %}disabled{% endif %}>
                 <option value="">All</option>
                 {% for region in regions %}
                     <option value="{{ region.id }}" {% if region.id|stringformat:"s" == selected_region %}selected{% endif %}>{{ region.name }}</option>
@@ -56,7 +56,7 @@
         </div>
         <div class="col-md-4">
             <label for="city" class="form-label">City</label>
-            <select id="city" name="city" class="form-select" data-autocomplete-light-url="/autocomplete/city/" data-autocomplete-light-forward="{&quot;region&quot;: &quot;#region&quot;}" {% if not selected_region %}disabled{% endif %}>
+            <select id="city" name="city" class="form-select" {% if not selected_region %}disabled{% endif %}>
                 <option value="">All</option>
                 {% for city in cities %}
                     <option value="{{ city.id }}" {% if city.id|stringformat:"s" == selected_city %}selected{% endif %}>{{ city.name }}</option>
