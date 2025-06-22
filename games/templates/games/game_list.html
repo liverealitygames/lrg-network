@@ -38,7 +38,7 @@
     <div class="row g-3 align-items-end mt-0">
         <div class="col-md-4">
             <label for="country" class="form-label">Country</label>
-            <select id="country" name="country" class="form-select">
+            <select id="country" name="country" class="selectpicker" data-live-search="true">
                 <option value="">All</option>
                 {% for country in countries %}
                     <option value="{{ country.id }}" {% if country.id|stringformat:"s" == selected_country %}selected{% endif %}>{{ country.name }}</option>
@@ -47,7 +47,7 @@
         </div>
         <div class="col-md-4">
             <label for="region" class="form-label">State/Region</label>
-            <select id="region" name="region" class="form-select" {% if not selected_country %}disabled{% endif %}>
+            <select id="region" name="region" class="selectpicker" data-live-search="true" data-size="10" {% if not selected_country %}disabled{% endif %}>
                 <option value="">All</option>
                 {% for region in regions %}
                     <option value="{{ region.id }}" {% if region.id|stringformat:"s" == selected_region %}selected{% endif %}>{{ region.name }}</option>
@@ -56,7 +56,7 @@
         </div>
         <div class="col-md-4">
             <label for="city" class="form-label">City</label>
-            <select id="city" name="city" class="form-select" {% if not selected_region %}disabled{% endif %} onchange="submitFormWithNonEmptyParams()">
+            <select id="city" name="city" class="selectpicker" data-live-search="true" data-size="10" {% if not selected_region %}disabled{% endif %} onchange="submitFormWithNonEmptyParams()">
                 <option value="">All</option>
                 {% for city in cities %}
                     <option value="{{ city.id }}" {% if city.id|stringformat:"s" == selected_city %}selected{% endif %}>{{ city.name }}</option>
@@ -68,7 +68,7 @@
     <div class="row g-3 align-items-end mt-0">
         <div class="col-md-4">
             <label for="game_format" class="form-label">Game Format</label>
-            <select id="game_format" name="game_format" class="form-select" onchange="submitFormWithNonEmptyParams()">
+            <select id="game_format" name="game_format" class="selectpicker" onchange="submitFormWithNonEmptyParams()">
                 <option value="">All</option>
                 {% for format in game_formats %}
                     <option value="{{ format.0 }}" {% if format.0 == selected_game_format %}selected{% endif %}>{{ format.1 }}</option>
@@ -78,7 +78,7 @@
 
         <div class="col-md-4">
             <label for="game_duration" class="form-label">Game Duration</label>
-            <select id="game_duration" name="game_duration" class="form-select" onchange="submitFormWithNonEmptyParams()">
+            <select id="game_duration" name="game_duration" class="selectpicker" onchange="submitFormWithNonEmptyParams()">
                 <option value="">All</option>
                 {% for duration in game_durations %}
                     <option value="{{ duration.0 }}" {% if duration.0 == selected_game_duration %}selected{% endif %}>{{ duration.1 }}</option>
@@ -88,7 +88,7 @@
 
         <div class="col-md-4">
             <label for="filming_status" class="form-label">Filming Status</label>
-            <select id="filming_status" name="filming_status" class="form-select" onchange="submitFormWithNonEmptyParams()">
+            <select id="filming_status" name="filming_status" class="selectpicker" onchange="submitFormWithNonEmptyParams()">
                 <option value="">All</option>
                 {% for status in filming_statuses %}
                     <option value="{{ status.0 }}" {% if status.0 == selected_filming_status %}selected{% endif %}>{{ status.1 }}</option>
@@ -201,6 +201,10 @@
 </nav>
 
 <script>
+    $(function () {
+        $('.selectpicker').selectpicker();
+    });
+
     const form = document.querySelector('form');
 
     function submitFormWithNonEmptyParams() {

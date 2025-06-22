@@ -1,6 +1,5 @@
 from django import forms
 from dal import autocomplete
-from cities_light.models import Country, Region, City
 from .models import Game
 
 
