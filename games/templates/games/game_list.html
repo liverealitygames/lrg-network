@@ -56,7 +56,7 @@
         </div>
         <div class="col-md-4">
             <label for="city" class="form-label">City</label>
-            <select id="city" name="city" class="form-select" {% if not selected_region %}disabled{% endif %}>
+            <select id="city" name="city" class="form-select" {% if not selected_region %}disabled{% endif %} onchange="submitFormWithNonEmptyParams()">
                 <option value="">All</option>
                 {% for city in cities %}
                     <option value="{{ city.id }}" {% if city.id|stringformat:"s" == selected_city %}selected{% endif %}>{{ city.name }}</option>
