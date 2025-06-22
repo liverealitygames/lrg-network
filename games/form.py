@@ -3,7 +3,7 @@ from dal import autocomplete
 from .models import Game
 
 
-class GameFilterForm(forms.ModelForm):
+class GameAdminForm(forms.ModelForm):
     class Meta:
         model = Game
         fields = "__all__"
