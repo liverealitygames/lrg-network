@@ -3,7 +3,7 @@ from django.contrib import admin
 from core.admin_mixins import AuditAdminMixin
 from cities_light.models import Country, Region, City, SubRegion
 
-from games.form import GameAdminForm
+from games.form import GameFilterForm
 from .models import Game, GameDate, GameImages, Season
 
 admin.site.unregister(Country)
@@ -46,7 +46,7 @@ class GameImagesInline(admin.TabularInline):
 
 @admin.register(Game)
 class GameAdmin(AuditAdminMixin):
-    form = GameAdminForm
+    form = GameFilterForm
     inlines = [GameDateInline, SeasonInline, GameImagesInline]
     exclude = ("slug",)
 
