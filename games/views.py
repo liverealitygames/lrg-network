@@ -63,7 +63,9 @@ def game_list(request):
     game_formats = Game.GameFormat.choices
     game_durations = Game.GameDuration.choices
     filming_statuses = Game.FilmingStatus.choices
-    countries = Country.objects.all()
+    countries = Country.objects.filter(
+        id__in=Game.objects.values_list("country_id", flat=True).distinct()
+    )
     regions = Region.objects.filter(country_id=country_id) if country_id else []
     cities = City.objects.filter(region_id=region_id) if region_id else []
 
