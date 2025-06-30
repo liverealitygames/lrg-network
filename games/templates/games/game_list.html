@@ -21,17 +21,6 @@
             placeholder="Search games..."
             value="{{ request.GET.q }}"
         />
-        {% if request.GET.q %}
-            <button
-                type="button"
-                id="clearSearch"
-                class="btn p-0 border-0 bg-transparent position-absolute top-50 translate-middle-y"
-                style="right: 9rem; z-index: 5; pointer-events: auto;"
-                aria-label="Clear"
-            >
-                <i class="bi bi-x fs-5 text-muted"></i>
-            </button>
-        {% endif %}
         <button type="submit" class="btn btn-outline-secondary">Search</button>
         <button type="button" id="toggleFiltersBtn" class="btn btn-outline-secondary">
             Filter <span id="filterCountBadge" class="badge bg-secondary ms-1" style="display:none;"></span>
