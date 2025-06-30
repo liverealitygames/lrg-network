@@ -11,6 +11,7 @@
 </div>
 
 <form method="get" class="mb-4">
+    <input type="hidden" name="filter_open" id="filterOpenInput" value="{{ request.GET.filter_open|default_if_none:'' }}">
     <div class="input-group position-relative">
         <input
             type="text"
@@ -25,103 +26,107 @@
                 type="button"
                 id="clearSearch"
                 class="btn p-0 border-0 bg-transparent position-absolute top-50 translate-middle-y"
-                style="right: 5rem; z-index: 5; pointer-events: auto;"
+                style="right: 9rem; z-index: 5; pointer-events: auto;"
                 aria-label="Clear"
             >
                 <i class="bi bi-x fs-5 text-muted"></i>
             </button>
         {% endif %}
         <button type="submit" class="btn btn-outline-secondary">Search</button>
+        <button type="button" id="toggleFiltersBtn" class="btn btn-outline-secondary">
+            Filter <span id="filterCountBadge" class="badge bg-secondary ms-1" style="display:none;"></span>
+        </button>
     </div>
 
-
-    <div class="row g-3 align-items-end mt-0">
-        <div class="col-md-4">
-            <label for="country" class="form-label">Country</label>
-            <select id="country" name="country" class="selectpicker" data-live-search="true">
-                <option value="">All</option>
-                {% for country in countries %}
-                    <option value="{{ country.id }}" {% if country.id|stringformat:"s" == selected_country %}selected{% endif %}>{{ country.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-md-4">
-            <label for="region" class="form-label">State/Region</label>
-            <select id="region" name="region" class="selectpicker" data-live-search="true" data-size="10" {% if not selected_country %}disabled{% endif %}>
-                <option value="">All</option>
-                {% for region in regions %}
-                    <option value="{{ region.id }}" {% if region.id|stringformat:"s" == selected_region %}selected{% endif %}>{{ region.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-md-4">
-            <label for="city" class="form-label">City</label>
-            <select id="city" name="city" class="selectpicker" data-live-search="true" data-size="10" {% if not selected_region %}disabled{% endif %} onchange="submitFormWithNonEmptyParams()">
-                <option value="">All</option>
-                {% for city in cities %}
-                    <option value="{{ city.id }}" {% if city.id|stringformat:"s" == selected_city %}selected{% endif %}>{{ city.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-
-    <div class="row g-3 align-items-end mt-0">
-        <div class="col-md-4">
-            <label for="game_format" class="form-label">Game Format</label>
-            <select id="game_format" name="game_format" class="selectpicker" onchange="submitFormWithNonEmptyParams()">
-                <option value="">All</option>
-                {% for format in game_formats %}
-                    <option value="{{ format.0 }}" {% if format.0 == selected_game_format %}selected{% endif %}>{{ format.1 }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="col-md-4">
-            <label for="game_duration" class="form-label">Game Duration</label>
-            <select id="game_duration" name="game_duration" class="selectpicker" onchange="submitFormWithNonEmptyParams()">
-                <option value="">All</option>
-                {% for duration in game_durations %}
-                    <option value="{{ duration.0 }}" {% if duration.0 == selected_game_duration %}selected{% endif %}>{{ duration.1 }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="col-md-4">
-            <label for="filming_status" class="form-label">Filming Status</label>
-            <select id="filming_status" name="filming_status" class="selectpicker" onchange="submitFormWithNonEmptyParams()">
-                <option value="">All</option>
-                {% for status in filming_statuses %}
-                    <option value="{{ status.0 }}" {% if status.0 == selected_filming_status %}selected{% endif %}>{{ status.1 }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-
-    <div class="row g-3 align-items-end mt-0">
-        <div class="col-md-6">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="only_active" name="only_active" onchange="submitFormWithNonEmptyParams()" {% if only_active %}checked{% endif %}>
-                <label class="form-check-label" for="only_active">Only Active</label>
+    <div id="filtersContainer" style="display: none;">
+        <div class="row g-3 align-items-end mt-0">
+            <div class="col-md-4">
+                <label for="country" class="form-label d-block">Country</label>
+                <select id="country" name="country" class="selectpicker w-100" data-live-search="true">
+                    <option value="">All</option>
+                    {% for country in countries %}
+                        <option value="{{ country.id }}" {% if country.id|stringformat:"s" == selected_country %}selected{% endif %}>{{ country.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="region" class="form-label d-block">State/Region</label>
+                <select id="region" name="region" class="selectpicker w-100" data-live-search="true" data-size="10" {% if not selected_country %}disabled{% endif %}>
+                    <option value="">All</option>
+                    {% for region in regions %}
+                        <option value="{{ region.id }}" {% if region.id|stringformat:"s" == selected_region %}selected{% endif %}>{{ region.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="city" class="form-label d-block">City</label>
+                <select id="city" name="city" class="selectpicker w-100" data-live-search="true" data-size="10" {% if not selected_region %}disabled{% endif %} onchange="submitFormWithNonEmptyParams()">
+                    <option value="">All</option>
+                    {% for city in cities %}
+                        <option value="{{ city.id }}" {% if city.id|stringformat:"s" == selected_city %}selected{% endif %}>{{ city.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="include_college_games" name="include_college_games" onchange="submitFormWithNonEmptyParams()" {% if include_college_games %}checked{% endif %}>
-                <label class="form-check-label" for="include_college_games">Include College Games</label>
+
+        <div class="row g-3 align-items-end mt-0">
+            <div class="col-md-4">
+                <label for="game_format" class="form-label d-block">Game Format</label>
+                <select id="game_format" name="game_format" class="selectpicker w-100" onchange="submitFormWithNonEmptyParams()">
+                    <option value="">All</option>
+                    {% for format in game_formats %}
+                        <option value="{{ format.0 }}" {% if format.0 == selected_game_format %}selected{% endif %}>{{ format.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label for="game_duration" class="form-label d-block">Game Duration</label>
+                <select id="game_duration" name="game_duration" class="selectpicker w-100" onchange="submitFormWithNonEmptyParams()">
+                    <option value="">All</option>
+                    {% for duration in game_durations %}
+                        <option value="{{ duration.0 }}" {% if duration.0 == selected_game_duration %}selected{% endif %}>{{ duration.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label for="filming_status" class="form-label d-block">Filming Status</label>
+                <select id="filming_status" name="filming_status" class="selectpicker w-100" onchange="submitFormWithNonEmptyParams()">
+                    <option value="">All</option>
+                    {% for status in filming_statuses %}
+                        <option value="{{ status.0 }}" {% if status.0 == selected_filming_status %}selected{% endif %}>{{ status.1 }}</option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
-    </div>
-    <div class="row g-3 align-items-end mt-0">
-        <div class="col-md-6">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="only_for_charity" name="only_for_charity" onchange="submitFormWithNonEmptyParams()" {% if only_for_charity %}checked{% endif %}>
-                <label class="form-check-label" for="only_for_charity">Only For Charity</label>
+
+        <div class="row g-3 align-items-end mt-0">
+            <div class="col-md-6">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="only_active" name="only_active" onchange="submitFormWithNonEmptyParams()" {% if only_active %}checked{% endif %}>
+                    <label class="form-check-label" for="only_active">Only Active</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="include_college_games" name="include_college_games" onchange="submitFormWithNonEmptyParams()" {% if include_college_games %}checked{% endif %}>
+                    <label class="form-check-label" for="include_college_games">Include College Games</label>
+                </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="include_friends_and_family" name="include_friends_and_family" onchange="submitFormWithNonEmptyParams()" {% if include_friends_and_family %}checked{% endif %}>
-                <label class="form-check-label" for="include_friends_and_family">Include Friends & Family Games</label>
+        <div class="row g-3 align-items-end mt-0">
+            <div class="col-md-6">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="only_for_charity" name="only_for_charity" onchange="submitFormWithNonEmptyParams()" {% if only_for_charity %}checked{% endif %}>
+                    <label class="form-check-label" for="only_for_charity">Only For Charity</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="include_friends_and_family" name="include_friends_and_family" onchange="submitFormWithNonEmptyParams()" {% if include_friends_and_family %}checked{% endif %}>
+                    <label class="form-check-label" for="include_friends_and_family">Include Friends & Family Games</label>
+                </div>
             </div>
         </div>
     </div>
@@ -206,6 +211,60 @@
     });
 
     const form = document.querySelector('form');
+    const filterOpenInput = document.getElementById('filterOpenInput');
+    const filtersContainer = document.getElementById('filtersContainer');
+    const toggleBtn = document.getElementById('toggleFiltersBtn');
+
+    // Helper to get URL param
+    function getUrlParam(name) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name);
+    }
+    // Helper to set/remove URL param without reloading
+    function setUrlParam(name, value) {
+        const url = new URL(window.location);
+        if (value === null || value === undefined || value === '' || value === '0') {
+            url.searchParams.delete(name);
+        } else {
+            url.searchParams.set(name, value);
+        }
+        window.history.replaceState({}, '', url);
+    }
+
+    // On page load, show/hide filters based only on filter_open param
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterOpen = getUrlParam('filter_open');
+        if (filterOpen === '1') {
+            filtersContainer.style.display = 'block';
+            toggleBtn.setAttribute('aria-label', 'Hide Filters');
+            toggleBtn.classList.add('active');
+            if (filterOpenInput) filterOpenInput.value = '1';
+        } else {
+            filtersContainer.style.display = 'none';
+            toggleBtn.setAttribute('aria-label', 'Show Filters');
+            toggleBtn.classList.remove('active');
+            if (filterOpenInput) filterOpenInput.value = '0';
+        }
+        updateFilterCountBadge();
+    });
+
+    // Toggle filter section and update URL param
+    toggleBtn.addEventListener('click', function() {
+        const isVisible = filtersContainer.style.display === 'block';
+        if (isVisible) {
+            filtersContainer.style.display = 'none';
+            this.setAttribute('aria-label', 'Show Filters');
+            this.classList.remove('active');
+            setUrlParam('filter_open', '0');
+            if (filterOpenInput) filterOpenInput.value = '0';
+        } else {
+            filtersContainer.style.display = 'block';
+            this.setAttribute('aria-label', 'Hide Filters');
+            this.classList.add('active');
+            setUrlParam('filter_open', '1');
+            if (filterOpenInput) filterOpenInput.value = '1';
+        }
+    });
 
     function submitFormWithNonEmptyParams() {
         const formData = new FormData(form);
@@ -216,11 +275,69 @@
                 params.append(key, value);
             }
         }
+        // Always include filter_open if present
+        if (filterOpenInput && filterOpenInput.value) {
+            params.set('filter_open', filterOpenInput.value);
+        }
 
         const queryString = params.toString();
         const action = form.getAttribute('action') || window.location.pathname;
         window.location.href = `${action}?${queryString}`;
     }
+
+    // --- Filter count indicator logic ---
+    function getFilterCount() {
+        let count = 0;
+        // Location: country, region, city (only count as 1 if any selected)
+        const country = document.getElementById('country').value;
+        const region = document.getElementById('region').value;
+        const city = document.getElementById('city').value;
+        if (country || region || city) count += 1;
+        // Game format
+        if (document.getElementById('game_format').value) count += 1;
+        // Game duration
+        if (document.getElementById('game_duration').value) count += 1;
+        // Filming status
+        if (document.getElementById('filming_status').value) count += 1;
+        // Only active
+        if (document.getElementById('only_active').checked) count += 1;
+        // Include college games
+        if (document.getElementById('include_college_games').checked) count += 1;
+        // Only for charity
+        if (document.getElementById('only_for_charity').checked) count += 1;
+        // Include friends and family
+        if (document.getElementById('include_friends_and_family').checked) count += 1;
+        return count;
+    }
+
+    function updateFilterCountBadge() {
+        const badge = document.getElementById('filterCountBadge');
+        const count = getFilterCount();
+        if (count > 0) {
+            badge.textContent = count;
+            badge.style.display = '';
+        } else {
+            badge.textContent = '';
+            badge.style.display = 'none';
+        }
+    }
+
+    // Update badge on page load and on filter changes
+    document.addEventListener('DOMContentLoaded', function() {
+        updateFilterCountBadge();
+    });
+
+    // Update badge on any filter change
+    const filterInputs = [
+        'country', 'region', 'city', 'game_format', 'game_duration', 'filming_status',
+        'only_active', 'include_college_games', 'only_for_charity', 'include_friends_and_family'
+    ];
+    filterInputs.forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('change', updateFilterCountBadge);
+        }
+    });
 
     const clearBtn = document.getElementById('clearSearch');
     const searchInput = document.getElementById('searchInput');
