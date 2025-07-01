@@ -40,7 +40,7 @@
                 {% if game.logo %}
                     <img src="{{ game.logo.url }}" class="img-fluid" alt="{{ game.name }} logo" style="min-height: 120px; max-height: min(250px, 50vh); object-fit: contain;">
                 {% else %}
-                    {% with 'games/images/default_logos/'|add:game.game_format|lower|add:'.jpg' as default_logo %}
+                    {% with 'games/images/default_logos/'|add:game.game_format|lower|add:'.png' as default_logo %}
                         <img src="{% static default_logo %}" class="img-fluid" alt="{{ game.get_game_format_display }} logo" style="min-height: 120px; max-height: min(250px, 50vh); object-fit: contain;">
                     {% endwith %}
                 {% endif %}
