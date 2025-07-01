@@ -20,9 +20,20 @@ from django.urls import include, path
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path("", lambda request: HttpResponseRedirect("/games/")),  # Redirect home to games
     path("admin/", admin.site.urls),
     path("games/", include("games.urls")),
+    path(
+        "about/",
+        TemplateView.as_view(template_name="static_pages/about.html"),
+        name="about",
+    ),
+    path(
+        "contact/",
+        TemplateView.as_view(template_name="static_pages/contact.html"),
+        name="contact",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
