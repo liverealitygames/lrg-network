@@ -131,7 +131,7 @@
                         {% if game.logo %}
                             <img src="{{ game.logo.url }}" class="img-fluid p-3" alt="{{ game.name }} logo" style="height: 120px; width: 100%; object-fit: contain;">
                         {% else %}
-                            {% with 'games/images/default_logos/'|add:game.game_format|lower|add:'.jpg' as default_logo %}
+                            {% with 'games/images/default_logos/'|add:game.game_format|lower|add:'.png' as default_logo %}
                                 <img src="{% static default_logo %}" class="img-fluid p-3" alt="{{ game.get_game_format_display }} logo" style="height: 120px; width: 100%; object-fit: contain;">
                             {% endwith %}
                         {% endif %}
