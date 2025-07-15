@@ -6,3 +6,4 @@ django-debug-toolbar
 pytest
 pytest-django
 pre-commit
+python-dotenv
