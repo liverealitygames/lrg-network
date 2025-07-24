@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "core",
     "games",
     "compressor",
+    "storages",
 ]
 
 MIDDLEWARE = [
@@ -122,17 +123,31 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
-# Tell Django to use WhiteNoise to serve static files
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-# Media files (Uploads)
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+# Use S3 as default for media files and WhiteNoise to serve static files
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME", "us-west-2")  # adjust if needed
+AWS_S3_FILE_OVERWRITE = False  # prevent overwriting files with same name
+AWS_DEFAULT_ACL = None  # disables default 'public-read' ACL
+AWS_QUERYSTRING_AUTH = False  # generates cleaner, unsigned URLs
+
+# Media URL (can update to CloudFront later)
+MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

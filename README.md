@@ -30,6 +30,8 @@ cp .env.example .env
 python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 ```
 
+3. Contact Austin for any other secrets you need for your .env file (e.g. AWS S3)
+
 #### 4. Setup virtual environment
 Set up a virtual environment for this project. The following command will create a virtual environment named `lrgenv`. You can name your virtual environment whatever you'd like, but the rest of this readme will use `lrgvenv`. A distinct name helps make sure you're running this project out of the correct virtual environment.
 ```bash
