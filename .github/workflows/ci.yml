@@ -11,6 +11,7 @@ jobs:
     name: Check Migrations
     runs-on: ubuntu-latest
     env:
+      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
       DJANGO_SETTINGS_MODULE: lrgnetwork.settings
       PYTHONUNBUFFERED: 1
     steps:
@@ -48,6 +49,7 @@ jobs:
     name: Run Tests
     runs-on: ubuntu-latest
     env:
+      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
       DJANGO_SETTINGS_MODULE: lrgnetwork.settings
       PYTHONUNBUFFERED: 1
     steps:
@@ -60,6 +62,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install coverage
+      - name: Collect static files
+        run: python manage.py collectstatic --noinput
       - name: Run tests with coverage
         run: |
           coverage run manage.py test

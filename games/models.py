@@ -4,13 +4,20 @@ from django.forms import ValidationError
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from cities_light.models import Country, Region, City
+from io import BytesIO
+from django.core.files.base import ContentFile
+from PIL import Image
+from .validators import validate_image
+from .utils import optimize_image
 
 from core.models import CoreModel
 
 
 class Game(CoreModel):
     name = models.CharField(max_length=200)
-    logo = models.ImageField(upload_to="game_logos/", blank=True, null=True)
+    logo = models.ImageField(
+        upload_to="game_logos/", validators=[validate_image], blank=True, null=True
+    )
     slug = models.SlugField(unique=True, blank=True)
 
     class GameFormat(models.TextChoices):
@@ -79,6 +86,11 @@ class Game(CoreModel):
             slug = f"{base_slug}-{counter}"
             counter += 1
         self.slug = slug
+
+        if self.logo:
+            optimized = optimize_image(self.logo)
+            self.logo.save(self.logo.name, optimized, save=False)
+
         super().save(*args, **kwargs)
 
     def location_display(self):
@@ -133,11 +145,18 @@ class GameDate(CoreModel):
 
 class GameImages(CoreModel):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="images")
-    image = models.ImageField(upload_to="game_images/")
+    image = models.ImageField(upload_to="game_images/", validators=[validate_image])
     description = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return self.description if self.description else f"Image for {self.game.name}"
+
+    def save(self, *args, **kwargs):
+        if self.image:
+            optimized = optimize_image(self.image)
+            self.image.save(self.image.name, optimized, save=False)
+
+        super().save(*args, **kwargs)
 
 
 class Season(CoreModel):

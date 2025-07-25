@@ -8,8 +8,10 @@ __pycache__
 lrgvenv/
 venv/
 
-# Database
+# Database and backups
 db.sqlite3
+data.json
+clean_data.json
 
 # Static folder at project root
 /staticfiles/
