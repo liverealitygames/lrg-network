@@ -89,6 +89,15 @@ docker compose exec web python manage.py cities_light
 
 ---
 
+## Using the Makefile
+
+To simplify your development workflow, you can use the provided `Makefile` with common commands for building, running, migrating, and managing the project:
+
+```bash
+make help
+
+---
+
 ## 🧪 Testing
 
 *TODO: Add test setup steps if/when tests are implemented.*

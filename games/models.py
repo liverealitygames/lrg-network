@@ -164,7 +164,9 @@ class GameImages(CoreModel):
         if self.image:
             img = Image.open(self.image)
             max_size = (1200, 1200)
-            img.thumbnail(max_size, Image.ANTIALIAS)  # Resize maintaining aspect ratio
+            img.thumbnail(
+                max_size, Image.Resampling.LANCZOS
+            )  # Resize maintaining aspect ratio
 
             buffer = BytesIO()
             img.save(buffer, format="WEBP", quality=85)
