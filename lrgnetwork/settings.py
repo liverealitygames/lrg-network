@@ -147,7 +147,7 @@ AWS_QUERYSTRING_AUTH = False  # generates cleaner, unsigned URLs
 # Media URL (can update to CloudFront later)
 MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/"
 
-# Set cache-contorl headers for S3 images
+# Set cache-control headers for S3 images
 AWS_S3_OBJECT_PARAMETERS = {
     "CacheControl": "max-age=31536000, public",
 }
