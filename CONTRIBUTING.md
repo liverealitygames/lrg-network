@@ -95,6 +95,7 @@ To simplify your development workflow, you can use the provided `Makefile` with 
 
 ```bash
 make help
+```
 
 ---
 

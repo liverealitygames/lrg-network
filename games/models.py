@@ -8,6 +8,7 @@ from io import BytesIO
 from django.core.files.base import ContentFile
 from PIL import Image
 from .validators import validate_image
+from .utils import optimize_image
 
 from core.models import CoreModel
 
@@ -87,18 +88,8 @@ class Game(CoreModel):
         self.slug = slug
 
         if self.logo:
-            img = Image.open(self.logo)
-            max_size = (1200, 1200)
-            img.thumbnail(
-                max_size, Image.Resampling.LANCZOS
-            )  # Resize maintaining aspect ratio
-
-            buffer = BytesIO()
-            img.save(buffer, format="WEBP", quality=85)
-            buffer.seek(0)
-
-            # Replace the original image with the optimized one
-            self.logo.save(self.logo.name, ContentFile(buffer.read()), save=False)
+            optimized = optimize_image(self.logo)
+            self.logo.save(self.logo.name, optimized, save=False)
 
         super().save(*args, **kwargs)
 
@@ -162,18 +153,8 @@ class GameImages(CoreModel):
 
     def save(self, *args, **kwargs):
         if self.image:
-            img = Image.open(self.image)
-            max_size = (1200, 1200)
-            img.thumbnail(
-                max_size, Image.Resampling.LANCZOS
-            )  # Resize maintaining aspect ratio
-
-            buffer = BytesIO()
-            img.save(buffer, format="WEBP", quality=85)
-            buffer.seek(0)
-
-            # Replace the original image with the optimized one
-            self.image.save(self.image.name, ContentFile(buffer.read()), save=False)
+            optimized = optimize_image(self.image)
+            self.image.save(self.image.name, optimized, save=False)
 
         super().save(*args, **kwargs)
 
