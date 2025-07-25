@@ -100,7 +100,7 @@ class GameModelTest(TestCase):
         self.assertEqual(str(self.game), "Test Game")
 
     def test_invalid_game_format(self):
-        game = Game.objects.create(
+        game = Game(
             name="Invalid Game",
             game_format="INVALID_FORMAT",  # Invalid format
             active=True,
