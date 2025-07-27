@@ -7,3 +7,4 @@ pytest
 pytest-django
 pre-commit
 python-dotenv
+pytest-dotenv
