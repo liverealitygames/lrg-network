@@ -162,11 +162,12 @@
     {% endfor %}
 </div>
 
+{% comment %} Helper to build querystring for pagination links, excluding 'page' {% endcomment %}
 <nav aria-label="Game pagination">
     <ul class="pagination minimalist-pagination justify-content-center mt-4">
         {% if page_obj.has_previous %}
             <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ request.GET.q }}" aria-label="Previous">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if pagination_querystring %}&{{ pagination_querystring }}{% endif %}" aria-label="Previous">
                 &laquo;
             </a>
             </li>
@@ -180,13 +181,13 @@
             {% if num == page_obj.number %}
             <li class="page-item active"><span class="page-link">{{ num }}</span></li>
             {% elif num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
-            <li class="page-item"><a class="page-link" href="?page={{ num }}&q={{ request.GET.q }}">{{ num }}</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ num }}{% if pagination_querystring %}&{{ pagination_querystring }}{% endif %}">{{ num }}</a></li>
             {% endif %}
         {% endfor %}
 
         {% if page_obj.has_next %}
             <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ request.GET.q }}" aria-label="Next">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if pagination_querystring %}&{{ pagination_querystring }}{% endif %}" aria-label="Next">
                 &raquo;
             </a>
             </li>

@@ -2,6 +2,7 @@ from cities_light.models import Country, Region, City
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import render
+from urllib.parse import urlencode
 
 from games.models import Game
 
@@ -65,6 +66,12 @@ def game_list(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
+    # Build querystring for pagination, excluding 'page'
+    get_params = request.GET.copy()
+    if "page" in get_params:
+        get_params.pop("page")
+    pagination_querystring = get_params.urlencode()
+
     game_formats = Game.GameFormat.choices
     game_durations = Game.GameDuration.choices
     filming_statuses = Game.FilmingStatus.choices
@@ -110,6 +117,7 @@ def game_list(request):
             "include_college_games": include_college_games,
             "include_friends_and_family": include_friends_and_family,
             "include_inactive": include_inactive,
+            "pagination_querystring": pagination_querystring,
         },
     )
 
