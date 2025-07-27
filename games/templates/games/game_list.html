@@ -156,7 +156,8 @@
     {% empty %}
     <div class="col-12">
         <div class="alert alert-info bg-info-subtle border border-info-subtle">
-            No games available.
+            <b>No results found</b> <br/>
+            <a href="{% url 'game_list' %}">Reset search and filters</a>
         </div>
     </div>
     {% endfor %}
