@@ -18,6 +18,7 @@ def game_list(request):
     country_id = request.GET.get("country")
     region_id = request.GET.get("region")
     city_id = request.GET.get("city")
+    include_inactive = request.GET.get("include_inactive") == "on"
 
     games = Game.objects.all().order_by("name")
 
@@ -55,6 +56,10 @@ def game_list(request):
 
     if city_id:
         games = games.filter(city_id=city_id)
+
+    # Only show active games by default, unless include_inactive is checked
+    if not include_inactive:
+        games = games.filter(active=True)
 
     paginator = Paginator(games, 10)
     page_number = request.GET.get("page")
@@ -104,6 +109,7 @@ def game_list(request):
             "only_for_charity": only_for_charity,
             "include_college_games": include_college_games,
             "include_friends_and_family": include_friends_and_family,
+            "include_inactive": include_inactive,
         },
     )
 
