@@ -43,7 +43,11 @@
                 <select id="region" name="region" class="selectpicker w-100" data-live-search="true" data-size="10" {% if not selected_country %}disabled{% endif %}>
                     <option value="">All</option>
                     {% for region in regions %}
-                        <option value="{{ region.id }}" {% if region.id|stringformat:"s" == selected_region %}selected{% endif %}>{{ region.name }}</option>
+                        {% if region.id in regions_with_games %}
+                            <option value="{{ region.id }}" {% if region.id|stringformat:"s" == selected_region %}selected{% endif %}>{{ region.name }}</option>
+                        {% else %}
+                            <option value="{{ region.id }}" disabled style="color: #aaa; background-color: #f8f9fa;">{{ region.name }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>

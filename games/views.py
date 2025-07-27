@@ -66,8 +66,20 @@ def game_list(request):
     countries = Country.objects.filter(
         id__in=Game.objects.values_list("country_id", flat=True).distinct()
     )
+    regions_with_games = set(
+        Game.objects.values_list("region_id", flat=True).distinct()
+    )
     regions = Region.objects.filter(country_id=country_id) if country_id else []
-    cities = City.objects.filter(region_id=region_id) if region_id else []
+    cities = (
+        City.objects.filter(
+            id__in=Game.objects.values_list("city_id", flat=True).distinct(),
+            region_id=region_id,
+        )
+        if region_id
+        else City.objects.filter(
+            id__in=Game.objects.values_list("city_id", flat=True).distinct()
+        )
+    )
 
     return render(
         request,
@@ -80,6 +92,7 @@ def game_list(request):
             "filming_statuses": filming_statuses,
             "countries": countries,
             "regions": regions,
+            "regions_with_games": regions_with_games,
             "cities": cities,
             "selected_country": country_id,
             "selected_region": region_id,
