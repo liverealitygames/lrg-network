@@ -12,7 +12,6 @@ def game_list(request):
     game_format = request.GET.get("game_format")
     game_duration = request.GET.get("game_duration")
     filming_status = request.GET.get("filming_status")
-    only_active = request.GET.get("only_active") == "on"
     only_for_charity = request.GET.get("only_for_charity") == "on"
     include_college_games = request.GET.get("include_college_games") == "on"
     include_friends_and_family = request.GET.get("include_friends_and_family") == "on"
@@ -34,9 +33,6 @@ def game_list(request):
 
     if filming_status:
         games = games.filter(filming_status=filming_status)
-
-    if only_active:
-        games = games.filter(active=True)
 
     if only_for_charity:
         games = games.filter(for_charity=True)
@@ -112,7 +108,6 @@ def game_list(request):
             "selected_game_format": game_format,
             "selected_game_duration": game_duration,
             "selected_filming_status": filming_status,
-            "only_active": only_active,
             "only_for_charity": only_for_charity,
             "include_college_games": include_college_games,
             "include_friends_and_family": include_friends_and_family,

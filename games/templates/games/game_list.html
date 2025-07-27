@@ -294,7 +294,7 @@
         // Filming status
         if (document.getElementById('filming_status').value) count += 1;
         // Only active
-        if (document.getElementById('only_active').checked) count += 1;
+        if (document.getElementById('include_inactive').checked) count += 1;
         // Include college games
         if (document.getElementById('include_college_games').checked) count += 1;
         // Only for charity
@@ -324,7 +324,7 @@
     // Update badge on any filter change
     const filterInputs = [
         'country', 'region', 'city', 'game_format', 'game_duration', 'filming_status',
-        'only_active', 'include_college_games', 'only_for_charity', 'include_friends_and_family'
+        'include_inactive', 'include_college_games', 'only_for_charity', 'include_friends_and_family'
     ];
     filterInputs.forEach(function(id) {
         const el = document.getElementById(id);
