@@ -46,7 +46,7 @@
                         {% if region.id in regions_with_games %}
                             <option value="{{ region.id }}" {% if region.id|stringformat:"s" == selected_region %}selected{% endif %}>{{ region.name }}</option>
                         {% else %}
-                            <option value="{{ region.id }}" disabled style="color: #aaa; background-color: #f8f9fa;">{{ region.name }}</option>
+                            <option value="{{ region.id }}" disabled >{{ region.name }}</option>
                         {% endif %}
                     {% endfor %}
                 </select>

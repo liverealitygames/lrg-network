@@ -74,20 +74,24 @@ def game_list(request):
     countries = Country.objects.filter(
         id__in=Game.objects.values_list("country_id", flat=True).distinct()
     )
-    regions_with_games = set(
-        Game.objects.values_list("region_id", flat=True).distinct()
-    )
-    regions = Region.objects.filter(country_id=country_id) if country_id else []
-    cities = (
-        City.objects.filter(
+    if country_id:
+        regions_with_games = set(
+            Game.objects.filter(country_id=country_id)
+            .values_list("region_id", flat=True)
+            .distinct()
+        )
+        regions = Region.objects.filter(country_id=country_id)
+    else:
+        regions = []
+        regions_with_games = set()
+
+    if region_id:
+        cities = City.objects.filter(
             id__in=Game.objects.values_list("city_id", flat=True).distinct(),
             region_id=region_id,
         )
-        if region_id
-        else City.objects.filter(
-            id__in=Game.objects.values_list("city_id", flat=True).distinct()
-        )
-    )
+    else:
+        cities = []
 
     return render(
         request,
