@@ -36,3 +36,6 @@ logs:
 
 test:
 	docker compose exec web python manage.py test
+
+audit:
+	pip-audit -r requirements.txt || (echo "\n⚠️  Security vulnerabilities found!" && exit 1)
