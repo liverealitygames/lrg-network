@@ -43,7 +43,11 @@
                 <select id="region" name="region" class="selectpicker w-100" data-live-search="true" data-size="10" {% if not selected_country %}disabled{% endif %}>
                     <option value="">All</option>
                     {% for region in regions %}
-                        <option value="{{ region.id }}" {% if region.id|stringformat:"s" == selected_region %}selected{% endif %}>{{ region.name }}</option>
+                        {% if region.id in regions_with_games %}
+                            <option value="{{ region.id }}" {% if region.id|stringformat:"s" == selected_region %}selected{% endif %}>{{ region.name }}</option>
+                        {% else %}
+                            <option value="{{ region.id }}" disabled >{{ region.name }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
@@ -93,8 +97,8 @@
         <div class="row g-3 align-items-end mt-0">
             <div class="col-md-6">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="only_active" name="only_active" onchange="submitFormWithNonEmptyParams()" {% if only_active %}checked{% endif %}>
-                    <label class="form-check-label" for="only_active">Only Active</label>
+                    <input class="form-check-input" type="checkbox" id="include_inactive" name="include_inactive" onchange="submitFormWithNonEmptyParams()" {% if include_inactive %}checked{% endif %}>
+                    <label class="form-check-label" for="include_inactive">Include Inactive Games</label>
                 </div>
             </div>
             <div class="col-md-6">
@@ -152,17 +156,19 @@
     {% empty %}
     <div class="col-12">
         <div class="alert alert-info bg-info-subtle border border-info-subtle">
-            No games available.
+            <b>No results found</b> <br/>
+            <a href="{% url 'game_list' %}">Reset search and filters</a>
         </div>
     </div>
     {% endfor %}
 </div>
 
+{% comment %} Helper to build querystring for pagination links, excluding 'page' {% endcomment %}
 <nav aria-label="Game pagination">
     <ul class="pagination minimalist-pagination justify-content-center mt-4">
         {% if page_obj.has_previous %}
             <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ request.GET.q }}" aria-label="Previous">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if pagination_querystring %}&{{ pagination_querystring }}{% endif %}" aria-label="Previous">
                 &laquo;
             </a>
             </li>
@@ -176,13 +182,13 @@
             {% if num == page_obj.number %}
             <li class="page-item active"><span class="page-link">{{ num }}</span></li>
             {% elif num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
-            <li class="page-item"><a class="page-link" href="?page={{ num }}&q={{ request.GET.q }}">{{ num }}</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ num }}{% if pagination_querystring %}&{{ pagination_querystring }}{% endif %}">{{ num }}</a></li>
             {% endif %}
         {% endfor %}
 
         {% if page_obj.has_next %}
             <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ request.GET.q }}" aria-label="Next">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if pagination_querystring %}&{{ pagination_querystring }}{% endif %}" aria-label="Next">
                 &raquo;
             </a>
             </li>
@@ -289,7 +295,7 @@
         // Filming status
         if (document.getElementById('filming_status').value) count += 1;
         // Only active
-        if (document.getElementById('only_active').checked) count += 1;
+        if (document.getElementById('include_inactive').checked) count += 1;
         // Include college games
         if (document.getElementById('include_college_games').checked) count += 1;
         // Only for charity
@@ -319,7 +325,7 @@
     // Update badge on any filter change
     const filterInputs = [
         'country', 'region', 'city', 'game_format', 'game_duration', 'filming_status',
-        'only_active', 'include_college_games', 'only_for_charity', 'include_friends_and_family'
+        'include_inactive', 'include_college_games', 'only_for_charity', 'include_friends_and_family'
     ];
     filterInputs.forEach(function(id) {
         const el = document.getElementById(id);

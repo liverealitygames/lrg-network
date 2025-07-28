@@ -272,3 +272,55 @@ class GameListViewTest(TestCase):
         self.assertGreater(
             len(response.context["page_obj"]), 0
         )  # Ensure second page has games
+
+    def test_filters_work_and_persist_across_pages(self):
+        # Create games with different formats and active/inactive status
+        for i in range(15):
+            Game.objects.create(
+                name=f"Active Race {i}",
+                game_format=Game.GameFormat.AMAZING_RACE,
+                active=True,
+                country=self.country,
+            )
+        for i in range(5):
+            Game.objects.create(
+                name=f"Inactive Survivor {i}",
+                game_format=Game.GameFormat.SURVIVOR,
+                active=False,
+                country=self.country,
+            )
+        # Filter by game_format (AMAZING_RACE) and check page 1
+        response = self.client.get(reverse("game_list") + "?game_format=amazing_race")
+        self.assertEqual(response.status_code, 200)
+        for game in response.context["page_obj"]:
+            self.assertEqual(game.game_format, Game.GameFormat.AMAZING_RACE)
+            self.assertTrue(game.active)
+        # Go to page 2 with same filter
+        response2 = self.client.get(
+            reverse("game_list") + "?game_format=amazing_race&page=2"
+        )
+        self.assertEqual(response2.status_code, 200)
+        for game in response2.context["page_obj"]:
+            self.assertEqual(game.game_format, Game.GameFormat.AMAZING_RACE)
+            self.assertTrue(game.active)
+        # Filter by inactive games (include_inactive)
+        # Collect all games across all pages
+        all_names = []
+        page = 1
+        while True:
+            resp = self.client.get(
+                reverse("game_list") + f"?include_inactive=on&page={page}"
+            )
+            self.assertEqual(resp.status_code, 200)
+            page_games = [game.name for game in resp.context["page_obj"]]
+            all_names.extend(page_games)
+            if not resp.context["page_obj"].has_next():
+                break
+            page += 1
+        self.assertIn("Inactive Survivor 0", all_names)
+        self.assertIn("Active Race 0", all_names)
+        # Filter by search query
+        response4 = self.client.get(reverse("game_list") + "?q=Inactive")
+        self.assertEqual(response4.status_code, 200)
+        for game in response4.context["page_obj"]:
+            self.assertIn("Inactive", game.name)
