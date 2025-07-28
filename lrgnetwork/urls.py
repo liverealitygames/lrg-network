@@ -24,7 +24,7 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path("", lambda request: HttpResponseRedirect("/games/")),  # Redirect home to games
-    path("admin/", admin.site.urls),
+    path("game-management/", admin.site.urls),
     path("games/", include("games.urls")),
     path(
         "about/",
