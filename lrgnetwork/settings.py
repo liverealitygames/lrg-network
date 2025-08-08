@@ -46,6 +46,17 @@ if ENVIRONMENT == "prod":
         "https://www.liverealitygames.com",
     ]
 
+    # HSTS settings for HTTPS enforcement
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
+    # Prevent MIME sniffing
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+
+    # Clickjacking protection
+    X_FRAME_OPTIONS = "DENY"
+
 else:
     # Development settings (adjust as needed)
     ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
