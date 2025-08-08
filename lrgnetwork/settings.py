@@ -59,7 +59,7 @@ if ENVIRONMENT == "prod":
 
 else:
     # Development settings (adjust as needed)
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
