@@ -7,6 +7,8 @@ from cities_light.models import Country, Region, City
 from io import BytesIO
 from django.core.files.base import ContentFile
 from PIL import Image
+
+from lrgnetwork.storage_backends import MediaStorage
 from .validators import validate_image
 from .utils import optimize_image
 
@@ -16,7 +18,11 @@ from core.models import CoreModel
 class Game(CoreModel):
     name = models.CharField(max_length=200)
     logo = models.ImageField(
-        upload_to="game_logos/", validators=[validate_image], blank=True, null=True
+        upload_to="game_logos/",
+        storage=MediaStorage(),
+        validators=[validate_image],
+        blank=True,
+        null=True,
     )
     slug = models.SlugField(unique=True, blank=True)
 
@@ -145,7 +151,9 @@ class GameDate(CoreModel):
 
 class GameImages(CoreModel):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="images")
-    image = models.ImageField(upload_to="game_images/", validators=[validate_image])
+    image = models.ImageField(
+        upload_to="game_images/", storage=MediaStorage(), validators=[validate_image]
+    )
     description = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):

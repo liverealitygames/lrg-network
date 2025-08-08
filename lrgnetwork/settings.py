@@ -22,6 +22,37 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]  # fail fast if missing
 DEBUG = os.environ.get("DJANGO_DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
 
+ENVIRONMENT = os.getenv("ENVIRONMENT", "dev")
+
+
+if ENVIRONMENT == "prod":
+    # Allowed hosts for production
+    ALLOWED_HOSTS = [
+        "lrg-network.fly.dev",
+        "www.liverealitygames.com",
+    ]
+
+    # Security settings
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+    # When behind a proxy like Fly.io's load balancer
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+    # Required for CSRF validation on custom domains/HTTPS
+    CSRF_TRUSTED_ORIGINS = [
+        "https://lrg-network.fly.dev/",
+        "https://www.liverealitygames.com",
+    ]
+
+else:
+    # Development settings (adjust as needed)
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    CSRF_TRUSTED_ORIGINS = []
 
 # Application definition
 
@@ -157,9 +188,12 @@ AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME", "us-west-2")  # adjust if n
 AWS_S3_FILE_OVERWRITE = False  # prevent overwriting files with same name
 AWS_DEFAULT_ACL = None  # disables default 'public-read' ACL
 AWS_QUERYSTRING_AUTH = False  # generates cleaner, unsigned URLs
+AWS_STORAGE_LOCATION = ENVIRONMENT
 
-# Media URL (can update to CloudFront later)
-MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/"
+# Media URL
+MEDIA_URL = f"https://media.liverealitygames.com/{AWS_STORAGE_LOCATION}/"
+
+DEFAULT_FILE_STORAGE = "lrgnetwork.storage_backends.MediaStorage"
 
 # Set cache-control headers for S3 images
 AWS_S3_OBJECT_PARAMETERS = {
