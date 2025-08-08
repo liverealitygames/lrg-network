@@ -42,7 +42,7 @@ if ENVIRONMENT == "prod":
 
     # Required for CSRF validation on custom domains/HTTPS
     CSRF_TRUSTED_ORIGINS = [
-        "https://lrg-network.fly.dev/",
+        "https://lrg-network.fly.dev",
         "https://www.liverealitygames.com",
     ]
 
