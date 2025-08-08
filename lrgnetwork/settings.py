@@ -19,13 +19,14 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]  # fail fast if missing
-DEBUG = os.environ.get("DJANGO_DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
 
 ENVIRONMENT = os.getenv("ENVIRONMENT", "dev")
 
 
 if ENVIRONMENT == "prod":
+    DEBUG = False
+
     # Allowed hosts for production
     ALLOWED_HOSTS = [
         "lrg-network.fly.dev",
@@ -58,6 +59,8 @@ if ENVIRONMENT == "prod":
     X_FRAME_OPTIONS = "DENY"
 
 else:
+    DEBUG = True
+
     # Development settings (adjust as needed)
     ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
     SECURE_SSL_REDIRECT = False
