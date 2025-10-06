@@ -68,10 +68,30 @@ class Game(CoreModel):
     host = models.CharField(max_length=200, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     website = models.URLField(blank=True, null=True)
-    instagram_hanlde = models.CharField(max_length=200, blank=True, null=True)
-    facebook_link = models.CharField(max_length=200, blank=True, null=True)
-    youtube_link = models.CharField(max_length=200, blank=True, null=True)
-    lrg_wiki_page = models.CharField(max_length=200, blank=True, null=True)
+    instagram_handle = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        help_text="Enter just the handle (e.g. www.instagram.com/<b>handle</b>)",
+    )
+    facebook_link = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        help_text="Enter just the page name (e.g. www.facebook.com/<b>pagename</b>)",
+    )
+    youtube_link = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        help_text="Enter any valid youtube link (e.g. www.youtube.com/<b>channelname</b>",
+    )
+    lrg_wiki_page = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        help_text="Enter just the page name (e.g. https://live-reality-games.fandom.com/wiki/<b>Page_Name</b>)",
+    )
     casting_link = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
