@@ -24,7 +24,7 @@ class Game(CoreModel):
         blank=True,
         null=True,
     )
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(blank=True)
 
     class GameFormat(models.TextChoices):
         AMAZING_RACE = "AR", _("Amazing Race")
@@ -95,6 +95,15 @@ class Game(CoreModel):
     casting_link = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["slug"],
+                condition=models.Q(is_removed=False),
+                name="unique_slug_for_active_games",
+            )
+        ]
+
     def __str__(self):
         return f"{self.name}"
 
@@ -108,7 +117,11 @@ class Game(CoreModel):
         base_slug = slugify(self.name)
         slug = base_slug
         counter = 1
-        while Game.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+        while (
+            Game.objects.filter(slug=slug, is_removed=False)
+            .exclude(pk=self.pk)
+            .exists()
+        ):
             slug = f"{base_slug}-{counter}"
             counter += 1
         self.slug = slug
