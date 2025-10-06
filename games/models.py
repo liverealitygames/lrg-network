@@ -108,7 +108,11 @@ class Game(CoreModel):
         base_slug = slugify(self.name)
         slug = base_slug
         counter = 1
-        while Game.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+        while (
+            Game.objects.filter(slug=slug, is_removed=False)
+            .exclude(pk=self.pk)
+            .exists()
+        ):
             slug = f"{base_slug}-{counter}"
             counter += 1
         self.slug = slug
