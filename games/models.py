@@ -24,7 +24,7 @@ class Game(CoreModel):
         blank=True,
         null=True,
     )
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(blank=True)
 
     class GameFormat(models.TextChoices):
         AMAZING_RACE = "AR", _("Amazing Race")
@@ -94,6 +94,15 @@ class Game(CoreModel):
     )
     casting_link = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["slug"],
+                condition=models.Q(is_removed=False),
+                name="unique_slug_for_active_games",
+            )
+        ]
 
     def __str__(self):
         return f"{self.name}"
