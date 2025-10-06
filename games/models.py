@@ -84,7 +84,7 @@ class Game(CoreModel):
         max_length=200,
         blank=True,
         null=True,
-        help_text="Enter any valid youtube link (e.g. www.youtube.com/<b>channelname</b>",
+        help_text="Enter any valid youtube path (e.g. www.youtube.com/<b>channelname</b>)",
     )
     lrg_wiki_page = models.CharField(
         max_length=200,
