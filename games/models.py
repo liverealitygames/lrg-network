@@ -9,7 +9,7 @@ from django.core.files.base import ContentFile
 from PIL import Image
 
 from lrgnetwork.storage_backends import MediaStorage
-from .validators import validate_image
+from .validators import validate_image, validate_optimized_file_size
 from .utils import optimize_image
 
 from core.models import CoreModel
@@ -128,6 +128,7 @@ class Game(CoreModel):
 
         if self.logo:
             optimized = optimize_image(self.logo)
+            validate_optimized_file_size(optimized)
             self.logo.save(self.logo.name, optimized, save=False)
 
         super().save(*args, **kwargs)
@@ -195,6 +196,7 @@ class GameImages(CoreModel):
     def save(self, *args, **kwargs):
         if self.image:
             optimized = optimize_image(self.image)
+            validate_optimized_file_size(optimized)
             self.image.save(self.image.name, optimized, save=False)
 
         super().save(*args, **kwargs)
