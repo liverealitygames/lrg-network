@@ -50,6 +50,15 @@ class GameAdmin(AuditAdminMixin):
     inlines = [GameDateInline, SeasonInline, GameImagesInline]
     exclude = ("slug",)
 
+    list_display = (
+        "name",
+        "game_format",
+        "created_by",
+        "modified_by",
+    )
+    search_fields = ("name",)
+    ordering = ("name",)
+
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         for field_name in ["country", "region", "city"]:
