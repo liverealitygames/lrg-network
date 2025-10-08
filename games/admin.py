@@ -53,6 +53,13 @@ class GameAdmin(AuditAdminMixin):
     list_display = (
         "name",
         "game_format",
+        "created",
+        "created_by",
+        "modified",
+        "modified_by",
+    )
+    list_filter = (
+        "game_format",
         "created_by",
         "modified_by",
     )
