@@ -29,10 +29,10 @@ class Game(CoreModel):
     class GameFormat(models.TextChoices):
         AMAZING_RACE = "AR", _("Amazing Race")
         BIG_BROTHER = "BB", _("Big Brother")
-        GENIUS_GAMES = "GG", _("Genius Games")
         SURVIVOR = "SU", _("Survivor")
         TASK_MASTER = "TM", _("Task Master")
         THE_CHALLENGE = "CH", _("The Challenge")
+        THE_GENIUS = "GE", _("The Genius")
         THE_MOLE = "MO", _("The Mole")
         THE_TRAITORS = "TR", ("The Traitors")
         ORIGINAL_FORMAT = "OF", _("Original Format")
