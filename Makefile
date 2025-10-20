@@ -4,14 +4,15 @@
 
 help:
 	@echo "Makefile commands:"
-	@echo "  build         Build Docker images"
-	@echo "  up            Start containers (detached)"
-	@echo "  down          Stop and remove containers"
-	@echo "  migrate       Run Django migrations inside web container"
-	@echo "  cities_light  Load cities_light data"
-	@echo "  shell         Open Django shell inside web container"
-	@echo "  logs          Show logs from all containers"
-	@echo "  test          Run tests (if implemented)"
+	@echo "  build         	Build Docker images"
+	@echo "  up            	Start containers (detached)"
+	@echo "  down          	Stop and remove containers"
+	@echo "  makemigrations	Create new migrations"
+	@echo "  migrate		Run Django migrations inside web container"
+	@echo "  cities_light	Load cities_light data"
+	@echo "  shell			Open Django shell inside web container"
+	@echo "  logs			Show logs from all containers"
+	@echo "  test			Run tests (if implemented)"
 
 build:
 	docker compose build
@@ -21,6 +22,9 @@ up:
 
 down:
 	docker compose down
+
+makemigrations:
+	docker compose exec web python manage.py makemigrations games
 
 migrate:
 	docker compose exec web python manage.py migrate

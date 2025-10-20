@@ -32,9 +32,11 @@ class Game(CoreModel):
         SURVIVOR = "SU", _("Survivor")
         TASK_MASTER = "TM", _("Task Master")
         THE_CHALLENGE = "CH", _("The Challenge")
+        THE_GENIUS = "GE", _("The Genius")
         THE_MOLE = "MO", _("The Mole")
         THE_TRAITORS = "TR", ("The Traitors")
         ORIGINAL_FORMAT = "OF", _("Original Format")
+        VARIOUS_FORMATS = "VF", _("Various Formats")
 
     game_format = models.CharField(max_length=2, choices=GameFormat)
     active = models.BooleanField(null=True)
