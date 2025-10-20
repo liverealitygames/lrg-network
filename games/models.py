@@ -29,12 +29,14 @@ class Game(CoreModel):
     class GameFormat(models.TextChoices):
         AMAZING_RACE = "AR", _("Amazing Race")
         BIG_BROTHER = "BB", _("Big Brother")
+        GENIUS_GAMES = "GG", _("Genius Games")
         SURVIVOR = "SU", _("Survivor")
         TASK_MASTER = "TM", _("Task Master")
         THE_CHALLENGE = "CH", _("The Challenge")
         THE_MOLE = "MO", _("The Mole")
         THE_TRAITORS = "TR", ("The Traitors")
         ORIGINAL_FORMAT = "OF", _("Original Format")
+        VARIOUS_FORMATS = "VF", _("Various Formats")
 
     game_format = models.CharField(max_length=2, choices=GameFormat)
     active = models.BooleanField(null=True)
