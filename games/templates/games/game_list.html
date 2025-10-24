@@ -142,7 +142,9 @@
                                         <img src="{{ logo_url }}"
                                             class="img-fluid p-3"
                                             alt="{{ game.get_game_format_display }} logo"
-                                            style="min-height: 120px; max-height: min(250px, 50vh); object-fit: contain;">
+                                            style="height: 120px; width: 100%; object-fit: contain;">
+                                    {% else %}
+                                        <div class="img-fluid p-3" style="height: 120px; width: 100%;"></div>
                                     {% endif %}
                                 {% endwith %}
                             {% endwith %}
