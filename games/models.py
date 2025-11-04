@@ -109,12 +109,6 @@ class Game(CoreModel):
     def __str__(self):
         return f"{self.name}"
 
-    def clean(self):
-        if not self.college_game and self.college_name:
-            raise ValidationError(
-                "college_name can only be set if college_game is True."
-            )
-
     def save(self, *args, **kwargs):
         base_slug = slugify(self.name)
         slug = base_slug
