@@ -91,7 +91,7 @@
         </div>
 
         <div class="mb-4">
-            <p class="lead">{{ game.description }}</p>
+            <p class="lead">{{ game.description|linebreaksbr|urlize }}</p>
         </div>
 
         {% if game.casting_link %}
