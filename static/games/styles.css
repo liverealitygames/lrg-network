@@ -10,6 +10,10 @@ h1, h2, h3, h4, h5, h6,
     font-weight: 700;
 }
 
+strong {
+    font-weight: bold;
+}
+
 /* Content width constraint */
 .container-md {
     max-width: 720px !important;
@@ -134,4 +138,11 @@ h1, h2, h3, h4, h5, h6,
 .minimalist-pagination .page-link:focus {
     box-shadow: none !important;
     outline: none !important;
+}
+
+/* Game details tags */
+.game-details-tags .badge {
+    font-size: 1rem;
+    padding: 0.45em 1em;
+    margin-bottom: 0.25em;
 }
