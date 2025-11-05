@@ -41,7 +41,7 @@
             </div>
             <div class="col-md-4">
                 <label for="region" class="form-label d-block">State/Region</label>
-                <select id="region" name="region" class="selectpicker w-100" data-live-search="true" data-size="10" {% if not selected_country %}disabled style="background-color: #e9ecef; cursor: not-allowed;"{% endif %}>
+                <select id="region" name="region" class="selectpicker w-100" data-live-search="true" data-size="10" {% if not selected_country %}disabled{% endif %}>
                     <option value="">All</option>
                     {% for region in regions %}
                         {% if region.id in regions_with_games %}
