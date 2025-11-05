@@ -68,6 +68,14 @@ strong {
     background: #FF9800;  /* Material Design orange */
 }
 
+.social-icon.discord {
+    background: #5865F2;
+}
+
+.social-icon.tiktok {
+    background: #69C9D0;
+}
+
 /* Button styles */
 .btn-hover-scale {
     transition: all 0.2s ease;

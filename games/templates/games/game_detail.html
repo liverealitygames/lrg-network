@@ -117,6 +117,16 @@
                     <i class="bi bi-wikipedia"></i>
                 </a>
             {% endif %}
+            {% if game.discord_link %}
+                <a href="https://discord.gg/{{ game.discord_link }}" class="social-icon discord" target="_blank" title="Discord">
+                    <i class="bi bi-discord"></i>
+                </a>
+            {% endif %}
+            {% if game.tiktok_handle %}
+                <a href="https://www.tiktok.com/@{{ game.tiktok_handle }}" class="social-icon tiktok" target="_blank" title="TikTok">
+                    <i class="bi bi-tiktok"></i>
+                </a>
+            {% endif %}
         </div>
 
         <div class="mb-4">
