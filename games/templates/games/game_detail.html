@@ -166,8 +166,16 @@
             <h2 class="h4 mb-4 text-center">Gallery</h2>
             <div class="carousel-inner align-items-center">
                 {% for image in game.images.all %}
-                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                        <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="d-block w-100" style="max-height: 500px; object-fit: contain;" loading="lazy">
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}" style="height: 500px;">
+                        <div class="d-flex h-100 align-items-center justify-content-center">
+                            <img
+                                src="{{ image.image.url }}"
+                                alt="{{ image.alt_text }}"
+                                class="img-fluid"
+                                style="max-height: 100%; object-fit: contain;"
+                                loading="lazy"
+                            >
+                        </div>
                     </div>
                 {% endfor %}
                 <button class="carousel-control-prev" type="button" data-bs-target="#gameGalleryCarousel" data-bs-slide="prev">
