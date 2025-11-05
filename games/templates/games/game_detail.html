@@ -16,30 +16,29 @@
         </div>
     </div>
 
-    <div class="text-center mb-5">
+    <div class="text-center mb-2">
         <h1 class="display-3 fw-bold">{{ game.name }}</h1>
+        <div class="game-details-tags mb-2 text-center">
+            {% if game.for_charity %}
+                <span class="badge rounded-pill bg-success me-2">For Charity</span>
+            {% endif %}
+            {% if game.friends_and_family %}
+                <span class="badge rounded-pill bg-warning text-dark me-2">Friends & Family Only</span>
+            {% endif %}
+            {% if game.college_game %}
+                <span class="badge rounded-pill bg-warning text-dark me-2">College Only</span>
+            {% endif %}
+            {% if not game.active %}
+                <span class="badge rounded-pill bg-danger">Inactive</span>
+            {% endif %}
+        </div>
     </div>
 
     <div class="my-4">
-        <div class="row g-0">
-            <div class="col d-flex flex-column justify-content-center">
-                {% if game.college_name %}
-                    <p class="my-1 lead">{{ game.college_name }}</p>
-                {% endif %}
-                <p class="my-1 lead">{{ game.location_display }}</p>
-                {% if game.next_season_date.first %}
-                    <p class="my-1 lead">{{ game.next_season_date.first }}</p>
-                {% else %}
-                    <p class="my-1 lead">{{ game.get_game_duration_display }}</p>
-                {% endif %}
-                <p class="my-1 lead">{{ game.get_game_format_display }}</p>
-                {% if game.friends_and_family %}
-                    <p class="my-1 lead">Friends and Family Only</p>
-                {% endif %}
-            </div>
-            <div class="col d-flex justify-content-center">
+        <div class="row g-0 flex-column flex-md-row">
+            <div class="col-12 col-md d-flex justify-content-center align-items-center mb-3 mb-md-0 order-1 order-md-2">
                 {% if game.logo %}
-                    <img src="{{ game.logo.url }}" class="img-fluid" alt="{{ game.name }} logo" style="min-height: 120px; max-height: min(250px, 50vh); object-fit: contain;">
+                    <img src="{{ game.logo.url }}" class="img-fluid" alt="{{ game.name }} logo" style="max-height: 250px; min-height: 120px; object-fit: contain;">
                 {% else %}
                     {% with 'games/images/default_logos/'|add:game.game_format|lower|add:'.png' as logo_path %}
                         {% with logo_path|safe_static as logo_url %}
@@ -47,11 +46,41 @@
                                 <img src="{{ logo_url }}"
                                     class="img-fluid p-3"
                                     alt="{{ game.get_game_format_display }} logo"
-                                    style="min-height: 120px; max-height: min(250px, 50vh); object-fit: contain;">
+                                    style="max-height: 250px; min-height: 120px; object-fit: contain;">
                             {% endif %}
                         {% endwith %}
                     {% endwith %}
                 {% endif %}
+            </div>
+            <div class="col-12 col-md d-flex flex-column justify-content-center order-2 order-md-1">
+                <div class="game-details-fields mb-3">
+                    <div class="row">
+                        {% if game.college_name %}
+                            <div class="col-6 my-1 lead text-end"><strong>College:</strong></div>
+                            <div class="col-6 my-1 lead">{{ game.college_name }}</div>
+                        {% endif %}
+                        <div class="col-6 my-1 lead text-end"><strong>Location:</strong></div>
+                        <div class="col-6 my-1 lead">{{ game.location_display }}</div>
+                        {% if game.host %}
+                            <div class="col-6 my-1 lead text-end"><strong>Host:</strong></div>
+                            <div class="col-6 my-1 lead">{{ game.host }}</div>
+                        {% endif %}
+                        {% if game.active and game.next_season_date.first %}
+                            <div class="col-6 my-1 lead text-end"><strong>Next Season:</strong></div>
+                            <div class="col-6 my-1 lead">{{ game.next_season_date.first }}</div>
+                        {% endif %}
+                        {% if game.game_duration %}
+                            <div class="col-6 my-1 lead text-end"><strong>Game Duration:</strong></div>
+                            <div class="col-6 my-1 lead">{{ game.get_game_duration_display }}</div>
+                        {% endif %}
+                        <div class="col-6 my-1 lead text-end"><strong>Format:</strong></div>
+                        <div class="col-6 my-1 lead">{{ game.get_game_format_display }}</div>
+                        {% if game.filming_status %}
+                            <div class="col-6 my-1 lead text-end"><strong>Media Format:</strong></div>
+                            <div class="col-6 my-1 lead">{{ game.get_filming_status_display }}</div>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
