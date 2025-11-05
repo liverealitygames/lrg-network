@@ -94,6 +94,18 @@ class Game(CoreModel):
         null=True,
         help_text="Enter just the page name (e.g. https://live-reality-games.fandom.com/wiki/<b>Page_Name</b>)",
     )
+    discord_link = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        help_text="Enter just the part after discord.gg/ (e.g. https://discord.gg/<b>invitecode</b>)",
+    )
+    tiktok_handle = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        help_text="Enter just the username (e.g. https://www.tiktok.com/@<b>username</b>)",
+    )
     casting_link = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
