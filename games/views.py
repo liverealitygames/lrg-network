@@ -13,12 +13,20 @@ def game_list(request):
     game_duration = request.GET.get("game_duration")
     filming_status = request.GET.get("filming_status")
     only_for_charity = request.GET.get("only_for_charity") == "on"
-    include_college_games = request.GET.get("include_college_games") == "on"
-    include_friends_and_family = request.GET.get("include_friends_and_family") == "on"
+    hide_college_games = request.GET.get("hide_college_games") == "on"
+    hide_friends_and_family = request.GET.get("hide_friends_and_family") == "on"
+    hide_inactive = request.GET.get("hide_inactive") == "on"
+    active_casting = request.GET.get("active_casting") == "on"
+    show_only_charity = request.GET.get("show_only_charity") == "on"
+    show_only_active_casting = request.GET.get("show_only_active_casting") == "on"
     country_id = request.GET.get("country")
     region_id = request.GET.get("region")
     city_id = request.GET.get("city")
-    include_inactive = request.GET.get("include_inactive") == "on"
+    inactive_filter = request.GET.get("inactive_filter", "")
+    college_filter = request.GET.get("college_filter", "")
+    friends_and_family_filter = request.GET.get("friends_and_family_filter", "")
+    charity_filter = request.GET.get("charity_filter", "")
+    casting_filter = request.GET.get("casting_filter", "")
 
     games = Game.objects.all().order_by("name")
 
@@ -37,10 +45,15 @@ def game_list(request):
     if only_for_charity:
         games = games.filter(for_charity=True)
 
-    if not include_college_games:
+    if show_only_charity:
+        games = games.filter(for_charity=True)
+
+    # Hide College Only Games if checked
+    if hide_college_games:
         games = games.filter(Q(college_game=False) | Q(college_game__isnull=True))
 
-    if not include_friends_and_family:
+    # Hide Friends & Family Games if checked
+    if hide_friends_and_family:
         games = games.filter(
             Q(friends_and_family=False) | Q(friends_and_family__isnull=True)
         )
@@ -54,9 +67,47 @@ def game_list(request):
     if city_id:
         games = games.filter(city_id=city_id)
 
-    # Only show active games by default, unless include_inactive is checked
-    if not include_inactive:
+    # Hide Inactive Games if checked
+    if hide_inactive:
         games = games.filter(active=True)
+
+    if active_casting:
+        games = games.filter(casting_link__isnull=False).exclude(casting_link="")
+
+    if show_only_active_casting:
+        games = games.filter(casting_link__isnull=False).exclude(casting_link="")
+
+    # Inactive Games trinary filter
+    if inactive_filter == "exclude":
+        games = games.filter(active=True)
+    elif inactive_filter == "only":
+        games = games.filter(active=False)
+
+    # College Only Games trinary filter
+    if college_filter == "exclude":
+        games = games.filter(Q(college_game=False) | Q(college_game__isnull=True))
+    elif college_filter == "only":
+        games = games.filter(college_game=True)
+
+    # Friends & Family Only Games trinary filter
+    if friends_and_family_filter == "exclude":
+        games = games.filter(
+            Q(friends_and_family=False) | Q(friends_and_family__isnull=True)
+        )
+    elif friends_and_family_filter == "only":
+        games = games.filter(friends_and_family=True)
+
+    # Charity Games trinary filter
+    if charity_filter == "exclude":
+        games = games.filter(Q(for_charity=False) | Q(for_charity__isnull=True))
+    elif charity_filter == "only":
+        games = games.filter(for_charity=True)
+
+    # Casting Games trinary filter
+    if casting_filter == "exclude":
+        games = games.filter(Q(casting_link__isnull=True) | Q(casting_link=""))
+    elif casting_filter == "only":
+        games = games.filter(casting_link__isnull=False).exclude(casting_link="")
 
     paginator = Paginator(games, 10)
     page_number = request.GET.get("page")
@@ -113,9 +164,17 @@ def game_list(request):
             "selected_game_duration": game_duration,
             "selected_filming_status": filming_status,
             "only_for_charity": only_for_charity,
-            "include_college_games": include_college_games,
-            "include_friends_and_family": include_friends_and_family,
-            "include_inactive": include_inactive,
+            "hide_college_games": hide_college_games,
+            "hide_friends_and_family": hide_friends_and_family,
+            "hide_inactive": hide_inactive,
+            "active_casting": active_casting,
+            "show_only_charity": show_only_charity,
+            "show_only_active_casting": show_only_active_casting,
+            "inactive_filter": inactive_filter,
+            "college_filter": college_filter,
+            "friends_and_family_filter": friends_and_family_filter,
+            "charity_filter": charity_filter,
+            "casting_filter": casting_filter,
             "pagination_querystring": pagination_querystring,
         },
     )

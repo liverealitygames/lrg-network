@@ -47,7 +47,7 @@
                         {% if region.id in regions_with_games %}
                             <option value="{{ region.id }}" {% if region.id|stringformat:"s" == selected_region %}selected{% endif %}>{{ region.name }}</option>
                         {% else %}
-                            <option value="{{ region.id }}" disabled >{{ region.name }}</option>
+                            <option value="{{ region.id }}" disabled>{{ region.name }}</option>
                         {% endif %}
                     {% endfor %}
                 </select>
@@ -65,7 +65,7 @@
 
         <div class="row g-3 align-items-end mt-0">
             <div class="col-md-4">
-                <label for="game_format" class="form-label d-block">Game Format</label>
+                <label for="game_format" class="form-label d-block">Format</label>
                 <select id="game_format" name="game_format" class="selectpicker w-100" onchange="submitFormWithNonEmptyParams()">
                     <option value="">All</option>
                     {% for format in game_formats %}
@@ -75,7 +75,7 @@
             </div>
 
             <div class="col-md-4">
-                <label for="game_duration" class="form-label d-block">Game Duration</label>
+                <label for="game_duration" class="form-label d-block">Duration</label>
                 <select id="game_duration" name="game_duration" class="selectpicker w-100" onchange="submitFormWithNonEmptyParams()">
                     <option value="">All</option>
                     {% for duration in game_durations %}
@@ -85,7 +85,7 @@
             </div>
 
             <div class="col-md-4">
-                <label for="filming_status" class="form-label d-block">Filming Status</label>
+                <label for="filming_status" class="form-label d-block">Viewing Format</label>
                 <select id="filming_status" name="filming_status" class="selectpicker w-100" onchange="submitFormWithNonEmptyParams()">
                     <option value="">All</option>
                     {% for status in filming_statuses %}
@@ -96,31 +96,50 @@
         </div>
 
         <div class="row g-3 align-items-end mt-0">
-            <div class="col-md-6">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="include_inactive" name="include_inactive" onchange="submitFormWithNonEmptyParams()" {% if include_inactive %}checked{% endif %}>
-                    <label class="form-check-label" for="include_inactive">Include Inactive Games</label>
-                </div>
+            <div class="col-md-4">
+                <label for="inactive_filter" class="form-label">Inactive</label>
+                <select id="inactive_filter" name="inactive_filter" class="selectpicker w-100" onchange="submitFormWithNonEmptyParams()">
+                    <option value="" {% if not inactive_filter %}selected{% endif %}>Include</option>
+                    <option value="exclude" {% if inactive_filter == 'exclude' %}selected{% endif %}>Don't show</option>
+                    <option value="only" {% if inactive_filter == 'only' %}selected{% endif %}>Only show</option>
+                </select>
             </div>
-            <div class="col-md-6">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="include_college_games" name="include_college_games" onchange="submitFormWithNonEmptyParams()" {% if include_college_games %}checked{% endif %}>
-                    <label class="form-check-label" for="include_college_games">Include College Games</label>
-                </div>
+            <div class="col-md-4">
+                <label for="college_filter" class="form-label">College Students Only</label>
+                <select id="college_filter" name="college_filter" class="selectpicker w-100" onchange="submitFormWithNonEmptyParams()">
+                    <option value="" {% if not college_filter %}selected{% endif %}>Include</option>
+                    <option value="exclude" {% if college_filter == 'exclude' %}selected{% endif %}>Don't show</option>
+                    <option value="only" {% if college_filter == 'only' %}selected{% endif %}>Only show</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="friends_and_family_filter" class="form-label">Friends & Family Only</label>
+                <select id="friends_and_family_filter" name="friends_and_family_filter" class="selectpicker w-100{% if friends_and_family_filter %} selected{% endif %}" onchange="submitFormWithNonEmptyParams()">
+                    <option value="" {% if not friends_and_family_filter %}selected{% endif %}>Include</option>
+                    <option value="exclude" {% if friends_and_family_filter == 'exclude' %}selected{% endif %}>Don't show</option>
+                    <option value="only" {% if friends_and_family_filter == 'only' %}selected{% endif %}>Only show</option>
+                </select>
             </div>
         </div>
-        <div class="row g-3 align-items-end mt-0">
-            <div class="col-md-6">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="only_for_charity" name="only_for_charity" onchange="submitFormWithNonEmptyParams()" {% if only_for_charity %}checked{% endif %}>
-                    <label class="form-check-label" for="only_for_charity">Only For Charity</label>
-                </div>
+        <div class="row g-3 align-items-end mt-0 justify-content-center">
+            <div class="col-md-4">
+                <label for="charity_filter" class="form-label">For Charity</label>
+                <select id="charity_filter" name="charity_filter" class="selectpicker w-100{% if charity_filter %} selected{% endif %}" onchange="submitFormWithNonEmptyParams()">
+                    <option value="" {% if not charity_filter %}selected{% endif %}>Include</option>
+                    <option value="exclude" {% if charity_filter == 'exclude' %}selected{% endif %}>Don't show</option>
+                    <option value="only" {% if charity_filter == 'only' %}selected{% endif %}>Only show</option>
+                </select>
             </div>
-            <div class="col-md-6">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="include_friends_and_family" name="include_friends_and_family" onchange="submitFormWithNonEmptyParams()" {% if include_friends_and_family %}checked{% endif %}>
-                    <label class="form-check-label" for="include_friends_and_family">Include Friends & Family Games</label>
-                </div>
+            <div class="col-md-4">
+                <label for="casting_filter" class="form-label">Active Casting</label>
+                <select id="casting_filter" name="casting_filter" class="selectpicker w-100{% if casting_filter %} selected{% endif %}" onchange="submitFormWithNonEmptyParams()">
+                    <option value="" {% if not casting_filter %}selected{% endif %}>Include</option>
+                    <option value="exclude" {% if casting_filter == 'exclude' %}selected{% endif %}>Don't show</option>
+                    <option value="only" {% if casting_filter == 'only' %}selected{% endif %}>Only show</option>
+                </select>
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="button" class="btn btn-outline-secondary w-100" id="resetBtn">Reset</button>
             </div>
         </div>
     </div>
@@ -305,13 +324,15 @@
         // Filming status
         if (document.getElementById('filming_status').value) count += 1;
         // Only active
-        if (document.getElementById('include_inactive').checked) count += 1;
-        // Include college games
-        if (document.getElementById('include_college_games').checked) count += 1;
-        // Only for charity
-        if (document.getElementById('only_for_charity').checked) count += 1;
-        // Include friends and family
-        if (document.getElementById('include_friends_and_family').checked) count += 1;
+        if (document.getElementById('inactive_filter').value) count += 1;
+        // College only
+        if (document.getElementById('college_filter').value) count += 1;
+        // For charity
+        if (document.getElementById('charity_filter').value) count += 1;
+        // Friends and family only
+        if (document.getElementById('friends_and_family_filter').value) count += 1;
+        // Currently casting
+        if (document.getElementById('casting_filter').value) count += 1;
         return count;
     }
 
@@ -335,7 +356,7 @@
     // Update badge on any filter change
     const filterInputs = [
         'country', 'region', 'city', 'game_format', 'game_duration', 'filming_status',
-        'include_inactive', 'include_college_games', 'only_for_charity', 'include_friends_and_family'
+        'inactive_filter', 'college_filter', 'charity_filter', 'friends_and_family_filter', 'casting_filter'
     ];
     filterInputs.forEach(function(id) {
         const el = document.getElementById(id);
@@ -381,6 +402,10 @@
         citySelect.disabled = false;
 
         submitFormWithNonEmptyParams();
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', function() {
+        window.location.href = '/games/?filter_open=1';
     });
 </script>
 
