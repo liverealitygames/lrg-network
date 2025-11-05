@@ -1,6 +1,6 @@
 from io import BytesIO
 from django.core.files.base import ContentFile
-from PIL import Image
+from PIL import Image, ImageOps
 
 
 def optimize_image(image_field, max_size=(1200, 1200), format="WEBP", quality=85):
@@ -9,7 +9,10 @@ def optimize_image(image_field, max_size=(1200, 1200), format="WEBP", quality=85
     Returns a ContentFile suitable for saving to an ImageField.
     """
     img = Image.open(image_field)
-    img.thumbnail(max_size, Image.Resampling.LANCZOS)
+    img = ImageOps.exif_transpose(img)  # Correct orientation
+    img = ImageOps.contain(
+        img, max_size, Image.Resampling.LANCZOS
+    )  # Resize, preserve aspect ratio
     buffer = BytesIO()
     img.save(buffer, format=format, quality=quality)
     buffer.seek(0)
