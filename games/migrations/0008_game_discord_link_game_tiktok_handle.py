@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             name="discord_link",
             field=models.CharField(
                 blank=True,
-                help_text="Enter just the part after discord.gg/ (e.g. https://discord.gg/<b>invitecode</b> or https://discord.gg/<b>vanityurl</b>)",
+                help_text="Enter just the part after discord.gg/ (e.g. https://discord.gg/<b>invitecode</b>)",
                 max_length=200,
                 null=True,
             ),
