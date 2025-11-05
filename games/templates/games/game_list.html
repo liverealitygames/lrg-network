@@ -153,7 +153,7 @@
                     <div class="col-8 d-flex align-items-center">
                         <div class="card-body py-3">
                             <h5 class="card-title mb-1">{{ game.name }}</h5>
-                            {% if game.college_game and game.college_name %}
+                            {% if game.college_name %}
                                 <p class="card-text text-body-secondary mb-0">{{ game.college_name }}</p>
                             {% endif %}
                             <p class="card-text text-body-secondary mb-0">{{ game.location_display }}</p>
