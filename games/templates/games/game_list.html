@@ -123,6 +123,14 @@
                 </div>
             </div>
         </div>
+        <div class="row g-3 align-items-end mt-0">
+            <div class="col-md-6">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="active_casting" name="active_casting" onchange="submitFormWithNonEmptyParams()" {% if request.GET.active_casting %}checked{% endif %}>
+                    <label class="form-check-label" for="active_casting">Active Casting</label>
+                </div>
+            </div>
+        </div>
     </div>
 </form>
 
@@ -312,6 +320,8 @@
         if (document.getElementById('only_for_charity').checked) count += 1;
         // Include friends and family
         if (document.getElementById('include_friends_and_family').checked) count += 1;
+        // Currently casting
+        if (document.getElementById('active_casting').checked) count += 1;
         return count;
     }
 
@@ -335,7 +345,7 @@
     // Update badge on any filter change
     const filterInputs = [
         'country', 'region', 'city', 'game_format', 'game_duration', 'filming_status',
-        'include_inactive', 'include_college_games', 'only_for_charity', 'include_friends_and_family'
+        'include_inactive', 'include_college_games', 'only_for_charity', 'include_friends_and_family', 'active_casting'
     ];
     filterInputs.forEach(function(id) {
         const el = document.getElementById(id);

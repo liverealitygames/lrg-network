@@ -19,6 +19,7 @@ def game_list(request):
     region_id = request.GET.get("region")
     city_id = request.GET.get("city")
     include_inactive = request.GET.get("include_inactive") == "on"
+    active_casting = request.GET.get("active_casting") == "on"
 
     games = Game.objects.all().order_by("name")
 
@@ -57,6 +58,9 @@ def game_list(request):
     # Only show active games by default, unless include_inactive is checked
     if not include_inactive:
         games = games.filter(active=True)
+
+    if active_casting:
+        games = games.filter(casting_link__isnull=False).exclude(casting_link="")
 
     paginator = Paginator(games, 10)
     page_number = request.GET.get("page")
