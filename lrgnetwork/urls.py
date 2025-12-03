@@ -23,14 +23,13 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path("", lambda request: HttpResponseRedirect("/games/")),  # Redirect home to games
+    path(
+        "",
+        TemplateView.as_view(template_name="static_pages/about.html"),
+        name="home",
+    ),
     path("game-management/", admin.site.urls),
     path("games/", include("games.urls")),
-    path(
-        "about/",
-        TemplateView.as_view(template_name="static_pages/about.html"),
-        name="about",
-    ),
     path(
         "contact/",
         TemplateView.as_view(template_name="static_pages/contact.html"),
