@@ -1,8 +1,7 @@
 from cities_light.models import Country, Region, City
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.shortcuts import render
-from urllib.parse import urlencode
+from django.shortcuts import render, get_object_or_404
 
 from games.models import Game
 
@@ -28,7 +27,7 @@ def game_list(request):
     charity_filter = request.GET.get("charity_filter", "")
     casting_filter = request.GET.get("casting_filter", "")
 
-    games = Game.objects.all().order_by("name")
+    games = Game.objects.select_related("country", "region", "city").order_by("name")
 
     if query:
         games = games.filter(Q(name__icontains=query) | Q(description__icontains=query))
@@ -181,5 +180,10 @@ def game_list(request):
 
 
 def game_detail(request, slug):
-    game = Game.objects.get(slug=slug)
+    game = get_object_or_404(
+        Game.objects.select_related("country", "region", "city").prefetch_related(
+            "seasons", "images", "next_season_date"
+        ),
+        slug=slug,
+    )
     return render(request, "games/game_detail.html", {"game": game})
