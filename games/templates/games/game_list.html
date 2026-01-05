@@ -22,9 +22,9 @@
             placeholder="Search games..."
             value="{{ request.GET.q }}"
         />
-        <button type="submit" class="btn btn-outline-secondary">Search</button>
-        <button type="button" id="toggleFiltersBtn" class="btn btn-outline-secondary">
-            Filter <span id="filterCountBadge" class="badge bg-secondary ms-1 hidden"></span>
+        <button type="submit" class="btn btn-outline-secondary" aria-label="Search games">Search</button>
+        <button type="button" id="toggleFiltersBtn" class="btn btn-outline-secondary" aria-label="Toggle filters">
+            Filter <span id="filterCountBadge" class="badge bg-secondary ms-1 hidden" aria-hidden="true"></span>
         </button>
     </div>
 
@@ -139,7 +139,7 @@
                 </select>
             </div>
             <div class="col-md-4 d-flex align-items-end">
-                <button type="button" class="btn btn-outline-secondary w-100" id="resetBtn">Reset</button>
+                <button type="button" class="btn btn-outline-secondary w-100" id="resetBtn" aria-label="Reset all filters">Reset</button>
             </div>
         </div>
     </div>

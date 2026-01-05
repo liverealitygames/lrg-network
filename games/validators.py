@@ -1,8 +1,11 @@
+from typing import Union
 from django.core.exceptions import ValidationError
+from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import UploadedFile
 from PIL import Image
 
 
-def validate_image(file):
+def validate_image(file: UploadedFile) -> None:
     # Only check that the file is a valid image and has a supported extension
     try:
         img = Image.open(file)
@@ -16,7 +19,9 @@ def validate_image(file):
         raise ValidationError(f"Unsupported file extension: {ext}")
 
 
-def validate_optimized_file_size(content_file, max_size=2 * 1024 * 1024):
+def validate_optimized_file_size(
+    content_file: ContentFile, max_size: int = 2 * 1024 * 1024
+) -> None:
     """
     Checks the size of the optimized ContentFile. Raises ValidationError if too large.
     """

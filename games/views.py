@@ -1,3 +1,6 @@
+from typing import Dict, Any, Optional
+from django.http import HttpRequest, HttpResponse
+from django.db.models import QuerySet
 from cities_light.models import Country, Region, City
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -6,7 +9,7 @@ from django.shortcuts import render, get_object_or_404
 from games.models import Game
 
 
-def _apply_filters(queryset, filters):
+def _apply_filters(queryset: QuerySet[Game], filters: Dict[str, Any]) -> QuerySet[Game]:
     """
     Apply filters to a Game queryset based on filter parameters.
 
@@ -82,7 +85,9 @@ def _apply_filters(queryset, filters):
     return games
 
 
-def _build_location_context(country_id, region_id):
+def _build_location_context(
+    country_id: Optional[str], region_id: Optional[str]
+) -> Dict[str, Any]:
     """
     Build context for location dropdowns (countries, regions, cities).
 
@@ -124,7 +129,7 @@ def _build_location_context(country_id, region_id):
     }
 
 
-def game_list(request):
+def game_list(request: HttpRequest) -> HttpResponse:
     """
     Display a paginated list of games with filtering options.
     """
@@ -191,7 +196,7 @@ def game_list(request):
     return render(request, "games/game_list.html", context)
 
 
-def game_detail(request, slug):
+def game_detail(request: HttpRequest, slug: str) -> HttpResponse:
     game = get_object_or_404(
         Game.objects.select_related("country", "region", "city").prefetch_related(
             "seasons", "images", "next_season_date"
