@@ -43,13 +43,14 @@ This audit identifies areas for improvement in Django best practices, Bootstrap/
 
 ## 🟡 High Priority Issues
 
-### 5. Inline JavaScript in Templates
+### 5. Inline JavaScript in Templates ✅ **COMPLETED**
 **Location:** `games/templates/games/game_list.html:232-410`
 - **Issue:** ~180 lines of JavaScript embedded directly in template
 - **Impact:** Poor separation of concerns, harder to maintain, no caching
 - **Fix:** Move to separate `.js` file in `games/static/games/js/`
+- **Status:** ✅ Fixed - Extracted to `games/static/games/js/game_list.js` with proper structure and error handling
 
-### 6. Inline Styles Throughout Templates
+### 6. Inline Styles Throughout Templates ✅ **COMPLETED**
 **Location:** Multiple templates
 - **Issues:**
   - `base.html:63-66`: Inline styles for search input
@@ -57,22 +58,25 @@ This audit identifies areas for improvement in Django best practices, Bootstrap/
   - `game_list.html`: Inline styles for images
 - **Impact:** Harder to maintain, violates separation of concerns
 - **Fix:** Move to CSS classes in `styles.css`
+- **Status:** ✅ Fixed - Created CSS classes (`.game-logo`, `.game-logo-small`, `.carousel-item-fixed-height`, `.carousel-image`, `.search-container`, `.search-icon`, `.search-input`, `.hidden`) and updated all templates and JavaScript
 
-### 7. Duplicate Filter Logic
+### 7. Duplicate Filter Logic ✅ **COMPLETED**
 **Location:** `games/views.py:45-49, 74-78`
 - **Issue:**
   - `only_for_charity` and `show_only_charity` both filter `for_charity=True` (line 46 is empty)
   - `active_casting` and `show_only_active_casting` are identical
 - **Impact:** Confusing code, potential bugs
 - **Fix:** Consolidate duplicate filters or remove unused ones
+- **Status:** ✅ Fixed - Removed all duplicate/legacy filter parameters since trinary filter system handles them
 
-### 8. Large View Function with Too Many Responsibilities
+### 8. Large View Function with Too Many Responsibilities ⏸️ **DEFERRED**
 **Location:** `games/views.py:game_list()`
-- **Issue:** Function is 180 lines, handles filtering, pagination, and context building
+- **Issue:** Function is ~130 lines, handles filtering, pagination, and context building
 - **Impact:** Hard to test, maintain, and extend
 - **Fix:** Extract filter logic to a form class or filter builder function
+- **Status:** ⏸️ Deferred - To be addressed separately. Function reduced from 180 to ~130 lines after removing duplicate filter logic.
 
-### 9. Missing Database Indexes
+### 9. Missing Database Indexes ✅ **COMPLETED**
 **Location:** `games/models.py`
 - **Issue:** Frequently queried fields lack database indexes:
   - `Game.slug` (used in URL lookups)
@@ -81,12 +85,14 @@ This audit identifies areas for improvement in Django best practices, Bootstrap/
   - `Game.country`, `Game.region`, `Game.city` (used in filters)
 - **Impact:** Slower queries as database grows
 - **Fix:** Add `db_index=True` to relevant fields
+- **Status:** ✅ Fixed - Added `db_index=True` to all frequently queried fields (migration will be needed)
 
-### 10. Missing Security Attributes on External Links
+### 10. Missing Security Attributes on External Links ✅ **COMPLETED**
 **Location:** `games/templates/games/game_detail.html:96-129`
 - **Issue:** External links missing `rel="noopener noreferrer"`
 - **Impact:** Security vulnerability (tabnabbing attack)
 - **Fix:** Add `rel="noopener noreferrer"` to all `target="_blank"` links
+- **Status:** ✅ Fixed - Added `rel="noopener noreferrer"` to all 9 external links with `target="_blank"` (social media links, casting link, season links)
 
 ---
 
@@ -226,13 +232,13 @@ This audit identifies areas for improvement in Django best practices, Bootstrap/
 3. ✅ Add query optimization (`select_related`/`prefetch_related`)
 4. ✅ Fix `alt_text` field issue in `GameImages` model (resolved by using `description` field)
 
-### Phase 2: High Priority (Do Soon)
-5. Extract inline JavaScript to separate files
-6. Move inline styles to CSS classes
-7. Consolidate duplicate filter logic
-8. Refactor large view function
-9. Add database indexes
-10. Add security attributes to external links
+### Phase 2: High Priority (Do Soon) ✅ **5 of 6 COMPLETED**
+5. ✅ Extract inline JavaScript to separate files
+6. ✅ Move inline styles to CSS classes
+7. ✅ Consolidate duplicate filter logic
+8. Refactor large view function (deferred - to be done separately)
+9. ✅ Add database indexes
+10. ✅ Add security attributes to external links
 
 ### Phase 3: Medium Priority (Do When Time Permits)
 11. Use CSS variables for colors
@@ -255,11 +261,11 @@ This audit identifies areas for improvement in Django best practices, Bootstrap/
 
 - **Total Issues Found:** 30
 - **Critical:** 4 (✅ All 4 completed)
-- **High Priority:** 6
+- **High Priority:** 6 (✅ 5 completed, 1 deferred)
 - **Medium Priority:** 10
 - **Low Priority:** 10
-- **Completed:** 5 (4 critical + 1 medium priority)
-- **Remaining:** 25
+- **Completed:** 10 (4 critical + 5 high priority + 1 medium priority)
+- **Remaining:** 20 (1 high priority deferred, 10 medium, 10 low)
 
 ---
 

@@ -155,6 +155,29 @@ strong {
     margin-bottom: 0.25em;
 }
 
+/* Game logo images */
+.game-logo {
+    max-height: 250px;
+    min-height: 120px;
+    object-fit: contain;
+}
+
+.game-logo-small {
+    height: 120px;
+    width: 100%;
+    object-fit: contain;
+}
+
+/* Carousel */
+.carousel-item-fixed-height {
+    height: 500px;
+}
+
+.carousel-image {
+    max-height: 100%;
+    object-fit: contain;
+}
+
 /* Carousel controls */
 .carousel-control-prev, .carousel-control-next {
     width: 56px;
@@ -176,4 +199,36 @@ strong {
     color: #fff;
     font-size: 2rem;
     filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
+}
+
+.carousel-control-icon {
+    font-size: 2rem;
+    color: #bbb;
+}
+
+/* Search input */
+.search-container {
+    background: white;
+    border-radius: 4px;
+    margin: 0;
+    height: 38px;
+    max-width: 350px;
+}
+
+.search-icon {
+    font-size: 1.2rem;
+    color: #6C757D;
+    padding-left: 0.75rem;
+    padding-right: 0.5rem;
+}
+
+.search-input {
+    box-shadow: none;
+    background: white;
+    height: 38px;
+}
+
+/* Utility classes */
+.hidden {
+    display: none;
 }

@@ -11,13 +11,6 @@ def game_list(request):
     game_format = request.GET.get("game_format")
     game_duration = request.GET.get("game_duration")
     filming_status = request.GET.get("filming_status")
-    only_for_charity = request.GET.get("only_for_charity") == "on"
-    hide_college_games = request.GET.get("hide_college_games") == "on"
-    hide_friends_and_family = request.GET.get("hide_friends_and_family") == "on"
-    hide_inactive = request.GET.get("hide_inactive") == "on"
-    active_casting = request.GET.get("active_casting") == "on"
-    show_only_charity = request.GET.get("show_only_charity") == "on"
-    show_only_active_casting = request.GET.get("show_only_active_casting") == "on"
     country_id = request.GET.get("country")
     region_id = request.GET.get("region")
     city_id = request.GET.get("city")
@@ -41,22 +34,6 @@ def game_list(request):
     if filming_status:
         games = games.filter(filming_status=filming_status)
 
-    if only_for_charity:
-        games = games.filter(for_charity=True)
-
-    if show_only_charity:
-        games = games.filter(for_charity=True)
-
-    # Hide College Only Games if checked
-    if hide_college_games:
-        games = games.filter(Q(college_game=False) | Q(college_game__isnull=True))
-
-    # Hide Friends & Family Games if checked
-    if hide_friends_and_family:
-        games = games.filter(
-            Q(friends_and_family=False) | Q(friends_and_family__isnull=True)
-        )
-
     if country_id:
         games = games.filter(country_id=country_id)
 
@@ -65,16 +42,6 @@ def game_list(request):
 
     if city_id:
         games = games.filter(city_id=city_id)
-
-    # Hide Inactive Games if checked
-    if hide_inactive:
-        games = games.filter(active=True)
-
-    if active_casting:
-        games = games.filter(casting_link__isnull=False).exclude(casting_link="")
-
-    if show_only_active_casting:
-        games = games.filter(casting_link__isnull=False).exclude(casting_link="")
 
     # Inactive Games trinary filter
     if inactive_filter == "exclude":
@@ -162,13 +129,6 @@ def game_list(request):
             "selected_game_format": game_format,
             "selected_game_duration": game_duration,
             "selected_filming_status": filming_status,
-            "only_for_charity": only_for_charity,
-            "hide_college_games": hide_college_games,
-            "hide_friends_and_family": hide_friends_and_family,
-            "hide_inactive": hide_inactive,
-            "active_casting": active_casting,
-            "show_only_charity": show_only_charity,
-            "show_only_active_casting": show_only_active_casting,
             "inactive_filter": inactive_filter,
             "college_filter": college_filter,
             "friends_and_family_filter": friends_and_family_filter,
