@@ -3,6 +3,7 @@ from django.forms import ValidationError
 from django.test import TestCase
 from django.urls import reverse
 from .models import Game, GameDate, Season
+from .form import GameAdminForm
 from django.contrib.auth import get_user_model
 from cities_light.models import Country, Region, City
 
@@ -363,40 +364,105 @@ class SocialMediaValidationTest(TestCase):
             game_format=Game.GameFormat.AMAZING_RACE,
             active=True,
             country=self.country,
+            for_charity=False,
+            friends_and_family=False,
+            college_game=False,
         )
 
     def test_valid_instagram_handle(self):
         """Test that valid Instagram handles are accepted."""
-        self.game.instagram_handle = "testhandle"
-        self.game.full_clean()
-        self.game.save()
-        self.assertEqual(self.game.instagram_handle, "testhandle")
+        form = GameAdminForm(
+            {
+                "name": "Test Game",
+                "game_format": Game.GameFormat.AMAZING_RACE,
+                "active": True,
+                "country": self.country.id,
+                "for_charity": False,
+                "friends_and_family": False,
+                "college_game": False,
+                "instagram_handle": "testhandle",
+            },
+            instance=self.game,
+        )
+        self.assertTrue(form.is_valid())
+        game = form.save()
+        self.assertEqual(game.instagram_handle, "testhandle")
 
     def test_invalid_instagram_handle_with_space(self):
         """Test that handles with spaces are rejected."""
-        self.game.instagram_handle = "test handle"
-        with self.assertRaises(ValidationError):
-            self.game.full_clean()
+        form = GameAdminForm(
+            {
+                "name": "Test Game",
+                "game_format": Game.GameFormat.AMAZING_RACE,
+                "active": True,
+                "country": self.country.id,
+                "for_charity": False,
+                "friends_and_family": False,
+                "college_game": False,
+                "instagram_handle": "test handle",
+            },
+            instance=self.game,
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn("instagram_handle", form.errors)
 
     def test_invalid_instagram_handle_with_slash(self):
         """Test that handles with slashes are rejected."""
-        self.game.instagram_handle = "test/handle"
-        with self.assertRaises(ValidationError):
-            self.game.full_clean()
+        form = GameAdminForm(
+            {
+                "name": "Test Game",
+                "game_format": Game.GameFormat.AMAZING_RACE,
+                "active": True,
+                "country": self.country.id,
+                "for_charity": False,
+                "friends_and_family": False,
+                "college_game": False,
+                "instagram_handle": "test/handle",
+            },
+            instance=self.game,
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn("instagram_handle", form.errors)
 
     def test_valid_tiktok_handle(self):
         """Test that valid TikTok handles are accepted."""
-        self.game.tiktok_handle = "username123"
-        self.game.full_clean()
-        self.game.save()
-        self.assertEqual(self.game.tiktok_handle, "username123")
+        form = GameAdminForm(
+            {
+                "name": "Test Game",
+                "game_format": Game.GameFormat.AMAZING_RACE,
+                "active": True,
+                "country": self.country.id,
+                "for_charity": False,
+                "friends_and_family": False,
+                "college_game": False,
+                "tiktok_handle": "username123",
+            },
+            instance=self.game,
+        )
+        self.assertTrue(form.is_valid())
+        game = form.save()
+        self.assertEqual(game.tiktok_handle, "username123")
 
     def test_empty_handles_allowed(self):
         """Test that empty handles are allowed (blank=True)."""
-        self.game.instagram_handle = ""
-        self.game.tiktok_handle = None
-        self.game.full_clean()
-        self.game.save()
+        form = GameAdminForm(
+            {
+                "name": "Test Game",
+                "game_format": Game.GameFormat.AMAZING_RACE,
+                "active": True,
+                "country": self.country.id,
+                "for_charity": False,
+                "friends_and_family": False,
+                "college_game": False,
+                "instagram_handle": "",
+                "tiktok_handle": "",
+            },
+            instance=self.game,
+        )
+        self.assertTrue(form.is_valid())
+        game = form.save()
+        self.assertEqual(game.instagram_handle, "")
+        self.assertEqual(game.tiktok_handle, "")
 
 
 class GameSlugGenerationTest(TestCase):

@@ -12,7 +12,6 @@ from lrgnetwork.storage_backends import MediaStorage
 from .validators import (
     validate_image,
     validate_optimized_file_size,
-    validate_social_handle,
 )
 from .utils import optimize_image
 
@@ -82,42 +81,36 @@ class Game(CoreModel):
         max_length=200,
         blank=True,
         null=True,
-        validators=[validate_social_handle],
         help_text="Enter just the handle (e.g. www.instagram.com/<b>handle</b>)",
     )
     facebook_link = models.CharField(
         max_length=200,
         blank=True,
         null=True,
-        validators=[lambda v: validate_social_handle(v, "Facebook")],
         help_text="Enter just the page name (e.g. www.facebook.com/<b>pagename</b>)",
     )
     youtube_link = models.CharField(
         max_length=200,
         blank=True,
         null=True,
-        validators=[lambda v: validate_social_handle(v, "YouTube")],
         help_text="Enter any valid youtube path (e.g. www.youtube.com/<b>channelname</b>)",
     )
     lrg_wiki_page = models.CharField(
         max_length=200,
         blank=True,
         null=True,
-        validators=[lambda v: validate_social_handle(v, "LRG Wiki")],
         help_text="Enter just the page name (e.g. https://live-reality-games.fandom.com/wiki/<b>Page_Name</b>)",
     )
     discord_link = models.CharField(
         max_length=200,
         blank=True,
         null=True,
-        validators=[lambda v: validate_social_handle(v, "Discord")],
         help_text="Enter just the part after discord.gg/ (e.g. https://discord.gg/<b>invitecode</b>)",
     )
     tiktok_handle = models.CharField(
         max_length=200,
         blank=True,
         null=True,
-        validators=[lambda v: validate_social_handle(v, "TikTok")],
         help_text="Enter just the username (e.g. https://www.tiktok.com/@<b>username</b>)",
     )
     casting_link = models.URLField(blank=True, null=True)
