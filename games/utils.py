@@ -3,14 +3,15 @@ from io import BytesIO
 from django.core.files.base import ContentFile
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import UploadedFile
+from django.conf import settings
 from PIL import Image, ImageOps
 
 
 def optimize_image(
     image_field: UploadedFile,
-    max_size: Tuple[int, int] = (1200, 1200),
-    format: str = "WEBP",
-    quality: int = 85,
+    max_size: Tuple[int, int] = None,
+    format: str = None,
+    quality: int = None,
 ) -> ContentFile:
     """
     Optimizes an image by resizing and converting it to the specified format.
@@ -28,6 +29,11 @@ def optimize_image(
     Raises:
         ValidationError: If image processing fails
     """
+    # Use settings defaults if not provided
+    max_size = max_size or settings.IMAGE_MAX_SIZE
+    format = format or settings.IMAGE_FORMAT
+    quality = quality or settings.IMAGE_QUALITY
+
     try:
         img = Image.open(image_field)
         img = ImageOps.exif_transpose(img)  # Correct orientation

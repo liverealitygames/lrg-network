@@ -197,6 +197,19 @@ def game_list(request: HttpRequest) -> HttpResponse:
 
 
 def game_detail(request: HttpRequest, slug: str) -> HttpResponse:
+    """
+    Display details for a single game by slug.
+
+    Args:
+        request: HTTP request object
+        slug: Game slug identifier
+
+    Returns:
+        Rendered game detail template with game context
+
+    Raises:
+        Http404: If game with given slug doesn't exist
+    """
     game = get_object_or_404(
         Game.objects.select_related("country", "region", "city").prefetch_related(
             "seasons", "images", "next_season_date"

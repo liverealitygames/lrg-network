@@ -324,3 +324,113 @@ class GameListViewTest(TestCase):
         self.assertEqual(response4.status_code, 200)
         for game in response4.context["page_obj"]:
             self.assertIn("Inactive", game.name)
+
+
+class GameDetailViewTest(TestCase):
+    def setUp(self):
+        self.country = Country.objects.create(name="Test Country")
+        self.game = Game.objects.create(
+            name="Test Game Detail",
+            game_format=Game.GameFormat.SURVIVOR,
+            active=True,
+            country=self.country,
+        )
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get(f"/games/{self.game.slug}/")
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse("game_detail", args=[self.game.slug]))
+        self.assertTemplateUsed(response, "games/game_detail.html")
+
+    def test_view_returns_404_for_invalid_slug(self):
+        response = self.client.get("/games/invalid-slug-12345/")
+        self.assertEqual(response.status_code, 404)
+
+    def test_view_context_contains_game(self):
+        response = self.client.get(reverse("game_detail", args=[self.game.slug]))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("game", response.context)
+        self.assertEqual(response.context["game"], self.game)
+
+
+class SocialMediaValidationTest(TestCase):
+    def setUp(self):
+        self.country = Country.objects.create(name="Test Country")
+        self.game = Game.objects.create(
+            name="Test Game",
+            game_format=Game.GameFormat.AMAZING_RACE,
+            active=True,
+            country=self.country,
+        )
+
+    def test_valid_instagram_handle(self):
+        """Test that valid Instagram handles are accepted."""
+        self.game.instagram_handle = "testhandle"
+        self.game.full_clean()
+        self.game.save()
+        self.assertEqual(self.game.instagram_handle, "testhandle")
+
+    def test_invalid_instagram_handle_with_space(self):
+        """Test that handles with spaces are rejected."""
+        self.game.instagram_handle = "test handle"
+        with self.assertRaises(ValidationError):
+            self.game.full_clean()
+
+    def test_invalid_instagram_handle_with_slash(self):
+        """Test that handles with slashes are rejected."""
+        self.game.instagram_handle = "test/handle"
+        with self.assertRaises(ValidationError):
+            self.game.full_clean()
+
+    def test_valid_tiktok_handle(self):
+        """Test that valid TikTok handles are accepted."""
+        self.game.tiktok_handle = "username123"
+        self.game.full_clean()
+        self.game.save()
+        self.assertEqual(self.game.tiktok_handle, "username123")
+
+    def test_empty_handles_allowed(self):
+        """Test that empty handles are allowed (blank=True)."""
+        self.game.instagram_handle = ""
+        self.game.tiktok_handle = None
+        self.game.full_clean()
+        self.game.save()
+
+
+class GameSlugGenerationTest(TestCase):
+    def setUp(self):
+        self.country = Country.objects.create(name="Test Country")
+
+    def test_unique_slug_generation(self):
+        """Test that slugs are generated correctly for new games."""
+        game1 = Game.objects.create(
+            name="Test Game",
+            game_format=Game.GameFormat.SURVIVOR,
+            active=True,
+            country=self.country,
+        )
+        self.assertEqual(game1.slug, "test-game")
+
+        game2 = Game.objects.create(
+            name="Test Game",
+            game_format=Game.GameFormat.SURVIVOR,
+            active=True,
+            country=self.country,
+        )
+        self.assertEqual(game2.slug, "test-game-1")
+
+    def test_slug_preserved_on_name_unchanged(self):
+        """Test that slug is preserved when name doesn't change."""
+        game = Game.objects.create(
+            name="Original Name",
+            game_format=Game.GameFormat.SURVIVOR,
+            active=True,
+            country=self.country,
+        )
+        original_slug = game.slug
+        game.description = "Updated description"
+        game.save()
+        game.refresh_from_db()
+        self.assertEqual(game.slug, original_slug)
