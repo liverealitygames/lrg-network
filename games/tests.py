@@ -3,6 +3,7 @@ from django.forms import ValidationError
 from django.test import TestCase
 from django.urls import reverse
 from .models import Game, GameDate, Season
+from .form import GameAdminForm
 from django.contrib.auth import get_user_model
 from cities_light.models import Country, Region, City
 
@@ -324,3 +325,179 @@ class GameListViewTest(TestCase):
         self.assertEqual(response4.status_code, 200)
         for game in response4.context["page_obj"]:
             self.assertIn("Inactive", game.name)
+
+
+class GameDetailViewTest(TestCase):
+    def setUp(self):
+        self.country = Country.objects.create(name="Test Country")
+        self.game = Game.objects.create(
+            name="Test Game Detail",
+            game_format=Game.GameFormat.SURVIVOR,
+            active=True,
+            country=self.country,
+        )
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get(f"/games/{self.game.slug}/")
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse("game_detail", args=[self.game.slug]))
+        self.assertTemplateUsed(response, "games/game_detail.html")
+
+    def test_view_returns_404_for_invalid_slug(self):
+        response = self.client.get("/games/invalid-slug-12345/")
+        self.assertEqual(response.status_code, 404)
+
+    def test_view_context_contains_game(self):
+        response = self.client.get(reverse("game_detail", args=[self.game.slug]))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("game", response.context)
+        self.assertEqual(response.context["game"], self.game)
+
+
+class SocialMediaValidationTest(TestCase):
+    def setUp(self):
+        self.country = Country.objects.create(name="Test Country")
+        self.game = Game.objects.create(
+            name="Test Game",
+            game_format=Game.GameFormat.AMAZING_RACE,
+            active=True,
+            country=self.country,
+            for_charity=False,
+            friends_and_family=False,
+            college_game=False,
+        )
+
+    def test_valid_instagram_handle(self):
+        """Test that valid Instagram handles are accepted."""
+        form = GameAdminForm(
+            {
+                "name": "Test Game",
+                "game_format": Game.GameFormat.AMAZING_RACE,
+                "active": True,
+                "country": self.country.id,
+                "for_charity": False,
+                "friends_and_family": False,
+                "college_game": False,
+                "instagram_handle": "testhandle",
+            },
+            instance=self.game,
+        )
+        self.assertTrue(form.is_valid())
+        game = form.save()
+        self.assertEqual(game.instagram_handle, "testhandle")
+
+    def test_invalid_instagram_handle_with_space(self):
+        """Test that handles with spaces are rejected."""
+        form = GameAdminForm(
+            {
+                "name": "Test Game",
+                "game_format": Game.GameFormat.AMAZING_RACE,
+                "active": True,
+                "country": self.country.id,
+                "for_charity": False,
+                "friends_and_family": False,
+                "college_game": False,
+                "instagram_handle": "test handle",
+            },
+            instance=self.game,
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn("instagram_handle", form.errors)
+
+    def test_invalid_instagram_handle_with_slash(self):
+        """Test that handles with slashes are rejected."""
+        form = GameAdminForm(
+            {
+                "name": "Test Game",
+                "game_format": Game.GameFormat.AMAZING_RACE,
+                "active": True,
+                "country": self.country.id,
+                "for_charity": False,
+                "friends_and_family": False,
+                "college_game": False,
+                "instagram_handle": "test/handle",
+            },
+            instance=self.game,
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn("instagram_handle", form.errors)
+
+    def test_valid_tiktok_handle(self):
+        """Test that valid TikTok handles are accepted."""
+        form = GameAdminForm(
+            {
+                "name": "Test Game",
+                "game_format": Game.GameFormat.AMAZING_RACE,
+                "active": True,
+                "country": self.country.id,
+                "for_charity": False,
+                "friends_and_family": False,
+                "college_game": False,
+                "tiktok_handle": "username123",
+            },
+            instance=self.game,
+        )
+        self.assertTrue(form.is_valid())
+        game = form.save()
+        self.assertEqual(game.tiktok_handle, "username123")
+
+    def test_empty_handles_allowed(self):
+        """Test that empty handles are allowed (blank=True)."""
+        form = GameAdminForm(
+            {
+                "name": "Test Game",
+                "game_format": Game.GameFormat.AMAZING_RACE,
+                "active": True,
+                "country": self.country.id,
+                "for_charity": False,
+                "friends_and_family": False,
+                "college_game": False,
+                "instagram_handle": "",
+                "tiktok_handle": "",
+            },
+            instance=self.game,
+        )
+        self.assertTrue(form.is_valid())
+        game = form.save()
+        # Django converts empty strings to None for nullable fields
+        self.assertIn(game.instagram_handle, ("", None))
+        self.assertIn(game.tiktok_handle, ("", None))
+
+
+class GameSlugGenerationTest(TestCase):
+    def setUp(self):
+        self.country = Country.objects.create(name="Test Country")
+
+    def test_unique_slug_generation(self):
+        """Test that slugs are generated correctly for new games."""
+        game1 = Game.objects.create(
+            name="Test Game",
+            game_format=Game.GameFormat.SURVIVOR,
+            active=True,
+            country=self.country,
+        )
+        self.assertEqual(game1.slug, "test-game")
+
+        game2 = Game.objects.create(
+            name="Test Game",
+            game_format=Game.GameFormat.SURVIVOR,
+            active=True,
+            country=self.country,
+        )
+        self.assertEqual(game2.slug, "test-game-1")
+
+    def test_slug_preserved_on_name_unchanged(self):
+        """Test that slug is preserved when name doesn't change."""
+        game = Game.objects.create(
+            name="Original Name",
+            game_format=Game.GameFormat.SURVIVOR,
+            active=True,
+            country=self.country,
+        )
+        original_slug = game.slug
+        game.description = "Updated description"
+        game.save()
+        game.refresh_from_db()
+        self.assertEqual(game.slug, original_slug)

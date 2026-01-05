@@ -223,6 +223,12 @@ AWS_S3_OBJECT_PARAMETERS = {
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Image processing constants
+IMAGE_MAX_SIZE = (1200, 1200)  # Maximum dimensions for optimized images (width, height)
+IMAGE_MAX_FILE_SIZE = 2 * 1024 * 1024  # Maximum file size: 2MB
+IMAGE_QUALITY = 85  # JPEG/WEBP quality (1-100)
+IMAGE_FORMAT = "WEBP"  # Default image format for optimization
+
 COMPRESS_ENABLED = True
 COMPRESS_CSS_FILTERS = [
     "compressor.filters.css_default.CssAbsoluteFilter",

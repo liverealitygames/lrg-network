@@ -9,7 +9,10 @@ from django.core.files.base import ContentFile
 from PIL import Image
 
 from lrgnetwork.storage_backends import MediaStorage
-from .validators import validate_image, validate_optimized_file_size
+from .validators import (
+    validate_image,
+    validate_optimized_file_size,
+)
 from .utils import optimize_image
 
 from core.models import CoreModel
@@ -203,7 +206,18 @@ class Game(CoreModel):
 
         super().save(*args, **kwargs)
 
-    def location_display(self):
+    def location_display(self) -> str:
+        """
+        Returns a formatted string representation of the game's location.
+
+        Format priority:
+        - If city exists: "City, Region"
+        - If region exists (no city): "Region, CountryCode"
+        - If only country: "CountryName"
+
+        Returns:
+            Formatted location string
+        """
         city_name = self.city.name if self.city else None
         region_part = self.region.name if self.region else None
 
@@ -279,9 +293,13 @@ class GameImages(CoreModel):
     description = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
-        return self.description if self.description else f"Image for {self.game.name}"
+        return self.description or f"Image for {self.game.name}"
 
     def save(self, *args, **kwargs):
+        """
+        Override save to optimize and validate images before saving.
+        Automatically optimizes image size, format, and quality.
+        """
         if self.image:
             try:
                 optimized = optimize_image(self.image)
