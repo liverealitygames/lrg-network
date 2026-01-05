@@ -24,7 +24,7 @@ class Game(CoreModel):
         blank=True,
         null=True,
     )
-    slug = models.SlugField(blank=True)
+    slug = models.SlugField(blank=True, db_index=True)
 
     class GameFormat(models.TextChoices):
         AMAZING_RACE = "AR", _("Amazing Race")
@@ -38,11 +38,15 @@ class Game(CoreModel):
         ORIGINAL_FORMAT = "OF", _("Original Format")
         VARIOUS_FORMATS = "VF", _("Various Formats")
 
-    game_format = models.CharField(max_length=2, choices=GameFormat)
-    active = models.BooleanField(null=True)
-    country = models.ForeignKey(Country, on_delete=models.PROTECT)
-    region = models.ForeignKey(Region, blank=True, null=True, on_delete=models.PROTECT)
-    city = models.ForeignKey(City, blank=True, null=True, on_delete=models.PROTECT)
+    game_format = models.CharField(max_length=2, choices=GameFormat, db_index=True)
+    active = models.BooleanField(null=True, db_index=True)
+    country = models.ForeignKey(Country, on_delete=models.PROTECT, db_index=True)
+    region = models.ForeignKey(
+        Region, blank=True, null=True, on_delete=models.PROTECT, db_index=True
+    )
+    city = models.ForeignKey(
+        City, blank=True, null=True, on_delete=models.PROTECT, db_index=True
+    )
 
     class GameDuration(models.TextChoices):
         SINGLE_DAY = "SD", _("Single Day")

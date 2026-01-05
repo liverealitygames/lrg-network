@@ -38,15 +38,14 @@
         <div class="row g-0 flex-column flex-md-row">
             <div class="col-12 col-md d-flex justify-content-center align-items-center mb-3 mb-md-0 order-1 order-md-2">
                 {% if game.logo %}
-                    <img src="{{ game.logo.url }}" class="img-fluid" alt="{{ game.name }} logo" style="max-height: 250px; min-height: 120px; object-fit: contain;">
+                    <img src="{{ game.logo.url }}" class="img-fluid game-logo" alt="{{ game.name }} logo">
                 {% else %}
                     {% with 'games/images/default_logos/'|add:game.game_format|lower|add:'.png' as logo_path %}
                         {% with logo_path|safe_static as logo_url %}
                             {% if logo_url %}
                                 <img src="{{ logo_url }}"
-                                    class="img-fluid p-3"
-                                    alt="{{ game.get_game_format_display }} logo"
-                                    style="max-height: 250px; min-height: 120px; object-fit: contain;">
+                                    class="img-fluid p-3 game-logo"
+                                    alt="{{ game.get_game_format_display }} logo">
                             {% endif %}
                         {% endwith %}
                     {% endwith %}
@@ -93,37 +92,37 @@
                 </a>
             {% endif %}
             {% if game.website %}
-                <a href="{{ game.website }}" class="social-icon website" target="_blank" title="Website">
+                <a href="{{ game.website }}" class="social-icon website" target="_blank" rel="noopener noreferrer" title="Website">
                     <i class="bi bi-globe"></i>
                 </a>
             {% endif %}
             {% if game.instagram_handle %}
-                <a href="https://www.instagram.com/{{ game.instagram_handle }}" class="social-icon instagram" target="_blank" title="Instagram">
+                <a href="https://www.instagram.com/{{ game.instagram_handle }}" class="social-icon instagram" target="_blank" rel="noopener noreferrer" title="Instagram">
                     <i class="bi bi-instagram"></i>
                 </a>
             {% endif %}
             {% if game.facebook_link %}
-                <a href="https://www.facebook.com/{{ game.facebook_link }}" class="social-icon facebook" target="_blank" title="Facebook">
+                <a href="https://www.facebook.com/{{ game.facebook_link }}" class="social-icon facebook" target="_blank" rel="noopener noreferrer" title="Facebook">
                     <i class="bi bi-facebook"></i>
                 </a>
             {% endif %}
             {% if game.youtube_link %}
-                <a href="https://www.youtube.com/{{ game.youtube_link }}" class="social-icon youtube" target="_blank" title="YouTube">
+                <a href="https://www.youtube.com/{{ game.youtube_link }}" class="social-icon youtube" target="_blank" rel="noopener noreferrer" title="YouTube">
                     <i class="bi bi-youtube"></i>
                 </a>
             {% endif %}
             {% if game.lrg_wiki_page %}
-                <a href="https://live-reality-games.fandom.com/wiki/{{ game.lrg_wiki_page }}" class="social-icon wiki" target="_blank" title="LRG Wiki">
+                <a href="https://live-reality-games.fandom.com/wiki/{{ game.lrg_wiki_page }}" class="social-icon wiki" target="_blank" rel="noopener noreferrer" title="LRG Wiki">
                     <i class="bi bi-wikipedia"></i>
                 </a>
             {% endif %}
             {% if game.discord_link %}
-                <a href="https://discord.gg/{{ game.discord_link }}" class="social-icon discord" target="_blank" title="Discord">
+                <a href="https://discord.gg/{{ game.discord_link }}" class="social-icon discord" target="_blank" rel="noopener noreferrer" title="Discord">
                     <i class="bi bi-discord"></i>
                 </a>
             {% endif %}
             {% if game.tiktok_handle %}
-                <a href="https://www.tiktok.com/@{{ game.tiktok_handle }}" class="social-icon tiktok" target="_blank" title="TikTok">
+                <a href="https://www.tiktok.com/@{{ game.tiktok_handle }}" class="social-icon tiktok" target="_blank" rel="noopener noreferrer" title="TikTok">
                     <i class="bi bi-tiktok"></i>
                 </a>
             {% endif %}
@@ -135,7 +134,7 @@
 
         {% if game.casting_link %}
             <div class="text-center">
-                <a href="{{ game.casting_link }}" class="btn btn-primary btn-hover-scale" target="_blank">
+                <a href="{{ game.casting_link }}" class="btn btn-primary btn-hover-scale" target="_blank" rel="noopener noreferrer">
                     Apply Now
                 </a>
             </div>
@@ -148,7 +147,7 @@
             <div class="container d-flex flex-wrap gap-2 justify-content-center">
                 {% for season in game.seasons.all %}
                     {% if season.link %}
-                        <a href="{{ season.link }}" class="btn btn-success btn-hover-scale" target="_blank">
+                        <a href="{{ season.link }}" class="btn btn-success btn-hover-scale" target="_blank" rel="noopener noreferrer">
                             {{ season }}
                         </a>
                     {% else %}
@@ -166,24 +165,23 @@
             <h2 class="h4 mb-4 text-center">Gallery</h2>
             <div class="carousel-inner align-items-center">
                 {% for image in game.images.all %}
-                    <div class="carousel-item {% if forloop.first %}active{% endif %}" style="height: 500px;">
+                    <div class="carousel-item {% if forloop.first %}active{% endif %} carousel-item-fixed-height">
                         <div class="d-flex h-100 align-items-center justify-content-center">
                             <img
                                 src="{{ image.image.url }}"
                                 alt="{% if image.description %}{{ image.description }}{% else %}Image for {{ game.name }}{% endif %}"
-                                class="img-fluid"
-                                style="max-height: 100%; object-fit: contain;"
+                                class="img-fluid carousel-image"
                                 loading="lazy"
                             >
                         </div>
                     </div>
                 {% endfor %}
                 <button class="carousel-control-prev" type="button" data-bs-target="#gameGalleryCarousel" data-bs-slide="prev">
-                    <span aria-hidden="true"><i class="bi bi-chevron-left" style="font-size: 2rem; color: #bbb;"></i></span>
+                    <span aria-hidden="true"><i class="bi bi-chevron-left carousel-control-icon"></i></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#gameGalleryCarousel" data-bs-slide="next">
-                    <span aria-hidden="true"><i class="bi bi-chevron-right" style="font-size: 2rem; color: #bbb;"></i></span>
+                    <span aria-hidden="true"><i class="bi bi-chevron-right carousel-control-icon"></i></span>
                     <span class="visually-hidden">Next</span>
                 </button>
             </div>

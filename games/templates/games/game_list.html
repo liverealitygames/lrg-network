@@ -24,11 +24,11 @@
         />
         <button type="submit" class="btn btn-outline-secondary">Search</button>
         <button type="button" id="toggleFiltersBtn" class="btn btn-outline-secondary">
-            Filter <span id="filterCountBadge" class="badge bg-secondary ms-1" style="display:none;"></span>
+            Filter <span id="filterCountBadge" class="badge bg-secondary ms-1 hidden"></span>
         </button>
     </div>
 
-    <div id="filtersContainer" style="display: none;">
+    <div id="filtersContainer" class="hidden">
         <div class="row g-3 align-items-end mt-0">
             <div class="col-md-4">
                 <label for="country" class="form-label d-block">Country</label>
@@ -153,17 +153,16 @@
                 <div class="row g-0 h-100">
                     <div class="col-4 d-flex align-items-center">
                         {% if game.logo %}
-                            <img src="{{ game.logo.url }}" class="img-fluid p-3" alt="{{ game.name }} logo" style="height: 120px; width: 100%; object-fit: contain;">
+                            <img src="{{ game.logo.url }}" class="img-fluid p-3 game-logo-small" alt="{{ game.name }} logo">
                         {% else %}
                             {% with 'games/images/default_logos/'|add:game.game_format|lower|add:'.png' as logo_path %}
                                 {% with logo_path|safe_static as logo_url %}
                                     {% if logo_url %}
                                         <img src="{{ logo_url }}"
-                                            class="img-fluid p-3"
-                                            alt="{{ game.get_game_format_display }} logo"
-                                            style="height: 120px; width: 100%; object-fit: contain;">
+                                            class="img-fluid p-3 game-logo-small"
+                                            alt="{{ game.get_game_format_display }} logo">
                                     {% else %}
-                                        <div class="img-fluid p-3" style="height: 120px; width: 100%;"></div>
+                                        <div class="img-fluid p-3 game-logo-small"></div>
                                     {% endif %}
                                 {% endwith %}
                             {% endwith %}
@@ -229,183 +228,12 @@
     </ul>
 </nav>
 
+{% load static %}
+<script src="{% static 'games/js/game_list.js' %}"></script>
 <script>
+    // Initialize Bootstrap Select (needs to run after jQuery is loaded)
     $(function () {
         $('.selectpicker').selectpicker();
-    });
-
-    const form = document.getElementById('game-filter-form');
-    const filterOpenInput = document.getElementById('filterOpenInput');
-    const filtersContainer = document.getElementById('filtersContainer');
-    const toggleBtn = document.getElementById('toggleFiltersBtn');
-
-    // Helper to get URL param
-    function getUrlParam(name) {
-        const params = new URLSearchParams(window.location.search);
-        return params.get(name);
-    }
-    // Helper to set/remove URL param without reloading
-    function setUrlParam(name, value) {
-        const url = new URL(window.location);
-        if (value === null || value === undefined || value === '' || value === '0') {
-            url.searchParams.delete(name);
-        } else {
-            url.searchParams.set(name, value);
-        }
-        window.history.replaceState({}, '', url);
-    }
-
-    // On page load, show/hide filters based only on filter_open param
-    document.addEventListener('DOMContentLoaded', function() {
-        const filterOpen = getUrlParam('filter_open');
-        if (filterOpen === '1') {
-            filtersContainer.style.display = 'block';
-            toggleBtn.setAttribute('aria-label', 'Hide Filters');
-            toggleBtn.classList.add('active');
-            if (filterOpenInput) filterOpenInput.value = '1';
-        } else {
-            filtersContainer.style.display = 'none';
-            toggleBtn.setAttribute('aria-label', 'Show Filters');
-            toggleBtn.classList.remove('active');
-            if (filterOpenInput) filterOpenInput.value = '0';
-        }
-        updateFilterCountBadge();
-    });
-
-    // Toggle filter section and update URL param
-    toggleBtn.addEventListener('click', function() {
-        const isVisible = filtersContainer.style.display === 'block';
-        if (isVisible) {
-            filtersContainer.style.display = 'none';
-            this.setAttribute('aria-label', 'Show Filters');
-            this.classList.remove('active');
-            setUrlParam('filter_open', '0');
-            if (filterOpenInput) filterOpenInput.value = '0';
-        } else {
-            filtersContainer.style.display = 'block';
-            this.setAttribute('aria-label', 'Hide Filters');
-            this.classList.add('active');
-            setUrlParam('filter_open', '1');
-            if (filterOpenInput) filterOpenInput.value = '1';
-        }
-    });
-
-    function submitFormWithNonEmptyParams() {
-        const formData = new FormData(form);
-        const params = new URLSearchParams();
-
-        for (const [key, value] of formData.entries()) {
-            if (value) {
-                params.append(key, value);
-            }
-        }
-        // Always include filter_open if present
-        if (filterOpenInput && filterOpenInput.value) {
-            params.set('filter_open', filterOpenInput.value);
-        }
-
-        const queryString = params.toString();
-        const action = form.getAttribute('action') || window.location.pathname;
-        window.location.href = `${action}?${queryString}`;
-    }
-
-    // --- Filter count indicator logic ---
-    function getFilterCount() {
-        let count = 0;
-        // Location: country, region, city (only count as 1 if any selected)
-        const country = document.getElementById('country').value;
-        const region = document.getElementById('region').value;
-        const city = document.getElementById('city').value;
-        if (country || region || city) count += 1;
-        // Game format
-        if (document.getElementById('game_format').value) count += 1;
-        // Game duration
-        if (document.getElementById('game_duration').value) count += 1;
-        // Filming status
-        if (document.getElementById('filming_status').value) count += 1;
-        // Only active
-        if (document.getElementById('inactive_filter').value) count += 1;
-        // College only
-        if (document.getElementById('college_filter').value) count += 1;
-        // For charity
-        if (document.getElementById('charity_filter').value) count += 1;
-        // Friends and family only
-        if (document.getElementById('friends_and_family_filter').value) count += 1;
-        // Currently casting
-        if (document.getElementById('casting_filter').value) count += 1;
-        return count;
-    }
-
-    function updateFilterCountBadge() {
-        const badge = document.getElementById('filterCountBadge');
-        const count = getFilterCount();
-        if (count > 0) {
-            badge.textContent = count;
-            badge.style.display = '';
-        } else {
-            badge.textContent = '';
-            badge.style.display = 'none';
-        }
-    }
-
-    // Update badge on page load and on filter changes
-    document.addEventListener('DOMContentLoaded', function() {
-        updateFilterCountBadge();
-    });
-
-    // Update badge on any filter change
-    const filterInputs = [
-        'country', 'region', 'city', 'game_format', 'game_duration', 'filming_status',
-        'inactive_filter', 'college_filter', 'charity_filter', 'friends_and_family_filter', 'casting_filter'
-    ];
-    filterInputs.forEach(function(id) {
-        const el = document.getElementById(id);
-        if (el) {
-            el.addEventListener('change', updateFilterCountBadge);
-        }
-    });
-
-    const clearBtn = document.getElementById('clearSearch');
-    const searchInput = document.getElementById('searchInput');
-
-    if (clearBtn) {
-        clearBtn.addEventListener('click', () => {
-            searchInput.value = '';
-            submitFormWithNonEmptyParams();
-        });
-    }
-
-    form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        submitFormWithNonEmptyParams();
-    });
-
-    document.getElementById('country').addEventListener('change', function() {
-        const regionSelect = document.getElementById('region');
-        const citySelect = document.getElementById('city');
-
-        // Reset and disable region and city dropdowns
-        regionSelect.value = '';
-        regionSelect.disabled = false;
-
-        citySelect.value = '';
-        citySelect.disabled = true;
-
-        submitFormWithNonEmptyParams();
-    });
-
-    document.getElementById('region').addEventListener('change', function() {
-        const citySelect = document.getElementById('city');
-
-        // Reset and enable city dropdown
-        citySelect.value = '';
-        citySelect.disabled = false;
-
-        submitFormWithNonEmptyParams();
-    });
-
-    document.getElementById('resetBtn').addEventListener('click', function() {
-        window.location.href = '/games/?filter_open=1';
     });
 </script>
 
