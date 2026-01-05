@@ -126,22 +126,77 @@ class Game(CoreModel):
         return f"{self.name}"
 
     def save(self, *args, **kwargs):
+        """
+        Generate a unique slug by finding the next available number suffix.
+        More efficient than looping - uses a single query to find all existing slugs.
+        """
+        import re
+        import uuid
+
         base_slug = slugify(self.name)
-        slug = base_slug
-        counter = 1
-        while (
-            Game.objects.filter(slug=slug, is_removed=False)
+
+        # If slug is already set and name hasn't changed, keep it
+        if self.pk and self.slug:
+            try:
+                existing = Game.objects.get(pk=self.pk)
+                if existing.name == self.name and existing.slug:
+                    # Name unchanged, keep existing slug
+                    super().save(*args, **kwargs)
+                    return
+            except Game.DoesNotExist:
+                pass
+
+        # Get all existing slugs that match the base pattern (excluding current instance)
+        # This single query gets all slugs that start with base_slug or base_slug-N
+        existing_slugs = set(
+            Game.objects.filter(slug__startswith=base_slug, is_removed=False)
             .exclude(pk=self.pk)
-            .exists()
-        ):
-            slug = f"{base_slug}-{counter}"
-            counter += 1
-        self.slug = slug
+            .values_list("slug", flat=True)
+        )
+
+        # If base slug is available, use it
+        if base_slug not in existing_slugs:
+            self.slug = base_slug
+        else:
+            # Extract all used numbers from existing slugs
+            # Pattern matches: base_slug or base_slug-123
+            pattern = re.compile(rf"^{re.escape(base_slug)}(?:-(\d+))?$")
+            used_numbers = set()
+
+            for existing_slug in existing_slugs:
+                match = pattern.match(existing_slug)
+                if match:
+                    number_str = match.group(1)
+                    if number_str:
+                        try:
+                            used_numbers.add(int(number_str))
+                        except ValueError:
+                            # Skip invalid numbers
+                            continue
+
+            # Find the first available number
+            counter = 1
+            while counter in used_numbers:
+                counter += 1
+
+            # Safety check: if we somehow get a very high number, use UUID fallback
+            if counter > 1000:
+                self.slug = f"{base_slug}-{uuid.uuid4().hex[:8]}"
+            else:
+                self.slug = f"{base_slug}-{counter}"
 
         if self.logo:
-            optimized = optimize_image(self.logo)
-            validate_optimized_file_size(optimized)
-            self.logo.save(self.logo.name, optimized, save=False)
+            try:
+                optimized = optimize_image(self.logo)
+                validate_optimized_file_size(optimized)
+                self.logo.save(self.logo.name, optimized, save=False)
+            except ValidationError:
+                # Re-raise validation errors as-is (they already have good messages)
+                raise
+            except Exception as e:
+                raise ValidationError(
+                    f"Unexpected error processing logo for {self.name}: {str(e)}"
+                ) from e
 
         super().save(*args, **kwargs)
 
@@ -207,9 +262,18 @@ class GameImages(CoreModel):
 
     def save(self, *args, **kwargs):
         if self.image:
-            optimized = optimize_image(self.image)
-            validate_optimized_file_size(optimized)
-            self.image.save(self.image.name, optimized, save=False)
+            try:
+                optimized = optimize_image(self.image)
+                validate_optimized_file_size(optimized)
+                self.image.save(self.image.name, optimized, save=False)
+            except ValidationError:
+                # Re-raise validation errors as-is (they already have good messages)
+                raise
+            except Exception as e:
+                game_name = self.game.name if self.game else "unknown game"
+                raise ValidationError(
+                    f"Unexpected error processing image for {game_name}: {str(e)}"
+                ) from e
 
         super().save(*args, **kwargs)
 

@@ -1,3 +1,34 @@
+/* CSS Custom Properties (Variables) for Theme Colors */
+:root {
+    /* Bootstrap Colors */
+    --bs-success: #198754;
+    --bs-primary: #0d6efd;
+    --bs-gray-600: #6C757D;
+    --bs-gray-100: #f8f9fa;
+
+    /* Social Media Brand Colors */
+    --color-email: #6f42c1;
+    --color-instagram: #E4405F;
+    --color-facebook: #1877F2;
+    --color-youtube: #FF0000;
+    --color-wiki: #FF9800;
+    --color-discord: #5865F2;
+    --color-tiktok: #69C9D0;
+
+    /* Text Colors */
+    --text-primary: #333;
+    --text-secondary: #999;
+    --text-white: #fff;
+    --text-black: #000;
+
+    /* UI Colors */
+    --carousel-control-gray: #bbb;
+    --hover-overlay: rgba(0, 0, 0, 0.05);
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.2);
+    --shadow-drop: rgba(0, 0, 0, 0.25);
+}
+
 /* Font styles */
 body {
     font-family: 'Roboto', sans-serif;
@@ -28,15 +59,15 @@ strong {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    color: white !important;
-    background: #f8f9fa;
+    color: var(--text-white) !important;
+    background: var(--bs-gray-100);
     transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px var(--shadow-light);
 }
 
 .social-icon:hover {
     transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px var(--shadow-medium);
 }
 
 .social-icon i {
@@ -45,35 +76,35 @@ strong {
 
 /* Brand Colors */
 .social-icon.email {
-    background: #6f42c1;  /* Bootstrap purple */
+    background: var(--color-email);
 }
 
 .social-icon.website {
-    background: #198754;  /* Bootstrap success green */
+    background: var(--bs-success);
 }
 
 .social-icon.instagram {
-    background: #E4405F;  /* Instagram brand color */
+    background: var(--color-instagram);
 }
 
 .social-icon.facebook {
-    background: #1877F2;  /* Facebook brand color */
+    background: var(--color-facebook);
 }
 
 .social-icon.youtube {
-    background: #FF0000;  /* YouTube brand color */
+    background: var(--color-youtube);
 }
 
 .social-icon.wiki {
-    background: #FF9800;  /* Material Design orange */
+    background: var(--color-wiki);
 }
 
 .social-icon.discord {
-    background: #5865F2;
+    background: var(--color-discord);
 }
 
 .social-icon.tiktok {
-    background: #69C9D0;
+    background: var(--color-tiktok);
 }
 
 /* Button styles */
@@ -85,19 +116,19 @@ strong {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 .btn-youtube {
-    color: #FFF !important;
-    background-color: #FF0000 !important;
-    border-color: #FF0000 !important;
+    color: var(--text-white) !important;
+    background-color: var(--color-youtube) !important;
+    border-color: var(--color-youtube) !important;
 }
 
 /* Keeps the bootstrap button colors the same on hover/active */
 .btn-success {
-    background-color: #198754 !important;
-    border-color: #198754 !important;
+    background-color: var(--bs-success) !important;
+    border-color: var(--bs-success) !important;
 }
 .btn-primary {
-    background-color: #0d6efd !important;
-    border-color: #0d6efd !important;
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
 }
 
 /* Pagination styles */
@@ -112,20 +143,20 @@ strong {
     background: none;
     border: none;
     border-radius: 50%; /* Ensure circular shape */
-    color: #333;
+    color: var(--text-primary);
     font-weight: 500;
     transition: all 0.2s ease-in-out;
 }
 
 .minimalist-pagination .page-link:hover {
-    background-color: rgba(0, 0, 0, 0.05); /* Subtle gray circle */
-    color: #000;
+    background-color: var(--hover-overlay);
+    color: var(--text-black);
     border-radius: 50%; /* Explicitly apply border-radius */
 }
 
 .minimalist-pagination .active .page-link {
-    background-color: #198754;
-    color: white;
+    background-color: var(--bs-success);
+    color: var(--text-white);
     font-weight: 600;
     box-shadow: none;
 }
@@ -138,7 +169,7 @@ strong {
 .minimalist-pagination .page-item.disabled .page-link {
     opacity: 0.4;
     cursor: not-allowed;
-    color: #999; /* override Bootstrap */
+    color: var(--text-secondary);
     background: none; /* override Bootstrap */
     border: none;     /* override Bootstrap */
 }
@@ -196,14 +227,14 @@ strong {
     justify-content: center;
 }
 .carousel-control-prev i, .carousel-control-next i {
-    color: #fff;
+    color: var(--text-white);
     font-size: 2rem;
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
+    filter: drop-shadow(0 1px 2px var(--shadow-drop));
 }
 
 .carousel-control-icon {
     font-size: 2rem;
-    color: #bbb;
+    color: var(--carousel-control-gray);
 }
 
 /* Search input */
@@ -217,7 +248,7 @@ strong {
 
 .search-icon {
     font-size: 1.2rem;
-    color: #6C757D;
+    color: var(--bs-gray-600);
     padding-left: 0.75rem;
     padding-right: 0.5rem;
 }
