@@ -114,6 +114,9 @@ class Game(CoreModel):
     description = models.TextField(blank=True, null=True)
 
     class Meta:
+        verbose_name = "Game"
+        verbose_name_plural = "Games"
+        ordering = ["name"]
         constraints = [
             models.UniqueConstraint(
                 fields=["slug"],
@@ -219,6 +222,19 @@ class Game(CoreModel):
         parts = [city_name, region_part, country_part]
         return ", ".join(part for part in parts if part)
 
+    def get_default_logo_url(self):
+        """
+        Get the URL for the default logo based on game format.
+        Returns None if no default logo exists.
+        """
+        from django.contrib.staticfiles import finders
+        from django.contrib.staticfiles.storage import staticfiles_storage
+
+        logo_path = f"games/images/default_logos/{self.game_format.lower()}.png"
+        if finders.find(logo_path):
+            return staticfiles_storage.url(logo_path)
+        return None
+
 
 class GameDate(CoreModel):
     game = models.ForeignKey(
@@ -249,6 +265,11 @@ class GameDate(CoreModel):
             return self.start_date.strftime("%B %d, %Y")
         return "TBD"
 
+    class Meta:
+        verbose_name = "Game Date"
+        verbose_name_plural = "Game Dates"
+        ordering = ["-start_date", "-end_date"]
+
 
 class GameImages(CoreModel):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="images")
@@ -277,6 +298,11 @@ class GameImages(CoreModel):
 
         super().save(*args, **kwargs)
 
+    class Meta:
+        verbose_name = "Game Image"
+        verbose_name_plural = "Game Images"
+        ordering = ["game", "created"]
+
 
 class Season(CoreModel):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="seasons")
@@ -288,3 +314,8 @@ class Season(CoreModel):
 
     def __str__(self):
         return self.name if self.name else f"Season {self.number}"
+
+    class Meta:
+        verbose_name = "Season"
+        verbose_name_plural = "Seasons"
+        ordering = ["game", "number"]
