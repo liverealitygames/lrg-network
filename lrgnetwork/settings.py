@@ -205,7 +205,10 @@ AWS_DEFAULT_ACL = None  # disables default 'public-read' ACL
 AWS_QUERYSTRING_AUTH = False  # generates cleaner, unsigned URLs
 AWS_STORAGE_LOCATION = ENVIRONMENT
 
-# Media URL
+# Media files
+# In production, media files are served from S3
+# In development, we need MEDIA_ROOT for local file serving
+MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = f"https://media.liverealitygames.com/{AWS_STORAGE_LOCATION}/"
 
 DEFAULT_FILE_STORAGE = "lrgnetwork.storage_backends.MediaStorage"

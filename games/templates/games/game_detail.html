@@ -170,7 +170,7 @@
                         <div class="d-flex h-100 align-items-center justify-content-center">
                             <img
                                 src="{{ image.image.url }}"
-                                alt="{{ image.alt_text }}"
+                                alt="{% if image.description %}{{ image.description }}{% else %}Image for {{ game.name }}{% endif %}"
                                 class="img-fluid"
                                 style="max-height: 100%; object-fit: contain;"
                                 loading="lazy"
