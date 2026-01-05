@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-{% load safe_static %}
 
 {% block title %}{{ game.name }} - LRG Network{% endblock %}
 
@@ -39,16 +38,10 @@
             <div class="col-12 col-md d-flex justify-content-center align-items-center mb-3 mb-md-0 order-1 order-md-2">
                 {% if game.logo %}
                     <img src="{{ game.logo.url }}" class="img-fluid game-logo" alt="{{ game.name }} logo">
-                {% else %}
-                    {% with 'games/images/default_logos/'|add:game.game_format|lower|add:'.png' as logo_path %}
-                        {% with logo_path|safe_static as logo_url %}
-                            {% if logo_url %}
-                                <img src="{{ logo_url }}"
-                                    class="img-fluid p-3 game-logo"
-                                    alt="{{ game.get_game_format_display }} logo">
-                            {% endif %}
-                        {% endwith %}
-                    {% endwith %}
+                {% elif game.get_default_logo_url %}
+                    <img src="{{ game.get_default_logo_url }}"
+                        class="img-fluid p-3 game-logo"
+                        alt="{{ game.get_game_format_display }} logo">
                 {% endif %}
             </div>
             <div class="col-12 col-md d-flex flex-column justify-content-center order-2 order-md-1">
