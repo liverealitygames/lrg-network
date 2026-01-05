@@ -188,13 +188,17 @@
 
                 // Reset and disable region and city dropdowns
                 if (regionSelect) {
-                    $('#region').selectpicker('val', '');
+                    // Clear native select value first to prevent visual glitch
+                    regionSelect.value = '';
+                    $('#region').selectpicker('val', null);
                     $('#region').prop('disabled', false);
                     $('#region').selectpicker('refresh');
                 }
 
                 if (citySelect) {
-                    $('#city').selectpicker('val', '');
+                    // Clear native select value first to prevent visual glitch
+                    citySelect.value = '';
+                    $('#city').selectpicker('val', null);
                     $('#city').prop('disabled', true);
                     $('#city').selectpicker('refresh');
                 }
@@ -208,7 +212,9 @@
 
                 // Reset and enable city dropdown
                 if (citySelect) {
-                    $('#city').selectpicker('val', '');
+                    // Clear native select value first to prevent visual glitch
+                    citySelect.value = '';
+                    $('#city').selectpicker('val', null);
                     $('#city').prop('disabled', false);
                     $('#city').selectpicker('refresh');
                 }

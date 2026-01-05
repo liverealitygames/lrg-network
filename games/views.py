@@ -6,56 +6,60 @@ from django.shortcuts import render, get_object_or_404
 from games.models import Game
 
 
-def game_list(request):
-    query = request.GET.get("q", "")
-    game_format = request.GET.get("game_format")
-    game_duration = request.GET.get("game_duration")
-    filming_status = request.GET.get("filming_status")
-    country_id = request.GET.get("country")
-    region_id = request.GET.get("region")
-    city_id = request.GET.get("city")
-    inactive_filter = request.GET.get("inactive_filter", "")
-    college_filter = request.GET.get("college_filter", "")
-    friends_and_family_filter = request.GET.get("friends_and_family_filter", "")
-    charity_filter = request.GET.get("charity_filter", "")
-    casting_filter = request.GET.get("casting_filter", "")
+def _apply_filters(queryset, filters):
+    """
+    Apply filters to a Game queryset based on filter parameters.
 
-    games = Game.objects.select_related("country", "region", "city").order_by("name")
+    Args:
+        queryset: Base Game queryset
+        filters: Dict containing filter values
 
-    if query:
-        games = games.filter(Q(name__icontains=query) | Q(description__icontains=query))
+    Returns:
+        Filtered queryset
+    """
+    games = queryset
 
-    if game_format:
-        games = games.filter(game_format=game_format)
+    # Text search
+    if filters.get("query"):
+        games = games.filter(
+            Q(name__icontains=filters["query"])
+            | Q(description__icontains=filters["query"])
+        )
 
-    if game_duration:
-        games = games.filter(game_duration=game_duration)
+    # Direct field filters
+    if filters.get("game_format"):
+        games = games.filter(game_format=filters["game_format"])
 
-    if filming_status:
-        games = games.filter(filming_status=filming_status)
+    if filters.get("game_duration"):
+        games = games.filter(game_duration=filters["game_duration"])
 
-    if country_id:
-        games = games.filter(country_id=country_id)
+    if filters.get("filming_status"):
+        games = games.filter(filming_status=filters["filming_status"])
 
-    if region_id:
-        games = games.filter(region_id=region_id)
+    # Location filters
+    if filters.get("country_id"):
+        games = games.filter(country_id=filters["country_id"])
 
-    if city_id:
-        games = games.filter(city_id=city_id)
+    if filters.get("region_id"):
+        games = games.filter(region_id=filters["region_id"])
 
-    # Inactive Games trinary filter
+    if filters.get("city_id"):
+        games = games.filter(city_id=filters["city_id"])
+
+    # Trinary filters (include/exclude/only)
+    inactive_filter = filters.get("inactive_filter", "")
     if inactive_filter == "exclude":
         games = games.filter(active=True)
     elif inactive_filter == "only":
         games = games.filter(active=False)
 
-    # College Only Games trinary filter
+    college_filter = filters.get("college_filter", "")
     if college_filter == "exclude":
         games = games.filter(Q(college_game=False) | Q(college_game__isnull=True))
     elif college_filter == "only":
         games = games.filter(college_game=True)
 
-    # Friends & Family Only Games trinary filter
+    friends_and_family_filter = filters.get("friends_and_family_filter", "")
     if friends_and_family_filter == "exclude":
         games = games.filter(
             Q(friends_and_family=False) | Q(friends_and_family__isnull=True)
@@ -63,34 +67,36 @@ def game_list(request):
     elif friends_and_family_filter == "only":
         games = games.filter(friends_and_family=True)
 
-    # Charity Games trinary filter
+    charity_filter = filters.get("charity_filter", "")
     if charity_filter == "exclude":
         games = games.filter(Q(for_charity=False) | Q(for_charity__isnull=True))
     elif charity_filter == "only":
         games = games.filter(for_charity=True)
 
-    # Casting Games trinary filter
+    casting_filter = filters.get("casting_filter", "")
     if casting_filter == "exclude":
         games = games.filter(Q(casting_link__isnull=True) | Q(casting_link=""))
     elif casting_filter == "only":
         games = games.filter(casting_link__isnull=False).exclude(casting_link="")
 
-    paginator = Paginator(games, 10)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+    return games
 
-    # Build querystring for pagination, excluding 'page'
-    get_params = request.GET.copy()
-    if "page" in get_params:
-        get_params.pop("page")
-    pagination_querystring = get_params.urlencode()
 
-    game_formats = Game.GameFormat.choices
-    game_durations = Game.GameDuration.choices
-    filming_statuses = Game.FilmingStatus.choices
+def _build_location_context(country_id, region_id):
+    """
+    Build context for location dropdowns (countries, regions, cities).
+
+    Args:
+        country_id: Selected country ID (optional)
+        region_id: Selected region ID (optional)
+
+    Returns:
+        Dict with countries, regions, regions_with_games, cities
+    """
     countries = Country.objects.filter(
         id__in=Game.objects.values_list("country_id", flat=True).distinct()
     )
+
     if country_id:
         regions_with_games = set(
             Game.objects.filter(country_id=country_id)
@@ -110,33 +116,79 @@ def game_list(request):
     else:
         cities = []
 
-    return render(
-        request,
-        "games/game_list.html",
-        {
-            "page_obj": page_obj,
-            "query": query,
-            "game_formats": game_formats,
-            "game_durations": game_durations,
-            "filming_statuses": filming_statuses,
-            "countries": countries,
-            "regions": regions,
-            "regions_with_games": regions_with_games,
-            "cities": cities,
-            "selected_country": country_id,
-            "selected_region": region_id,
-            "selected_city": city_id,
-            "selected_game_format": game_format,
-            "selected_game_duration": game_duration,
-            "selected_filming_status": filming_status,
-            "inactive_filter": inactive_filter,
-            "college_filter": college_filter,
-            "friends_and_family_filter": friends_and_family_filter,
-            "charity_filter": charity_filter,
-            "casting_filter": casting_filter,
-            "pagination_querystring": pagination_querystring,
-        },
+    return {
+        "countries": countries,
+        "regions": regions,
+        "regions_with_games": regions_with_games,
+        "cities": cities,
+    }
+
+
+def game_list(request):
+    """
+    Display a paginated list of games with filtering options.
+    """
+    # Extract filter parameters from request
+    filters = {
+        "query": request.GET.get("q", ""),
+        "game_format": request.GET.get("game_format"),
+        "game_duration": request.GET.get("game_duration"),
+        "filming_status": request.GET.get("filming_status"),
+        "country_id": request.GET.get("country"),
+        "region_id": request.GET.get("region"),
+        "city_id": request.GET.get("city"),
+        "inactive_filter": request.GET.get("inactive_filter", ""),
+        "college_filter": request.GET.get("college_filter", ""),
+        "friends_and_family_filter": request.GET.get("friends_and_family_filter", ""),
+        "charity_filter": request.GET.get("charity_filter", ""),
+        "casting_filter": request.GET.get("casting_filter", ""),
+    }
+
+    # Get base queryset with optimizations
+    games = Game.objects.select_related("country", "region", "city").order_by("name")
+
+    # Apply filters
+    games = _apply_filters(games, filters)
+
+    # Pagination
+    paginator = Paginator(games, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    # Build querystring for pagination, excluding 'page'
+    get_params = request.GET.copy()
+    if "page" in get_params:
+        get_params.pop("page")
+    pagination_querystring = get_params.urlencode()
+
+    # Build location context for dropdowns
+    location_context = _build_location_context(
+        filters["country_id"], filters["region_id"]
     )
+
+    # Build template context
+    context = {
+        "page_obj": page_obj,
+        "query": filters["query"],
+        "game_formats": Game.GameFormat.choices,
+        "game_durations": Game.GameDuration.choices,
+        "filming_statuses": Game.FilmingStatus.choices,
+        "selected_country": filters["country_id"],
+        "selected_region": filters["region_id"],
+        "selected_city": filters["city_id"],
+        "selected_game_format": filters["game_format"],
+        "selected_game_duration": filters["game_duration"],
+        "selected_filming_status": filters["filming_status"],
+        "inactive_filter": filters["inactive_filter"],
+        "college_filter": filters["college_filter"],
+        "friends_and_family_filter": filters["friends_and_family_filter"],
+        "charity_filter": filters["charity_filter"],
+        "casting_filter": filters["casting_filter"],
+        "pagination_querystring": pagination_querystring,
+        **location_context,  # Unpack location context (countries, regions, etc.)
+    }
+
+    return render(request, "games/game_list.html", context)
 
 
 def game_detail(request, slug):
