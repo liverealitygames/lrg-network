@@ -31,8 +31,8 @@ urlpatterns = [
     path("game-management/", admin.site.urls),
     path("games/", include("games.urls")),
     path(
-        "contact/",
-        TemplateView.as_view(template_name="static_pages/contact.html"),
-        name="contact",
+        "community/",
+        TemplateView.as_view(template_name="static_pages/community.html"),
+        name="community",
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
