@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+{% load compress %}
+
+{% block title %}Building Your Team - Resources - LRG Network{% endblock %}
+
+{% block extra_css %}
+{% compress css %}
+<link rel="stylesheet" href="{% static 'resources/styles.css' %}">
+{% endcompress %}
+{% endblock %}
+
+{% block content %}
+<div class="container-xl py-3">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="mb-4">Building Your Team</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="resource-content">
+        <div class="mb-4">
+          <p>Building your team is very important. Without a team, an LRG never makes it off the ground. While your team may be small at first, such as close friends or family, it will likely grow over time as previous players excited by their experience want to join in. Previous players will not only bring their passion for your game with them, but also a deep understanding of your game as well.</p>
+        </div>
+
+        <!-- Image 1 -->
+        <div class="resource-image-wrapper float-lg-end mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/city_quest_nyc.jpg' %}" alt="LRG production team members" class="img-fluid resource-image">
+          <p class="text-muted small mt-2 mb-0 text-center" style="font-style: italic;">Photo: City Quest NYC</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">Step 1 - Trust</h3>
+          <p>Build a team that you wholeheartedly trust. These are people that are being tasked with bringing your vision to life. You will be providing them with game and/or cast information and trusting them not to leak it. You also will be trusting your team to support you during the game and any gametime decisions you need to make.</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">Step 2 - Clearly defined roles</h3>
+          <p>Regardless of how large or small your production team is, having clear roles is key. Everyone needs to know what is expected of them and what they should be doing. Roles to consider: camera, kitchen/food, hosting, file manager, medical, cast wrangler, challenge set up and breakdown, rule explainer, challenge caller/checker, voting booth, art department, location management, budget tracker, time manager, player safety/care during game and after.</p>
+        </div>
+
+        <!-- Image 2 -->
+        <div class="resource-image-wrapper float-lg-start mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/can_you_survive_charity_event.jpg' %}" alt="LRG production team working together" class="img-fluid resource-image">
+          <p class="text-muted small mt-2 mb-0 text-center" style="font-style: italic;">Photo: Can You Survive Charity Event</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">Step 3 - Being a leader</h3>
+          <p>As the creator of your own LRG, you will be the de facto leader of your team. If this is a role you are not comfortable with, then you need to find someone in your team to take on this position as soon as possible. As the leader, you set the tone for the production team and how things will run. If you are frazzled, your team will be frazzled. If you are upset, they will be upset. As the leader, you will have the most on your plate and have to make multiple decisions, small and large, throughout the game. If this feels overwhelming, consider appointing someone of your team as second in command with the authority to make these gametime decisions for you.</p>
+          <p>As the leader, you will be expected to be on location and familiar with any of the production's roles, such as filming, challenge setup, ordering food, etc. Anything you are asking your team to do you should be able to do as well.</p>
+        </div>
+
+        <!-- Image 3 -->
+        <div class="resource-image-wrapper float-lg-end mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/chanceville_survivor.jpg' %}" alt="LRG production team during game" class="img-fluid resource-image">
+          <p class="text-muted small mt-2 mb-0 text-center" style="font-style: italic;">Photo: Chanceville Survivor</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">Step 4 - Showing gratitude</h3>
+          <p>Most LRG's are based on people volunteering their time. That means everyone showing up believes in your vision and wants to help bring it to life and they are doing it for free! Some games even have a small production member fee to cover crew shirts/food/housing. Be sure to show gratitude and take care of your people. If you notice someone has not had a break, tell them to rest for a little, and make adjustments to keep moving ahead while they get their well-earned break. Make sure your crew eats and drinks! It sounds simple but when you are in "go go go" mode, it is easy to forget food and water. Having small grab-and-go snacks/drinks/waters around will help keep your crew going. Building in a lunch/dinner break can help boost morale as well. While the purpose of your game is for the players to have fun and have a great experience, it's vital that your production also has a good time! At the end of it all, saying thank you to everyone who helped out, whether it's a speech at the end of the game or a hand written letter for them to take home, goes a long way.</p>
+        </div>
+
+        <div class="mb-5">
+          <p class="lead">Youtube Video with Fern of Survifern talking about team building:</p>
+          <div class="text-center">
+            <a href="https://youtu.be/QDOUw8xGPyE?si=z40UX-cjjboiEcdq"
+               class="btn btn-primary btn-lg"
+               target="_blank"
+               rel="noopener noreferrer">
+              Check it out!
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Resources -->
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="text-center">
+        <a href="{% url 'resources' %}" class="btn btn-outline-primary">← Back to Resources</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

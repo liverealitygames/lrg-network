@@ -27,6 +27,7 @@
     {% compress css %}
         <link rel="stylesheet" href="/static/games/styles.css">
     {% endcompress %}
+    {% block extra_css %}{% endblock %}
 </head>
 <body class="d-flex flex-column min-vh-100">
     <!-- Navigation -->
@@ -56,6 +57,12 @@
                                 Community
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {% if request.resolver_match.url_name == 'resources' or request.resolver_match.url_name == 'resources_guided_questions' or request.resolver_match.url_name == 'resources_building_team' %}active{% endif %}"
+                               href="{% url 'resources' %}">
+                                Resources
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="collapse navbar-collapse justify-content-lg-end" id="navbarSearch" data-bs-parent="#navbarCollapseGroup">
@@ -71,7 +78,7 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="container-md py-4 px-4 flex-grow-1">
+    <main class="container-xl py-4 px-4 flex-grow-1">
         {% bootstrap_messages %}
         {% block content %}{% endblock %}
     </main>
