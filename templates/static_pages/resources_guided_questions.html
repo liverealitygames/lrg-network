@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% load static %}
+{% load compress %}
+
+{% block title %}Guided Questions & Quick Thoughts - Resources - LRG Network{% endblock %}
+
+{% block extra_css %}
+{% compress css %}
+<link rel="stylesheet" href="{% static 'resources/styles.css' %}">
+{% endcompress %}
+{% endblock %}
+
+{% block content %}
+<div class="container-xl py-3">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="mb-4">Guided Questions & Quick Thoughts</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="resource-content">
+        <!-- Hero Image -->
+        <div class="resource-image-wrapper float-lg-end mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/survifern.jpg' %}" alt="Group of LRG players celebrating together" class="img-fluid resource-image">
+          <p class="text-muted small mt-2 mb-0 text-center" style="font-style: italic;">Photo: Survifern</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">1. What kind of format do you want to host?</h3>
+          <ul>
+            <li>Based on an existing reality TV show, such as Survivor, Big Brother, The Challenge, The Mole, The Traitors etc?</li>
+            <li>Similar to an existing reality TV show, but with notable differences?</li>
+            <li>A new original format?</li>
+          </ul>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">2. Where do you want to host the game?</h3>
+          <ul>
+            <li>Geographically, where?</li>
+            <li>Inside a house or outdoors?</li>
+            <li>If outdoors, do you have a piece of land secured such as a campground or a local park?</li>
+            <li>Does the location have a place for volunteers or eliminated players to stay?</li>
+          </ul>
+        </div>
+
+        <!-- Campfire Image -->
+        <div class="resource-image-wrapper float-lg-start mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/outlast.jpg' %}" alt="LRG players gathered around a campfire" class="img-fluid resource-image">
+          <p class="text-muted small mt-2 mb-0 text-center" style="font-style: italic;">Photo: Outlast</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">3. How long do you want to run the game?</h3>
+          <ul>
+            <li>There are many 1-day and weekend games out there!</li>
+            <li>Games go up to 7-8 days at max. Longer games may struggle casting players and/or higher expenses.</li>
+          </ul>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">4. How do you want the game to be seen, if at all?</h3>
+          <ul>
+            <li>Do you plan to promote the game anywhere?</li>
+            <li>Do you plan to live stream the game through Facebook or YouTube?</li>
+            <li>Do you plan to film and create episodes?</li>
+          </ul>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">5. What is the cost of the game?</h3>
+          <ul>
+            <li>What is your cost to run the game?</li>
+            <li>What is the cost you will charge the players?</li>
+            <li>Is there a prize associated with the game? Is the prize a memento or cash?</li>
+          </ul>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">6. Do you have a team of volunteers in place? Who will help you produce the game?</h3>
+          <ul>
+            <li>Will you ask production to help contribute financially?</li>
+            <li>Many games build production teams over time from past players.</li>
+          </ul>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">7. How do you plan to do casting?</h3>
+          <ul>
+            <li>Will you post open applications?</li>
+            <li>How much recruiting will you do?</li>
+            <li>What will you require people to submit (i.e., photos, audition video, etc)?</li>
+            <li>Will you do interviews?</li>
+          </ul>
+        </div>
+
+        <!-- Night Fire Pit Image -->
+        <div class="resource-image-wrapper float-lg-end mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/survivor_lake_of_bays.jpg' %}" alt="LRG players gathered around a fire pit at night" class="img-fluid resource-image">
+          <p class="text-muted small mt-2 mb-0 text-center" style="font-style: italic;">Photo: Survivor Lake of Bays</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">8. Leading up to the game, how will you have players prepare for the game?</h3>
+          <ul>
+            <li>Will they need to bring or buy anything?</li>
+            <li>Do you need to coordinate logistics with any traveling players?</li>
+            <li>Will you provide rules or a handbook to players beforehand? Will you have agreements around player conduct, respect for each other, and what they can/can't bring into the game?</li>
+          </ul>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">9. What kind of hospitality are you providing to players and volunteers?</h3>
+          <ul>
+            <li>Will you be providing meals? What considerations are also there?</li>
+            <li>Will you provide any sort of transportation? Not just thinking about airfare, but pickups from airports, train stations, etc.</li>
+          </ul>
+        </div>
+
+        <!-- Group Huddle Image -->
+        <div class="resource-image-wrapper float-lg-start mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/survivor_drinking_games.jpg' %}" alt="LRG players in a celebratory huddle" class="img-fluid resource-image">
+          <p class="text-muted small mt-2 mb-0 text-center" style="font-style: italic;">Photo: Survivor Drinking Games</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">10. What kind of challenges would you want to use in your game?</h3>
+          <ul>
+            <li>Do you have a way to help players with types of disabilities?</li>
+          </ul>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">11. If your game involves eliminating players during the game, what will those players do while the game continues?</h3>
+          <ul>
+            <li>Will you have a way for players to battle back into the game?</li>
+            <li>Will eliminated players be invited to help production and/or be involved in the game in another way?</li>
+            <li>Will eliminated players stay on site or leave?</li>
+          </ul>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">12. How do you plan to help players debrief from the game?</h3>
+        </div>
+
+        <div class="mb-5">
+          <p class="lead">Take some time to read over this guide, and also check out these videos about Running an LRG!</p>
+          <div class="text-center">
+            <a href="https://youtube.com/playlist?list=PLDko5ibzt-nRRVYRCV-og1sHtP9Pr0Clr&si=Nytppv4hcvOdomJQ"
+               class="btn btn-primary btn-lg"
+               target="_blank"
+               rel="noopener noreferrer">
+              Watch LRG Hosting Videos
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Resources -->
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="text-center">
+        <a href="{% url 'resources' %}" class="btn btn-outline-primary">← Back to Resources</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

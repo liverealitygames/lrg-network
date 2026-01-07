@@ -4,19 +4,14 @@
 {% block title %}{{ game.name }} - LRG Network{% endblock %}
 
 {% block content %}
+<div class="container-lg mx-auto py-3">
     <div class="row mb-4">
-        <div class="col-12">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{% url 'game_list' %}" class="text-decoration-none">Games</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ game.name }}</li>
-                </ol>
-            </nav>
+        <div class="col-12 text-center">
+            <h1 class="mb-4">{{ game.name }}</h1>
         </div>
     </div>
 
     <div class="text-center mb-2">
-        <h1 class="display-3 fw-bold">{{ game.name }}</h1>
         <div class="game-details-tags mb-2 text-center">
             {% if game.for_charity %}
                 <span class="badge rounded-pill bg-success me-2">For Charity</span>
@@ -180,4 +175,5 @@
             </div>
         </div>
     {% endif %}
+</div>
 {% endblock %}

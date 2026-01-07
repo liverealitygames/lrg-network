@@ -35,4 +35,21 @@ urlpatterns = [
         TemplateView.as_view(template_name="static_pages/community.html"),
         name="community",
     ),
+    path(
+        "resources/",
+        TemplateView.as_view(template_name="static_pages/resources_index.html"),
+        name="resources",
+    ),
+    path(
+        "resources/guided-questions/",
+        TemplateView.as_view(
+            template_name="static_pages/resources_guided_questions.html"
+        ),
+        name="resources_guided_questions",
+    ),
+    path(
+        "resources/building-team/",
+        TemplateView.as_view(template_name="static_pages/resources_building_team.html"),
+        name="resources_building_team",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

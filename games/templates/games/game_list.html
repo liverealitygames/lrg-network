@@ -4,12 +4,14 @@
 {% block title %}Games - LRG Network{% endblock %}
 
 {% block content %}
-<div class="row mb-4">
-    <div class="col">
-        <h1 class="display-4">Games</h1>
+<div class="container-xl py-3">
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h1 class="mb-4">Games</h1>
     </div>
-</div>
+  </div>
 
+<div class="container-md mx-auto">
 <form id="game-filter-form" method="get" class="mb-4">
     <input type="hidden" name="filter_open" id="filterOpenInput" value="{{ request.GET.filter_open|default_if_none:'' }}">
     <div class="input-group position-relative">
@@ -183,6 +185,7 @@
     </div>
     {% endfor %}
 </div>
+</div>
 
 {% comment %} Helper to build querystring for pagination links, excluding 'page' {% endcomment %}
 <nav aria-label="Game pagination">
@@ -220,6 +223,8 @@
         {% endif %}
     </ul>
 </nav>
+</div>
+</div>
 
 {% load static %}
 <script src="{% static 'games/js/game_list.js' %}"></script>
@@ -229,5 +234,4 @@
         $('.selectpicker').selectpicker();
     });
 </script>
-
 {% endblock %}

@@ -1,0 +1,75 @@
+/* Resources Page Styles */
+
+.resource-content {
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.resource-content h3 {
+  color: var(--bs-primary);
+  margin-top: 2rem;
+}
+
+.resource-content ul {
+  margin-top: 0.75rem;
+}
+
+.resource-content li {
+  margin-bottom: 0.5rem;
+}
+
+/* Image wrapping on large screens */
+.resource-image-wrapper {
+  width: 100%;
+  max-width: 400px;
+}
+
+@media (min-width: 992px) {
+  .resource-image-wrapper {
+    margin-bottom: 1rem;
+    max-width: 350px;
+  }
+
+  .resource-image-wrapper.float-lg-start {
+    float: left;
+    margin-right: 2rem;
+  }
+
+  .resource-image-wrapper.float-lg-end {
+    float: right;
+    margin-left: 2rem;
+  }
+
+  .resource-image {
+    max-width: 100%;
+    max-height: 400px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
+/* Mobile: images full width, no float */
+@media (max-width: 991.98px) {
+  .resource-image-wrapper {
+    float: none;
+    max-width: 100%;
+    margin-left: 0;
+    margin-bottom: 2rem;
+  }
+
+  .resource-image {
+    max-width: 100%;
+    max-height: 500px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
+/* Clear floats */
+.resource-content::after {
+  content: "";
+  display: table;
+  clear: both;
+}
