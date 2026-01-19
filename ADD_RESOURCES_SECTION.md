@@ -75,6 +75,31 @@ Use this template structure:
 - Always include `mb-4 mb-lg-3` classes
 - Use `resource-image-wrapper` class
 - Captions: use `resource-image-caption text-center` class
+- **Important:** Never place the last image at the bottom of the page. There should always be text content below the final image before the "Back to Resources" button.
+
+**List Indentation Fix (for lists after floated images):**
+When lists appear after floated images, they need special handling to maintain proper bullet indentation:
+- Wrap any content blocks (typically `<div class="mb-4">` sections with lists) that come after floated images in a `<div class="resource-list-container">` wrapper
+- This ensures lists maintain proper padding-left when wrapping around floats
+- Only wrap sections that contain lists and come after floated images
+- Example:
+```django
+<!-- Image -->
+<div class="resource-image-wrapper float-lg-start mb-4 mb-lg-3">
+  <img src="{% static 'resources/images/image.jpg' %}" alt="Description" class="img-fluid resource-image">
+  <p class="text-muted small mt-2 mb-0 text-center" style="font-style: italic;">Photo: Game Name</p>
+</div>
+
+<!-- Wrap content with lists that follows the float -->
+<div class="resource-list-container">
+  <div class="mb-4">
+    <h3 class="h5 mb-2">Section Title</h3>
+    <ul>
+      <li>List item</li>
+    </ul>
+  </div>
+</div>
+```
 
 ### 2. Add URL Route
 
@@ -143,6 +168,8 @@ sips -Z 1200 filename.jpg
 - [ ] Images optimized (if needed)
 - [ ] Images positioned alternately (R/L/R/L)
 - [ ] Image captions included with "Photo: Game Name" format
+- [ ] Last image is not at the bottom (text content follows final image)
+- [ ] Lists after floated images wrapped in `resource-list-container` divs
 - [ ] "Back to Resources" button included
 - [ ] Page tested in browser
 
@@ -150,11 +177,12 @@ sips -Z 1200 filename.jpg
 
 You can provide content in any format, and I'll:
 1. Structure it properly with the template format
-2. Insert images at appropriate points
+2. Insert images at appropriate points (ensuring the last image is not at the bottom)
 3. Format headers, lists, and paragraphs
 4. Alternate image positioning (R/L/R/L)
 5. Add captions to images
-6. Set up all the routing
+6. Wrap lists after floated images in `resource-list-container` divs for proper indentation
+7. Set up all the routing
 
 Just give me:
 - Section title

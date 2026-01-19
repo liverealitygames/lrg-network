@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+{% load compress %}
+
+{% block title %}Budget - Resources - LRG Network{% endblock %}
+
+{% block extra_css %}
+{% compress css %}
+<link rel="stylesheet" href="{% static 'resources/styles.css' %}">
+{% endcompress %}
+{% endblock %}
+
+{% block content %}
+<div class="container-xl py-3">
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h1 class="mb-4">Budget</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="resource-content">
+        <div class="mb-4">
+          <p>A few things to consider about the money that goes into planning these games:</p>
+          <ul>
+            <li>You should be prepared to spend about 25% more than you budget (maybe not, but you should have it as an emergency fund).</li>
+            <li>VERY FEW games make money off of the game (at least, player fees). If you think that this will turn a profit for you (or this is your motivator) - don't do it.</li>
+          </ul>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">Revenue</h3>
+          <p><strong>Player Fees:</strong> Typically depends on how much you are giving players, and if there is any sort of prize associated with the game. On average, games typically charge $50-100 per day spent in the game, per player.</p>
+
+          <!-- Image 1 -->
+          <div class="resource-image-wrapper float-lg-end mb-4 mb-lg-3">
+            <img src="{% static 'resources/images/the_mole_ohio.jpg' %}" alt="LRG production planning session" class="img-fluid resource-image">
+            <p class="text-muted small mt-2 mb-0 text-center" style="font-style: italic;">Photo: The Mole Ohio</p>
+          </div>
+          <p><strong>Fundraising:</strong> It is not uncommon that different groups will do fundraisers (i.e., mini 1-day games, fundraising for advantages, GoFundMe, etc.) to help offset game costs.</p>
+          <p><strong>Sponsors:</strong> For longer games, you can seek sponsorship from local restaurants, etc. in helping provide meals. Games can recognize sponsors in their edited episodes and social media.</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">Expenses</h3>
+          <p><strong>Cash Prize:</strong> Are you providing any sort of prize to the winner(s) of your game?</p>
+          <ul>
+            <li>Will you provide any other sort of "prizes" in the game?</li>
+            <li>Reminder: A prize could also be a custom memento, rather than cash, and players generally find that is still "worth playing for".</li>
+          </ul>
+          <p><strong>Game Location:</strong> Do you have to pay any money to rent out the area (i.e., Park, Airbnb, etc.)?</p>
+          <ul>
+            <li>Additional Space: Will you need to pay to rent out additional space for challenges, will you need to provide lodging to your volunteers, etc.?</li>
+          </ul>
+
+          <div class="resource-list-container">
+            <p><strong>Transportation:</strong> How will you and your group be getting around?</p>
+            <ul>
+              <li>Will you get a rental car/van/etc for the game to transport players around?</li>
+            </ul>
+          </div>
+
+          <!-- Image 2 -->
+          <div class="resource-image-wrapper float-lg-start mb-4 mb-lg-3">
+            <img src="{% static 'resources/images/the_golden_gates.jpg' %}" alt="LRG group photo on outdoor deck" class="img-fluid resource-image">
+            <p class="text-muted small mt-2 mb-0 text-center" style="font-style: italic;">Photo: The Golden Gates</p>
+          </div>
+          <div class="resource-list-container">
+            <p><strong>Merchandise/Swag:</strong> Will you be providing any sort of t-shirts, buffs, souvenirs or keepsakes for the game?</p>
+            <ul>
+              <li>Will you need to purchase advantages, props, etc.?</li>
+              <li>Do you have any decorations, banners, etc?</li>
+            </ul>
+          </div>
+          <div class="resource-list-container">
+            <p><strong>Equipment:</strong> What equipment will you need to purchase for the game?</p>
+            <ul>
+              <li>Challenge equipment, props, materials?</li>
+              <li>Everyday staging equipment (i.e., chairs, tables, etc)</li>
+              <li>Are you filming? Will you need cameras and video equipment? Will you need mics?</li>
+            </ul>
+          </div>
+          <div class="resource-list-container">
+            <p><strong>Hospitality:</strong> Do you plan to provide snacks and/or meals to the players? Feed your production team too!</p>
+            <ul>
+              <li>Grab and go meals are often cheaper and easier during filming.</li>
+              <li>Will you cater or cook any meals?</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-12 text-center">
+      <a href="{% url 'resources' %}" class="btn btn-outline-secondary">Back to Resources</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
