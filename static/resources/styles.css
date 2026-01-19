@@ -63,8 +63,13 @@
 }
 
 /* Image captions */
-.resource-image-wrapper p.text-muted {
+.resource-image-caption {
   font-style: italic;
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  text-align: center;
 }
 
 /* Large screens: float images and adjust sizing */
