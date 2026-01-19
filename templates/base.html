@@ -58,7 +58,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white {% if request.resolver_match.url_name == 'resources' or request.resolver_match.url_name == 'resources_guided_questions' or request.resolver_match.url_name == 'resources_building_team' %}active{% endif %}"
+                            <a class="nav-link text-white {% if request.resolver_match.url_name == 'resources' or request.resolver_match.url_name == 'resources_guided_questions' or request.resolver_match.url_name == 'resources_building_team' or request.resolver_match.url_name == 'resources_budgets' or request.resolver_match.url_name == 'resources_casting' %}active{% endif %}"
                                href="{% url 'resources' %}">
                                 Resources
                             </a>
