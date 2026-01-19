@@ -1,6 +1,6 @@
 # Makefile for lrg-network
 
-.PHONY: help build up down migrate cities_light shell logs test
+.PHONY: help build up down migrate cities_light shell logs test format format-check
 
 help:
 	@echo "Makefile commands:"
@@ -13,6 +13,8 @@ help:
 	@echo "  shell			Open Django shell inside web container"
 	@echo "  logs			Show logs from all containers"
 	@echo "  test			Run tests (if implemented)"
+	@echo "  format			Format code with Black"
+	@echo "  format-check	Check code formatting (mirrors CI)"
 
 build:
 	docker compose build
@@ -43,3 +45,9 @@ test:
 
 audit:
 	pip-audit -r requirements.txt || (echo "\n⚠️  Security vulnerabilities found!" && exit 1)
+
+format:
+	black .
+
+format-check:
+	black --check .
