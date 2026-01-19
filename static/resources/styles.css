@@ -44,24 +44,35 @@
   /* Lists in containers after float-left images get extra padding for proper indentation */
   .resource-content .float-lg-start ~ .resource-list-container ul {
     padding-left: 2.5rem; /* Increased padding to create proper indentation */
-    margin-left: 0;
-    margin-top: 0.75rem;
-  }
-
-  /* Ensure all lists maintain consistent padding */
-  .resource-list-container ul {
-    padding-left: 1.5rem;
-    margin-left: 0;
-    margin-top: 0.75rem;
   }
 }
 
-/* Image wrapping on large screens */
+/* Image wrapper styles */
 .resource-image-wrapper {
   width: 100%;
   max-width: 400px;
+  margin-bottom: 2rem;
 }
 
+.resource-image {
+  max-width: 100%;
+  max-height: 500px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Image captions */
+.resource-image-caption {
+  font-style: italic;
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+/* Large screens: float images and adjust sizing */
 @media (min-width: 992px) {
   .resource-image-wrapper {
     margin-bottom: 1rem;
@@ -79,11 +90,7 @@
   }
 
   .resource-image {
-    max-width: 100%;
     max-height: 400px;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
   }
 }
 
@@ -93,15 +100,6 @@
     float: none;
     max-width: 100%;
     margin-left: 0;
-    margin-bottom: 2rem;
-  }
-
-  .resource-image {
-    max-width: 100%;
-    max-height: 500px;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
   }
 }
 

@@ -33,7 +33,7 @@ Use this template structure:
 
 {% block content %}
 <div class="container-xl py-3">
-  <div class="row mb-4">
+  <div class="row">
     <div class="col-12 text-center">
       <h1 class="mb-4"><Section Title></h1>
     </div>
@@ -47,12 +47,12 @@ Use this template structure:
         <!-- Images: alternate R/L/R/L positioning -->
         <div class="resource-image-wrapper float-lg-end mb-4 mb-lg-3">
           <img src="{% static 'resources/images/filename.jpg' %}" alt="Descriptive alt text" class="img-fluid resource-image">
-          <p class="resource-image-caption text-center">Photo: Game Name</p>
+          <p class="resource-image-caption">Photo: Game Name</p>
         </div>
 
         <div class="resource-image-wrapper float-lg-start mb-4 mb-lg-3">
           <img src="{% static 'resources/images/filename2.jpg' %}" alt="Descriptive alt text" class="img-fluid resource-image">
-          <p class="resource-image-caption text-center">Photo: Game Name</p>
+          <p class="resource-image-caption">Photo: Game Name</p>
         </div>
 
         <!-- More content -->
@@ -60,9 +60,12 @@ Use this template structure:
     </div>
   </div>
 
-  <div class="row mt-5">
-    <div class="col-12 text-center">
-      <a href="{% url 'resources' %}" class="btn btn-outline-secondary">Back to Resources</a>
+  <!-- Back to Resources -->
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="text-center">
+        <a href="{% url 'resources' %}" class="btn btn-outline-primary">← Back to Resources</a>
+      </div>
     </div>
   </div>
 </div>
@@ -74,7 +77,7 @@ Use this template structure:
 - Pattern: R, L, R, L, etc.
 - Always include `mb-4 mb-lg-3` classes
 - Use `resource-image-wrapper` class
-- Captions: use `resource-image-caption text-center` class
+- Captions: use `resource-image-caption` class
 - **Important:** Never place the last image at the bottom of the page. There should always be text content below the final image before the "Back to Resources" button.
 
 **List Indentation Fix (for lists after floated images):**
@@ -87,7 +90,7 @@ When lists appear after floated images, they need special handling to maintain p
 <!-- Image -->
 <div class="resource-image-wrapper float-lg-start mb-4 mb-lg-3">
   <img src="{% static 'resources/images/image.jpg' %}" alt="Description" class="img-fluid resource-image">
-  <p class="text-muted small mt-2 mb-0 text-center" style="font-style: italic;">Photo: Game Name</p>
+  <p class="resource-image-caption">Photo: Game Name</p>
 </div>
 
 <!-- Wrap content with lists that follows the float -->
@@ -167,7 +170,7 @@ sips -Z 1200 filename.jpg
 - [ ] Added to Resources index table of contents
 - [ ] Images optimized (if needed)
 - [ ] Images positioned alternately (R/L/R/L)
-- [ ] Image captions included with "Photo: Game Name" format
+- [ ] Image captions included with "Photo: Game Name" format using `resource-image-caption` class
 - [ ] Last image is not at the bottom (text content follows final image)
 - [ ] Lists after floated images wrapped in `resource-list-container` divs
 - [ ] "Back to Resources" button included
