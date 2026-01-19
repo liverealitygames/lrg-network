@@ -12,10 +12,48 @@
 
 .resource-content ul {
   margin-top: 0.75rem;
+  padding-left: 1.5rem;
+  list-style-position: outside;
 }
 
 .resource-content li {
   margin-bottom: 0.5rem;
+}
+
+/* Container for paragraph + list pairs that come after floated images
+   This ensures lists maintain proper indentation when wrapping around floats */
+.resource-list-container {
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 992px) {
+  /* The issue: when lists wrap around float-left images, padding-left is calculated
+     from the content edge (next to float), making bullets align with paragraph text.
+
+     Solution: Create a new block formatting context with overflow: hidden so the
+     container doesn't wrap around the float, then add margin-left to position it
+     after the float. This ensures lists maintain proper indentation. */
+
+  /* When a resource-list-container comes after a float-left image */
+  .resource-content .float-lg-start ~ .resource-list-container {
+    overflow: hidden; /* Create new BFC - prevents wrapping, content starts after float */
+    margin-left: 2rem; /* Position after float's margin-right */
+    clear: none; /* Allow natural flow */
+  }
+
+  /* Lists in containers after float-left images get extra padding for proper indentation */
+  .resource-content .float-lg-start ~ .resource-list-container ul {
+    padding-left: 2.5rem; /* Increased padding to create proper indentation */
+    margin-left: 0;
+    margin-top: 0.75rem;
+  }
+
+  /* Ensure all lists maintain consistent padding */
+  .resource-list-container ul {
+    padding-left: 1.5rem;
+    margin-left: 0;
+    margin-top: 0.75rem;
+  }
 }
 
 /* Image wrapping on large screens */
