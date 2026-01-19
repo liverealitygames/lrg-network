@@ -1,6 +1,6 @@
 # Makefile for lrg-network
 
-.PHONY: help build up down migrate cities_light shell logs test format format-check
+.PHONY: help build up down migrate cities_light shell logs test format format-check optimize-images
 
 help:
 	@echo "Makefile commands:"
@@ -15,6 +15,7 @@ help:
 	@echo "  test			Run tests (if implemented)"
 	@echo "  format			Format code with Black"
 	@echo "  format-check	Check code formatting (mirrors CI)"
+	@echo "  optimize-images	Optimize images >500KB in static/resources/images/"
 
 build:
 	docker compose build
@@ -51,3 +52,6 @@ format:
 
 format-check:
 	black --check .
+
+optimize-images:
+	python3 scripts/optimize_images.py
