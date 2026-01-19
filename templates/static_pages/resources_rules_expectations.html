@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+{% load compress %}
+
+{% block title %}Establishing Rules & Expectations - Resources - LRG Network{% endblock %}
+
+{% block extra_css %}
+{% compress css %}
+<link rel="stylesheet" href="{% static 'resources/styles.css' %}">
+{% endcompress %}
+{% endblock %}
+
+{% block content %}
+<div class="container-xl py-3">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="mb-4">Establishing Rules & Expectations</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="resource-content">
+        <div class="mb-4">
+          <p class="lead">When you're starting your LRG and are beginning to get the team together (whether it's crew/volunteers, the competitors, or everybody involved), it's important to set up clear and explicit expectations for how the event will go for both your production team and your players.</p>
+        </div>
+
+        <!-- Image 1 -->
+        <div class="resource-image-wrapper float-lg-end mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/survivor_lake_of_bays.jpg' %}" alt="Players gathered around a campfire in discussion" class="img-fluid resource-image">
+          <p class="resource-image-caption">Photo: Survivor Lake of Bays</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">For Your Production Team</h3>
+          <p>Establish what the game timeline looks like. Games can have many moving parts, so arranging logistics ahead of time is critical (when to arrive, start time, how long each section of the game will take, end time, etc.). Determine what production will know prior to the game begins, as well as what information they can or cannot discuss too. You may also want to set behavioral expectations for production to abide by as well.</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">For Players</h3>
+          <p>A good rule of thumb will be to have them sign a written agreement that acknowledges that they are aware of the rules, restrictions, and expectations of their participation during the game. Some key points to include can be:</p>
+        </div>
+
+        <div class="resource-list-container">
+          <div class="mb-4">
+            <ul>
+              <li><strong>The time and location of the event</strong>, from beginning to end, and whether you expect all participants to stick around if they get eliminated or if they're free to visit nearby areas.</li>
+              <li><strong>A general "scope" of the competition</strong> (great opportunity to layout some of the more basic mechanics ie. voting, challenges, rewards, etc.).</li>
+              <li><strong>Any restrictions or limitations</strong> that you need players to be aware of going into the competition (ie. for Survivor-like games, what are players allowed to eat/drink? Will phones be allowed or do they have to be stored away somewhere during the competition? Are there any areas at the location that are off-limits?).</li>
+              <li><strong>Production will have final say</strong> in challenge wins, and whether or not a challenge must stop, depending on the situation.</li>
+              <li><strong>Safety Rules</strong>, such as: Any physical altercation between any contestant, volunteer, or production member will result in immediate expulsion from the game and event. No knives or weapons should be brought to the game location.</li>
+              <li><strong>Reward/prizes</strong> for "winning" the game.</li>
+              <li><strong>If you are filming your game</strong>, make sure there is a section explicitly stating that players agree and consent to allowing themselves to be filmed, and for you to represent them in any way in the editing/production process. You can also add a clause stating that before anything is shown to the public, you may have them review it for a final approval in case they would like any items to be hidden/removed.</li>
+              <li><strong>Responsibilities of the players.</strong> For example, if you're staying at an AirBnb they cannot trash the place looking for secret items, they must keep the location in as good a condition as it was found.</li>
+              <li><strong>A "severability clause"</strong> is a good rule of thumb for any agreement, essentially stating that if one part of the agreement is found to not be enforceable, that part may be ignored but the rest of the agreement is still agreed to and enforced.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Image 2 -->
+        <div class="resource-image-wrapper float-lg-start mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/chanceville_survivor.jpg' %}" alt="Players engaged in a challenge with letter tiles" class="img-fluid resource-image">
+          <p class="resource-image-caption">Photo: Chanceville Survivor</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">Player Expectations and Gameplay</h3>
+          <p>Additionally for players, while the reality TV versions of these games may succeed by having "villains" on the shows to create some tension, you may want to set player expectations as to what gameplay they may expect. Just know that if you open up the opportunities for people to be shady and rude as part of their gameplay, you may need to devote some extra time to the decompressing and aftercare of the contestants. Please see the section on Player Care for more information.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Resources -->
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="text-center">
+        <a href="{% url 'resources' %}" class="btn btn-outline-primary">← Back to Resources</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
