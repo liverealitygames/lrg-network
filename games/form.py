@@ -37,8 +37,6 @@ class GameAdminForm(forms.ModelForm):
 
     def clean_youtube_link(self):
         value = self.cleaned_data.get("youtube_link")
-        if value:
-            validate_social_handle(value, "YouTube")
         return value
 
     def clean_lrg_wiki_page(self):
