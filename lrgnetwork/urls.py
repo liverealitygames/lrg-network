@@ -62,4 +62,11 @@ urlpatterns = [
         TemplateView.as_view(template_name="static_pages/resources_casting.html"),
         name="resources_casting",
     ),
+    path(
+        "resources/rules-expectations/",
+        TemplateView.as_view(
+            template_name="static_pages/resources_rules_expectations.html"
+        ),
+        name="resources_rules_expectations",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
