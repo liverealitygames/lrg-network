@@ -69,4 +69,11 @@ urlpatterns = [
         ),
         name="resources_rules_expectations",
     ),
+    path(
+        "resources/challenge-ideas/",
+        TemplateView.as_view(
+            template_name="static_pages/resources_challenge_ideas.html"
+        ),
+        name="resources_challenge_ideas",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

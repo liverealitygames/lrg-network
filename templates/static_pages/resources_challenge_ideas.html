@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load static %}
+{% load compress %}
+
+{% block title %}Challenge Ideas - Resources - LRG Network{% endblock %}
+
+{% block extra_css %}
+{% compress css %}
+<link rel="stylesheet" href="{% static 'resources/styles.css' %}">
+{% endcompress %}
+{% endblock %}
+
+{% block content %}
+<div class="container-xl py-3">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="mb-4">Challenge Ideas</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="resource-content">
+        <div class="mb-4">
+          <p>Starting to plan your first LRG can be an exciting adventure, but unless you have an endless budget, you do not want to break the bank. Here are some helpful/cost effective items and challenges you can create for your first LRG:</p>
+        </div>
+
+        <!-- Image 1 -->
+        <div class="resource-image-wrapper float-lg-end mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/survivor_la.png' %}" alt="Rope untanglement challenge on outdoor stairs" class="img-fluid resource-image">
+          <p class="resource-image-caption">Photo: Survivor LA - Rope Untanglement Challenge</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">Essential Items</h3>
+          <p>These items are versatile, inexpensive, and useful across multiple challenge types.</p>
+          <div class="resource-list-container">
+            <ul>
+              <li>Solo Cups (Red/Blue)</li>
+              <li>Ping Pong Balls</li>
+              <li>Plastic Spoons</li>
+              <li>Blindfolds or Bandanas</li>
+              <li>Rope/String (various lengths)</li>
+              <li>Buckets or Small Bins</li>
+              <li>Duct Tape</li>
+              <li>Tennis Balls</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Image 2 -->
+        <div class="resource-image-wrapper float-lg-end mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/survivor_lake_fork.jpg' %}" alt="Instant Insanity puzzle challenge" class="img-fluid resource-image">
+          <p class="resource-image-caption">Photo: Survivor Lake Fork - Instant Insanity</p>
+        </div>
+
+        <div class="resource-list-container">
+          <div class="mb-4">
+            <ul>
+              <li>Playing Cards</li>
+              <li>Clothespins or Binder Clips</li>
+              <li>Index Cards + Markers</li>
+              <li>Paper Plates</li>
+              <li>Pool Noodles (cut in half)</li>
+              <li>Balloons</li>
+              <li>Plastic Cones</li>
+              <li>Stopwatches (or use phones)</li>
+              <li>Chalk or Tape</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">Sample Challenges</h3>
+          <div class="resource-list-container">
+            <ul>
+              <li><strong>Cup Stack Relay</strong> – Teams stack solo cups in a pyramid, relay style.</li>
+              <li><strong>Ping Pong Toss</strong> – Bounce balls into a grid of cups (point values per cup).</li>
+              <li><strong>Spoon Balance Race</strong> – Carry ping pong balls on a spoon in a relay.</li>
+              <li><strong>Blind Maze</strong> – Blindfolded player directed by a teammate using only verbal cues.</li>
+              <li><strong>Memory Match</strong> – Use index cards with matching symbols like a memory game.</li>
+              <li><strong>Tennis Ball Tower</strong> – Balance a stack of cups with a ball between each.</li>
+              <li><strong>Water Fill Challenge</strong> – Using cups/spoons, fill a bucket across a distance.</li>
+              <li><strong>Puzzle Plate Shuffle</strong> – Paper plates laid out with parts of a puzzle on each.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Image 3 -->
+        <div class="resource-image-wrapper float-lg-start mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/jeff_probsts_son.jpg' %}" alt="When It Rains, It Pours challenge with ropes and cups" class="img-fluid resource-image">
+          <p class="resource-image-caption">Photo: Jeff Probst's Son - When It Rains, It Pours</p>
+        </div>
+
+        <div class="resource-list-container">
+          <div class="mb-4">
+            <ul>
+              <li><strong>Obstacle Course</strong> – Crawl under rope, jump over tape lines, balance on plates.</li>
+              <li><strong>Trivia Gauntlet</strong> – Answer correctly or do a physical task (jumping jacks, etc).</li>
+              <li><strong>Balloon Pop Clue Hunt</strong> – Pop balloons with clues hidden inside and solve a riddle.</li>
+              <li><strong>Noodle Joust</strong> – Use pool noodles in a light-hearted balance-off or challenge.</li>
+              <li><strong>Color Cone Grab</strong> – Players race to collect cones in a designated color sequence.</li>
+              <li><strong>Card Stack Speed Build</strong> – Teams build a card structure as high as possible in a set time.</li>
+              <li><strong>Target Chalk Toss</strong> – Toss ping pong balls or tennis balls into chalk-drawn targets for points.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <p>You are encouraged to learn from what has come before you! Watch other LRGs on youtube and browse their social media to get your ideas! Of course, there are some very impressive, large, wooden challenges set up by some games, but it's ok to start smaller, especially in your first season.</p>
+        </div>
+
+        <!-- Image 4 -->
+        <div class="resource-image-wrapper float-lg-end mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/the_mole_new_york.jpg' %}" alt="Magic square puzzle challenge" class="img-fluid resource-image">
+          <p class="resource-image-caption">Photo: The Mole New York - Magic Square Puzzle</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">Other Tips</h3>
+          <p>It is always recommended (and fun!) to try the challenges out before the day of the game. Gather your "Dream Team", to test the challenges to make sure they aren't too hard or too easy. You will want to estimate how long challenges will take by having people test them. Through a dream team, you can also troubleshoot, anticipate what questions players may have, and firm up the rules to each challenge. Players will always want to see how they can push the limits of a challenge, so a strong challenge team will have clarity beforehand about what is and is not going to be acceptable.</p>
+        </div>
+
+        <!-- Image 5 -->
+        <div class="resource-image-wrapper float-lg-start mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/survivor_los_angeles.jpg' %}" alt="Water pouring challenge with segmented tube" class="img-fluid resource-image">
+          <p class="resource-image-caption">Photo: Survivor Los Angeles - Water Pouring Challenge</p>
+        </div>
+
+        <div class="mb-4">
+          <p>It's recommended to have an extra challenge or two ready to go in case something breaks or changes on game day.</p>
+          <p>You will also want to make sure your challenges are designed so anyone can participate and you have the right balance between physical, mental and social for your particular game. (If you have a food challenge, make sure you've accounted for dietary restrictions. If you have players who can't swim, make sure only some of the players need to do a swimming portion of the challenge.)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Resources -->
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="text-center">
+        <a href="{% url 'resources' %}" class="btn btn-outline-primary">← Back to Resources</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
