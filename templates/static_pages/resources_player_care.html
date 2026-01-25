@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+{% load compress %}
+
+{% block title %}Player Care - Resources - LRG Network{% endblock %}
+
+{% block extra_css %}
+{% compress css %}
+<link rel="stylesheet" href="{% static 'resources/styles.css' %}">
+{% endcompress %}
+{% endblock %}
+
+{% block content %}
+<div class="container-xl py-3">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="mb-4">Player Care</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="resource-content">
+        <div class="mb-4">
+          <p class="lead">Player care and mental health starts from the casting phase. You want to make sure you vet your players appropriately. You have to remember who you are casting, especially if playing with strangers! Even if everyone comes in with the best intentions, everyone might not understand what that means. Knowing your cast may help you anticipate how players may react during and after the game.</p>
+        </div>
+
+        <!-- Image 1: R -->
+        <div class="resource-image-wrapper float-lg-end mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/link_competition.jpg' %}" alt="Outdoor obstacle course challenge with players navigating an A-frame structure" class="img-fluid resource-image">
+          <p class="resource-image-caption">Photo: Link Competition</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">During the Game</h3>
+          <p>It's important to remember while in the game, the game is everything to your players. More intense games can lead to players becoming wrapped up in the world you create. While in the game, you need to check on your players every round, whether it be in a confessional or a quick side bar. Having someone that the player trusts to come to with concerns, or issues can make or break a game. You cannot have eyes everywhere so players might come to you with issues. You may want to consider designating a member of your production team as a player care representative that players know they can go to and talk to. As a host/creator it is up to you to make the player feel heard and seen, and code of conduct violations need to be handled immediately in a professional manner. Below is an example of a situation that may occur in a game and how to handle it.</p>
+        </div>
+
+        <div class="resource-list-container">
+          <div class="mb-4">
+            <p><strong>Example:</strong> A player comes to you and says that another player is making disparaging comments about women at camp and it is making the other players feel uncomfortable.</p>
+            <ul>
+              <li><strong>Step 1</strong> - Acknowledge the player who brought up the concern and thank them for coming to you.</li>
+              <li><strong>Step 2</strong> - Pull the accused player to the side and have a non judgemental conversation with them "So someone heard some rude comments you made and I wanted to just come to you privately about it."</li>
+              <li><strong>Step 3</strong> - The player might be shocked about this and it is important to acknowledge their feelings and reiterate your code of conduct and keep it cordial.</li>
+              <li><strong>Step 4</strong> - Your player could become upset, even angry about these accusations. The best tactic is to remain calm and keep the situation under control. De-escalating the situation can help by telling them that things can be perceived in a way that was not intended.</li>
+              <li><strong>Step 5</strong> - Keep monitoring the situation by checking in with both parties, if you can maybe assign an extra crew member to that camp specifically to make sure everything runs smoothly.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Image 2: L -->
+        <div class="resource-image-wrapper float-lg-start mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/survivor_nashville.jpg' %}" alt="Group portrait of players in a relaxed indoor setting" class="img-fluid resource-image">
+          <p class="resource-image-caption">Photo: Survivor Nashville</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">Post Game</h3>
+          <p>Getting voted out is something that everyone is afraid of but it will ultimately happen to all but 1 person. You will see a rainbow of emotions from people just voted out - crying, anger, laughter, ambivalence.</p>
+          <p>It is important to let the players say their goodbyes and exit the play area, give them some final words for the camera and let them just talk. The release of emotions after you are voted out of the game can be very overwhelming for most people. The world you created for this person is now over, and that can be a tough pill to swallow.</p>
+        </div>
+
+        <div class="resource-list-container">
+          <div class="mb-4">
+            <p>Acknowledging feelings is again very important, asking some questions to help guide their thought process:</p>
+            <ul>
+              <li>"Who are you most upset by and why?"</li>
+              <li>"I can see you are very upset. Is there anything specifically that is upsetting you?"</li>
+              <li>"Would you like a hug?"</li>
+              <li>"Is there anyone on production that you would like to see or speak to?"</li>
+              <li>"Is there anyone you would like us to call?"</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Image 3: R -->
+        <div class="resource-image-wrapper float-lg-end mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/survivor_great_lakes.jpg' %}" alt="Group selfie of players with green bandanas in an outdoor park setting" class="img-fluid resource-image">
+          <p class="resource-image-caption">Photo: Survivor Great Lakes</p>
+        </div>
+
+        <div class="mb-4">
+          <p>Once the player has been voted out you still need to take care of them. Depending on your game structure, players may have a built in support network, through being with other players in redemption or a jury together. However, sometimes this doesn't occur, which means it should be up to production to find a crew member to help them decompress. What a player needs may range. This is why knowing your cast is so important! Some players may want to feel useful, and will enjoy helping with challenges or feeding a crew, as a sense of purpose can help the player navigate harsh feelings. Other times, a player may just want another presence around to keep them calm. Unfortunately there is no right answer for this as it is on a player by player basis. You might also get players who give the silent treatment to production and want to leave immediately. As long as it is safe to do so, make sure you support that person in leaving. You never want someone to feel like they are trapped, even if they are part of the jury, you need to pivot. Players who feel trapped will lash out.</p>
+        </div>
+
+        <!-- Image 4: L -->
+        <div class="resource-image-wrapper float-lg-start mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/survive_lrg.jpg' %}" alt="Three players seated in a circle on a wooden platform in a wooded setting, engaged in a debriefing conversation" class="img-fluid resource-image">
+          <p class="resource-image-caption">Photo: Survive LRG</p>
+        </div>
+
+        <div class="mb-4">
+          <p>Ultimately, just be a kind human and let that lead the way, as no one is perfect. Always come from a place of genuine connection with your players and they will overlook any accidental missteps. Your goal should be to ensure that the player's overall experience, not just the in-game experience, is positive.</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">Decompression Document</h3>
+          <p>Many games share the link to the <a href="https://docs.google.com/document/d/1zmDKdl-pjOlhP_bD-5BN_LgHijvf5MHTEfMZB5tSPnA/edit?usp=sharing" target="_blank" rel="noopener noreferrer">Decompression Document</a> with their players and production after the game to help them process their experience. It has been helpful for many players as they re-enter the "real world" after what can be an intense and immersive game experience.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Resources -->
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="text-center">
+        <a href="{% url 'resources' %}" class="btn btn-outline-primary">← Back to Resources</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
