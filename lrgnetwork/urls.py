@@ -88,4 +88,9 @@ urlpatterns = [
         TemplateView.as_view(template_name="static_pages/resources_social_media.html"),
         name="resources_social_media",
     ),
+    path(
+        "resources/player-care/",
+        TemplateView.as_view(template_name="static_pages/resources_player_care.html"),
+        name="resources_player_care",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
