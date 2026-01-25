@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+{% load compress %}
+
+{% block title %}Art Department - Resources - LRG Network{% endblock %}
+
+{% block extra_css %}
+{% compress css %}
+<link rel="stylesheet" href="{% static 'resources/styles.css' %}">
+{% endcompress %}
+{% endblock %}
+
+{% block content %}
+<div class="container-xl py-3">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="mb-4">Art Department</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="resource-content">
+        <div class="mb-4">
+          <p class="lead">When you think about how your game should look and feel, the details matter!</p>
+          <p>Gather the artists in your life to join the art department! A theme, color scheme, logo, props and art on challenges will bring the immersive game experience to the next level. Your team can really add to the vibrancy of a game!</p>
+          <p>Not really an artist but would love to add some artistic flair to the game? We do have some talented folks within our community that can be hired and commissioned to make props. Talk with other game hosts for recommendations!</p>
+        </div>
+
+        <div class="row resource-gallery row-cols-1 row-cols-lg-2 g-4 mt-2">
+          <div class="col">
+            <div class="resource-image-wrapper resource-gallery-item">
+              <img src="{% static 'resources/images/survivor_angelica.jpg' %}" alt="Handcrafted tribe flag with sugar skull and roses at Survivor Angelica" class="img-fluid resource-image">
+              <p class="resource-image-caption">Photo: Survivor Angelica — Tribe flag (Blessings and Curses season theme)</p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="resource-image-wrapper resource-gallery-item">
+              <img src="{% static 'resources/images/survivor_pennsylvania.jpg' %}" alt="Gettysburg tribal council set with fire pit and stone walls at Survivor Pennsylvania" class="img-fluid resource-image">
+              <p class="resource-image-caption">Photo: Survivor Pennsylvania — Gettysburg tribal council set built by production at the campground</p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="resource-image-wrapper resource-gallery-item">
+              <img src="{% static 'resources/images/surviving_maine.jpg' %}" alt="Custom puzzle challenge at Surviving Maine" class="img-fluid resource-image">
+              <p class="resource-image-caption">Photo: Surviving Maine — Puzzle</p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="resource-image-wrapper resource-gallery-item">
+              <img src="{% static 'resources/images/survivor_new_york_art.jpg' %}" alt="Carved torches, voting box, and wooden staff props at Survivor New York" class="img-fluid resource-image">
+              <p class="resource-image-caption">Photo: Survivor New York — Torches, snuffer, and voting box</p>
+            </div>
+          </div>
+          <div class="col offset-lg-3">
+            <div class="resource-image-wrapper resource-gallery-item">
+              <img src="{% static 'resources/images/mason_mitchell_survivor.jpg' %}" alt="Night tribal council with string lights and torches at Mason Mitchell Survivor" class="img-fluid resource-image">
+              <p class="resource-image-caption">Photo: Mason Mitchell Survivor — Night lighting and immersive atmosphere</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Resources -->
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="text-center">
+        <a href="{% url 'resources' %}" class="btn btn-outline-primary">← Back to Resources</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

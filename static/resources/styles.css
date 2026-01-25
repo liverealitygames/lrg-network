@@ -109,3 +109,16 @@
   display: table;
   clear: both;
 }
+
+/* Art Department gallery: grid on desktop, stack on mobile */
+.resource-gallery .resource-gallery-item {
+  max-width: none;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.resource-gallery .resource-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}

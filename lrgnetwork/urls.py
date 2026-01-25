@@ -76,4 +76,11 @@ urlpatterns = [
         ),
         name="resources_challenge_ideas",
     ),
+    path(
+        "resources/art-department/",
+        TemplateView.as_view(
+            template_name="static_pages/resources_art_department.html"
+        ),
+        name="resources_art_department",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
