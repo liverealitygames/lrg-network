@@ -93,4 +93,9 @@ urlpatterns = [
         TemplateView.as_view(template_name="static_pages/resources_player_care.html"),
         name="resources_player_care",
     ),
+    path(
+        "resources/editing/",
+        TemplateView.as_view(template_name="static_pages/resources_editing.html"),
+        name="resources_editing",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

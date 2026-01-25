@@ -78,6 +78,7 @@ Use this template structure:
 - Always include `mb-4 mb-lg-3` classes
 - Use `resource-image-wrapper` class
 - Captions: use `resource-image-caption` class
+- **Caption format:** Use only "Photo: Game Name" (no additional descriptions). Example: `<p class="resource-image-caption">Photo: Survivor LA</p>`
 - **Important:** Never place the last image at the bottom of the page. There should always be text content below the final image before the "Back to Resources" button.
 
 **List Indentation Fix (for lists after floated images):**
@@ -170,7 +171,7 @@ sips -Z 1200 filename.jpg
 - [ ] Added to Resources index table of contents
 - [ ] Images optimized (if needed)
 - [ ] Images positioned alternately (R/L/R/L)
-- [ ] Image captions included with "Photo: Game Name" format using `resource-image-caption` class
+- [ ] Image captions included with "Photo: Game Name" format (game name only, no descriptions) using `resource-image-caption` class
 - [ ] Last image is not at the bottom (text content follows final image)
 - [ ] Lists after floated images wrapped in `resource-list-container` divs
 - [ ] "Back to Resources" button included
@@ -183,7 +184,7 @@ You can provide content in any format, and I'll:
 2. Insert images at appropriate points (ensuring the last image is not at the bottom)
 3. Format headers, lists, and paragraphs
 4. Alternate image positioning (R/L/R/L)
-5. Add captions to images
+5. Add captions to images (format: "Photo: Game Name" - game name only, no descriptions)
 6. Wrap lists after floated images in `resource-list-container` divs for proper indentation
 7. Set up all the routing
 
