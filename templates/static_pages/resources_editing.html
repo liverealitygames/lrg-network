@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+{% load compress %}
+
+{% block title %}Editing - Resources - LRG Network{% endblock %}
+
+{% block extra_css %}
+{% compress css %}
+<link rel="stylesheet" href="{% static 'resources/styles.css' %}">
+{% endcompress %}
+{% endblock %}
+
+{% block content %}
+<div class="container-xl py-3">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="mb-4">Editing</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="resource-content">
+        <div class="mb-4">
+          <p class="lead">If you filmed your LRG, editing will be its own process regardless of how small or big your event is. If you're trying to capture a complete story of the games that are played by the contestants, chances are you'll need multiple cameras, and multiple recordings to cover everything. For each additional recording device you use, anticipate that'll double your editing time because of scrubbing through footage, making sure video/audio are synced if using different devices, and other additional elements that come with multiple components.</p>
+        </div>
+
+        <!-- Image 1: R -->
+        <div class="resource-image-wrapper float-lg-end mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/the_legacy_trials.jpg' %}" alt="Water dousing moment being filmed with multiple cameras during an LRG" class="img-fluid resource-image">
+          <p class="resource-image-caption">Photo: The Legacy Trials</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">Organizing Your Footage</h3>
+          <p>When beginning your editing process, here are some key things you can do to help with the timeline of your recordings:</p>
+        </div>
+
+        <div class="resource-list-container">
+          <div class="mb-4">
+            <ul>
+              <li>Create folders for each "section" of your game (whether that's by challenge, by elimination, or by date, breaking it out will reduce search time).</li>
+              <li>Be brief but descriptive with your file names (Ex. "Sara confessional before Vote" filed in the Episode 3 folder is straightforward and concise).</li>
+              <li>Sort everything into a location, even if that's not where it'll end up (you may have a confessional that happened before the 2nd elimination, but it actually is better to use going into the finale, that's fine but for now just put it with the other footage around the 2nd elimination).</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Image 2: L -->
+        <div class="resource-image-wrapper float-lg-start mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/survivor_one_day.jpg' %}" alt="Torch lighting ceremony around a campfire during an LRG" class="img-fluid resource-image">
+          <p class="resource-image-caption">Photo: Survivor One Day</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">Editing Software</h3>
+          <p>For editing software, there's no need to break the bank and purchase anything to handle this. For MacOS, iMovie can handle the majority of what you'll need, and for Windows there are a few free options as well to look into to determine which User Interface will work best for you. Adobe Premiere Pro is a solid option that costs about $23/month so if you're able to dedicate a lot of time to editing in a single month, you can simply subscribe to cover your editing needs and then cancel when it's all finished.</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">Key Editing Considerations</h3>
+          <p>While you're editing, here are some key topics to keep in mind:</p>
+        </div>
+
+        <div class="resource-list-container">
+          <div class="mb-4">
+            <ul>
+              <li>Is there a certain story that is being told through the footage? If so, make sure the timeline of that story doesn't get too jumbled.</li>
+              <li>Be mindful that although there may have been a significant event or action that happened during the event, if it didn't get caught on camera, then viewers won't know what people are talking about. So just because something important happened doesn't mean it needs to define the video narrative. And vice versa - just because you filmed something that had an impact on the event doesn't mean that it needs to be in the final edit. Be comfortable with letting some footage go.</li>
+              <li>Are there some dead pockets of air between conversations/recordings that you would like to splice together? Consider utilizing other footage (sometimes known as "B-roll") that can be muted and put on top of the audio so you can cut and clip to remove the dead air while still having the footage not too jumpy.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Image 3: R -->
+        <div class="resource-image-wrapper float-lg-end mb-4 mb-lg-3">
+          <img src="{% static 'resources/images/survivor_uncw.jpg' %}" alt="Celebratory moment with idol being held up during an LRG" class="img-fluid resource-image">
+          <p class="resource-image-caption">Photo: Survivor UNCW</p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="h5 mb-2">Learning from the Pros</h3>
+          <p>Take a look at what show your LRG is formatted after and how they edit their episodes. How are the confessionals used? How much time is dedicated to particular conversations? How long is the elimination process each episode? The people who edit these shows do this for a living, so they know what they're about. It's fine to copy their style to start out and figure out any adjustments you might like to make for your own LRG.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Resources -->
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="text-center">
+        <a href="{% url 'resources' %}" class="btn btn-outline-primary">← Back to Resources</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
