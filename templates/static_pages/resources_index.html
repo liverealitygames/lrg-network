@@ -16,77 +16,187 @@
     </div>
   </div>
 
-  <!-- Table of Contents -->
-  <div class="row">
-    <div class="col-12 col-lg-8 mx-auto">
-      <div class="card bg-light mb-4">
-        <div class="card-body">
-          <h2 class="h4 mb-3">Table of Contents</h2>
-          <ul class="mb-0">
-            <li class="mb-2">
-              <a href="{% url 'resources_guided_questions' %}" class="text-decoration-none">
-                <strong>Guided Questions & Quick Thoughts</strong>
-              </a>
-              <p class="small text-muted mb-0 mt-1">Key questions to consider when planning your first LRG</p>
-            </li>
-            <li class="mb-2">
-              <a href="{% url 'resources_building_team' %}" class="text-decoration-none">
-                <strong>Building Your Team</strong>
-              </a>
-              <p class="small text-muted mb-0 mt-1">How to assemble and manage your production team</p>
-            </li>
-            <li class="mb-2">
-              <a href="{% url 'resources_budgets' %}" class="text-decoration-none">
-                <strong>Budget</strong>
-              </a>
-              <p class="small text-muted mb-0 mt-1">Understanding revenue sources and expense categories for your LRG</p>
-            </li>
-            <li class="mb-2">
-              <a href="{% url 'resources_casting' %}" class="text-decoration-none">
-                <strong>Casting</strong>
-              </a>
-              <p class="small text-muted mb-0 mt-1">Guidelines for building a diverse and dynamic cast for your LRG</p>
-            </li>
-            <li class="mb-2">
-              <a href="{% url 'resources_rules_expectations' %}" class="text-decoration-none">
-                <strong>Establishing Rules & Expectations</strong>
-              </a>
-              <p class="small text-muted mb-0 mt-1">Setting clear guidelines for production teams and players</p>
-            </li>
-            <li class="mb-2">
-              <a href="{% url 'resources_challenge_ideas' %}" class="text-decoration-none">
-                <strong>Challenge Ideas</strong>
-              </a>
-              <p class="small text-muted mb-0 mt-1">Cost-effective items and sample challenges for your first LRG</p>
-            </li>
-            <li class="mb-2">
-              <a href="{% url 'resources_art_department' %}" class="text-decoration-none">
-                <strong>Art Department</strong>
-              </a>
-              <p class="small text-muted mb-0 mt-1">Theme, props, sets, and art that bring your game's look and feel to life</p>
-            </li>
-            <li class="mb-2">
-              <a href="{% url 'resources_social_media' %}" class="text-decoration-none">
-                <strong>Social Media</strong>
-              </a>
-              <p class="small text-muted mb-0 mt-1">Instagram, Facebook, and TikTok tips to share your game and build community</p>
-            </li>
-            <li class="mb-2">
-              <a href="{% url 'resources_player_care' %}" class="text-decoration-none">
-                <strong>Player Care</strong>
-              </a>
-              <p class="small text-muted mb-0 mt-1">Guidelines for supporting player mental health and well-being during and after your game</p>
-            </li>
-            <li class="mb-2">
-              <a href="{% url 'resources_editing' %}" class="text-decoration-none">
-                <strong>Editing</strong>
-              </a>
-              <p class="small text-muted mb-0 mt-1">Tips for organizing footage, choosing software, and crafting compelling video narratives</p>
-            </li>
-          </ul>
+  <!-- Resources Cards -->
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
+    <div class="col">
+      <a href="{% url 'resources_guided_questions' %}" class="text-decoration-none text-body">
+        <div class="card bg-body-tertiary border h-100 btn-hover-scale transition">
+          <div class="card-body">
+            <h5 class="card-title">Guided Questions & Quick Thoughts</h5>
+            <p class="card-text">Key questions to consider when planning your first LRG</p>
+          </div>
         </div>
-      </div>
+      </a>
+    </div>
+
+    <div class="col">
+      <a href="{% url 'resources_building_team' %}" class="text-decoration-none text-body">
+        <div class="card bg-body-tertiary border h-100 btn-hover-scale transition">
+          <div class="card-body">
+            <h5 class="card-title">Building Your Team</h5>
+            <p class="card-text">How to assemble and manage your production team</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col">
+      <a href="{% url 'resources_budgets' %}" class="text-decoration-none text-body">
+        <div class="card bg-body-tertiary border h-100 btn-hover-scale transition">
+          <div class="card-body">
+            <h5 class="card-title">Budget</h5>
+            <p class="card-text">Understanding revenue sources and expense categories for your LRG</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col">
+      <a href="{% url 'resources_casting' %}" class="text-decoration-none text-body">
+        <div class="card bg-body-tertiary border h-100 btn-hover-scale transition">
+          <div class="card-body">
+            <h5 class="card-title">Casting</h5>
+            <p class="card-text">Guidelines for building a diverse and dynamic cast for your LRG</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col">
+      <a href="{% url 'resources_rules_expectations' %}" class="text-decoration-none text-body">
+        <div class="card bg-body-tertiary border h-100 btn-hover-scale transition">
+          <div class="card-body">
+            <h5 class="card-title">Establishing Rules & Expectations</h5>
+            <p class="card-text">Setting clear guidelines for production teams and players</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col">
+      <a href="{% url 'resources_challenge_ideas' %}" class="text-decoration-none text-body">
+        <div class="card bg-body-tertiary border h-100 btn-hover-scale transition">
+          <div class="card-body">
+            <h5 class="card-title">Challenge Ideas</h5>
+            <p class="card-text">Cost-effective items and sample challenges for your first LRG</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col">
+      <a href="{% url 'resources_art_department' %}" class="text-decoration-none text-body">
+        <div class="card bg-body-tertiary border h-100 btn-hover-scale transition">
+          <div class="card-body">
+            <h5 class="card-title">Art Department</h5>
+            <p class="card-text">Theme, props, sets, and art that bring your game's look and feel to life</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col">
+      <a href="{% url 'resources_social_media' %}" class="text-decoration-none text-body">
+        <div class="card bg-body-tertiary border h-100 btn-hover-scale transition">
+          <div class="card-body">
+            <h5 class="card-title">Social Media</h5>
+            <p class="card-text">Instagram, Facebook, and TikTok tips to share your game and build community</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col">
+      <a href="{% url 'resources_player_care' %}" class="text-decoration-none text-body">
+        <div class="card bg-body-tertiary border h-100 btn-hover-scale transition">
+          <div class="card-body">
+            <h5 class="card-title">Player Care</h5>
+            <p class="card-text">Guidelines for supporting player mental health and well-being during and after your game</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col">
+      <a href="{% url 'resources_editing' %}" class="text-decoration-none text-body">
+        <div class="card bg-body-tertiary border h-100 btn-hover-scale transition">
+          <div class="card-body">
+            <h5 class="card-title">Editing</h5>
+            <p class="card-text">Tips for organizing footage, choosing software, and crafting compelling video narratives</p>
+          </div>
+        </div>
+      </a>
     </div>
   </div>
 </div>
+
+<style>
+  /* Resources page specific styles */
+  /* Ensure cards have consistent minimum height */
+  .card {
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .card-text {
+    flex-grow: 1;
+  }
+
+  /* Better card hover effects - expand on hover like games list */
+  .btn-hover-scale {
+    transition: all 0.2s ease;
+  }
+
+  .btn-hover-scale:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* All cards green (community page palette) */
+  .row > .col .card {
+    background-color: var(--bs-success) !important;
+    border-color: var(--bs-success) !important;
+  }
+
+  .row > .col .btn-hover-scale:hover .card {
+    background-color: #157347 !important;
+  }
+
+  /* Common card text styling - white text for all cards */
+  .card-title {
+    margin-bottom: 0.75rem;
+    color: white !important;
+  }
+
+  .card-text {
+    color: rgba(255, 255, 255, 0.9) !important;
+    line-height: 1.6;
+  }
+
+  /* Ensure links maintain white text */
+  a.text-body {
+    color: inherit !important;
+  }
+
+  a.text-body:hover {
+    color: inherit !important;
+  }
+
+  /* Ensure uniform card heights in grid */
+  .row > .col > .card {
+    height: 100%;
+  }
+
+  /* Center incomplete rows by limiting column width */
+  .row.justify-content-center > .col {
+    max-width: 400px;
+  }
+</style>
 {% endblock %}
