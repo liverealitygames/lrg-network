@@ -35,32 +35,3 @@ def validate_optimized_file_size(
         raise ValidationError(
             "Optimized image file too large (max 2MB after optimization)."
         )
-
-
-def validate_social_handle(value: str, platform: str = "social media") -> None:
-    """
-    Validates social media handle format.
-    Basic validation: no spaces, no special characters that would break URLs.
-
-    Args:
-        value: The handle value to validate
-        platform: Name of the platform for error messages
-
-    Raises:
-        ValidationError: If handle contains invalid characters
-    """
-    if not value:
-        return
-
-    # Check for spaces (not allowed in handles)
-    if " " in value:
-        raise ValidationError(f"{platform} handle cannot contain spaces.")
-
-    # Check for characters that would break URL construction
-    invalid_chars = ["/", "\\", "?", "#", "@"]
-    for char in invalid_chars:
-        if char in value:
-            raise ValidationError(
-                f"{platform} handle cannot contain '{char}'. "
-                f"Enter just the handle/username without the full URL."
-            )
