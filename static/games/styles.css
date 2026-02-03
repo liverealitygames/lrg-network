@@ -51,6 +51,13 @@ strong {
     width: 100%;
 }
 
+/* Tighter max-width for game detail page only */
+.game-detail-page {
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* Social Icons */
 .social-icon {
     display: inline-flex;
@@ -209,48 +216,40 @@ strong {
     object-fit: contain;
 }
 
-/* Carousel controls */
-.carousel-control-prev, .carousel-control-next {
+/* Carousel: thumbnail strip below the image (no overlay arrows) */
+#gameGalleryCarousel.carousel {
+    padding-bottom: 0.5rem;
+}
+
+/* Thumbnail strip below the carousel */
+.carousel-thumbnails {
+    padding: 0.5rem 0;
+}
+
+.carousel-thumbnail {
     width: 56px;
     height: 56px;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 1;
-}
-.carousel-control-prev span, .carousel-control-next span {
-    background: none;
-    border-radius: 0;
-    box-shadow: none;
-    width: auto;
-    height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.carousel-control-prev i, .carousel-control-next i {
-    color: var(--text-black);
-    font-size: 2rem;
-    filter: drop-shadow(0 1px 2px rgba(255, 255, 255, 0.8));
-    transition: transform 0.2s ease;
-}
-.carousel-control-prev:hover i, .carousel-control-next:hover i {
-    transform: scale(1.1);
+    flex-shrink: 0;
+    background: var(--bs-gray-100);
+    cursor: pointer;
+    transition: opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
-.carousel-control-icon {
-    font-size: 2rem;
-    color: var(--text-black);
+.carousel-thumbnail:hover {
+    opacity: 0.9;
 }
 
-/* Carousel arrows: white on small screens (overlap photo), black on larger screens */
-@media (max-width: 767.98px) {
-    .carousel-control-prev i, .carousel-control-next i {
-        color: var(--text-white);
-        filter: drop-shadow(0 1px 2px var(--shadow-drop));
-    }
-    .carousel-control-icon {
-        color: var(--text-white);
-    }
+.carousel-thumbnail.active,
+.carousel-thumbnail:focus-visible {
+    box-shadow: 0 0 0 3px var(--bs-primary);
+    outline: none;
+}
+
+.carousel-thumbnail-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 /* Search input */
