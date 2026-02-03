@@ -132,3 +132,27 @@
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+/* About page: full-bleed collage (break out of main container, edge-to-edge) */
+.about-collage-wrapper {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+.about-collage-wrapper img {
+  width: 100%;
+  display: block;
+  vertical-align: bottom;
+}
+
+@media (max-width: 767.98px) {
+  .about-collage-wrapper img {
+    min-height: 50vh;
+    object-fit: cover;
+    object-position: center;
+  }
+}
