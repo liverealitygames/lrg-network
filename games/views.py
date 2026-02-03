@@ -1,12 +1,13 @@
 from typing import Dict, Any, Optional
-from django.http import HttpRequest, HttpResponse
+
 from django.db.models import QuerySet
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import get_object_or_404, render
 from cities_light.models import Country, Region, City
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
 
-from games.models import Game
+from games.models import Game, GameImages
 
 
 def _apply_filters(queryset: QuerySet[Game], filters: Dict[str, Any]) -> QuerySet[Game]:
@@ -217,3 +218,28 @@ def game_detail(request: HttpRequest, slug: str) -> HttpResponse:
         slug=slug,
     )
     return render(request, "games/game_detail.html", {"game": game})
+
+
+GALLERY_PAGE_SIZE = 24
+
+
+def gallery(request: HttpRequest) -> HttpResponse:
+    """
+    Display a paginated gallery of images from all games.
+    Order is deterministic but not chronological (by id; UUIDs give stable semi-random order).
+    Each image links to its game's detail page.
+    """
+    queryset = (
+        GameImages.objects.filter(is_removed=False)
+        .select_related("game")
+        .filter(game__is_removed=False)
+        .order_by("id")
+    )
+    paginator = Paginator(queryset, GALLERY_PAGE_SIZE)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(
+        request,
+        "games/gallery.html",
+        {"images": page_obj.object_list, "page_obj": page_obj},
+    )
