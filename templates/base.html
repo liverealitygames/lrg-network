@@ -52,6 +52,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-white {% if request.resolver_match.url_name == 'gallery' %}active{% endif %}"
+                               href="{% url 'gallery' %}">
+                                Gallery
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-white {% if request.resolver_match.url_name == 'community' %}active{% endif %}"
                                href="{% url 'community' %}">
                                 Community
