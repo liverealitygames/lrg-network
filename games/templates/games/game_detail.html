@@ -4,7 +4,7 @@
 {% block title %}{{ game.name }} - LRG Network{% endblock %}
 
 {% block content %}
-<div class="container-lg mx-auto py-3">
+<div class="container-lg game-detail-page py-3">
     <div class="row mb-4">
         <div class="col-12 text-center">
             <h1 class="mb-4">{{ game.name }}</h1>
@@ -164,16 +164,32 @@
                         </div>
                     </div>
                 {% endfor %}
-                <button class="carousel-control-prev" type="button" data-bs-target="#gameGalleryCarousel" data-bs-slide="prev">
-                    <span aria-hidden="true"><i class="bi bi-chevron-left carousel-control-icon"></i></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#gameGalleryCarousel" data-bs-slide="next">
-                    <span aria-hidden="true"><i class="bi bi-chevron-right carousel-control-icon"></i></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+            </div>
+            <div class="carousel-thumbnails d-flex flex-wrap justify-content-center gap-2 mt-3">
+                {% for image in game.images.all %}
+                    <button type="button" class="carousel-thumbnail border-0 rounded overflow-hidden p-0 {% if forloop.first %}active{% endif %}"
+                        data-bs-target="#gameGalleryCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
+                        aria-label="View image {{ forloop.counter }}">
+                        <img src="{{ image.image.url }}" alt="" class="carousel-thumbnail-img" width="64" height="64" loading="lazy">
+                    </button>
+                {% endfor %}
             </div>
         </div>
+        <script>
+            (function () {
+                var carousel = document.getElementById('gameGalleryCarousel');
+                if (!carousel) return;
+                var thumbnails = carousel.querySelectorAll('.carousel-thumbnail');
+                function setActiveThumbnail(index) {
+                    thumbnails.forEach(function (btn, i) {
+                        btn.classList.toggle('active', i === index);
+                    });
+                }
+                carousel.addEventListener('slid.bs.carousel', function (e) {
+                    setActiveThumbnail(e.to);
+                });
+            })();
+        </script>
     {% endif %}
 </div>
 {% endblock %}
