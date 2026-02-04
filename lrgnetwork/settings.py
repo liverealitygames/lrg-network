@@ -145,6 +145,13 @@ DATABASES = {
     )
 }
 
+# Use SQLite for tests to avoid PostgreSQL collation issues and keep CI/local consistent
+if "test" in sys.argv or os.environ.get("PYTEST_CURRENT_TEST"):
+    DATABASES["default"] = {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": ":memory:",
+    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -195,6 +202,11 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+# In tests, avoid manifest storage (no collectstatic); use plain static storage
+if "test" in sys.argv or os.environ.get("PYTEST_CURRENT_TEST"):
+    STORAGES["staticfiles"] = {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    }
 
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")

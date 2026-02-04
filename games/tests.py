@@ -405,12 +405,21 @@ class GameMapViewTest(TestCase):
 
     def test_map_view_url_and_template(self):
         response = self.client.get(reverse("game_map"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "games/map.html")
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response,
+            reverse("game_list") + "?view=map",
+            fetch_redirect_response=False,
+        )
 
     def test_map_view_url_at_desired_location(self):
         response = self.client.get("/games/map/")
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response,
+            reverse("game_list") + "?view=map",
+            fetch_redirect_response=False,
+        )
 
 
 class GameMapDataViewTest(TestCase):
