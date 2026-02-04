@@ -3,29 +3,44 @@
 
 {% block title %}Games - LRG Network{% endblock %}
 
+{% block extra_css %}
+{% if view_mode == 'map' %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="stylesheet" href="{% static 'games/css/game_map.css' %}">
+{% endif %}
+{% endblock %}
+
 {% block content %}
 <div class="container-xl py-3">
 <div class="row mb-4">
     <div class="col-12 text-center">
-      <h1 class="mb-4">Games</h1>
+      <h1 class="mb-2">Games</h1>
+      <nav class="games-view-toggle" role="navigation" aria-label="View as list or map">
+        <a id="games-view-list-link" href="{{ list_view_url }}" class="games-view-toggle-link {% if view_mode == 'list' %}active{% endif %}">List</a>
+        <span class="games-view-toggle-sep" aria-hidden="true">|</span>
+        <a id="games-view-map-link" href="{{ map_view_url }}" class="games-view-toggle-link {% if view_mode == 'map' %}active{% endif %}">Map</a>
+      </nav>
     </div>
 </div>
 
 <div class="container-md mx-auto">
 <form id="game-filter-form" method="get" class="mb-4">
+<input type="hidden" name="view" value="{{ view_mode }}">
     <input type="hidden" name="filter_open" id="filterOpenInput" value="{{ request.GET.filter_open|default_if_none:'' }}">
-    <div class="input-group position-relative">
-        <input
-            type="text"
-            name="q"
-            id="searchInput"
-            class="form-control pe-5"
-            placeholder="Search games..."
-            value="{{ request.GET.q }}"
-        />
-        <button type="submit" class="btn btn-outline-secondary" aria-label="Search games">Search</button>
-        <button type="button" id="toggleFiltersBtn" class="btn btn-outline-secondary" aria-label="Toggle filters">
-            Filter <span id="filterCountBadge" class="badge bg-secondary ms-1 hidden" aria-hidden="true"></span>
+    <div class="games-search-row d-flex flex-wrap align-items-center gap-3">
+        <div class="input-group games-search-group">
+            <input
+                type="text"
+                name="q"
+                id="searchInput"
+                class="form-control"
+                placeholder="Search games..."
+                value="{{ request.GET.q }}"
+            />
+            <button type="submit" class="btn btn-primary games-search-btn btn-hover-scale" aria-label="Search games">Search</button>
+        </div>
+        <button type="button" id="toggleFiltersBtn" class="btn btn-success games-filter-btn btn-hover-scale" aria-label="Toggle filters">
+            Filter <span id="filterCountBadge" class="badge games-filter-badge ms-1 hidden" aria-hidden="true"></span>
         </button>
     </div>
 
@@ -67,30 +82,27 @@
         <div class="row g-3 align-items-end mt-0">
             <div class="col-md-4">
                 <label for="game_format" class="form-label d-block">Format</label>
-                <select id="game_format" name="game_format" class="selectpicker w-100" onchange="submitFormWithNonEmptyParams()">
-                    <option value="">All</option>
+                <select id="game_format" name="game_format" multiple class="selectpicker w-100" data-actions-box="true" data-size="8">
                     {% for format in game_formats %}
-                        <option value="{{ format.0 }}" {% if format.0 == selected_game_format %}selected{% endif %}>{{ format.1 }}</option>
+                        <option value="{{ format.0 }}" {% if format.0 in selected_game_formats %}selected{% endif %}>{{ format.1 }}</option>
                     {% endfor %}
                 </select>
             </div>
 
             <div class="col-md-4">
                 <label for="game_duration" class="form-label d-block">Duration</label>
-                <select id="game_duration" name="game_duration" class="selectpicker w-100" onchange="submitFormWithNonEmptyParams()">
-                    <option value="">All</option>
+                <select id="game_duration" name="game_duration" multiple class="selectpicker w-100" data-actions-box="true" data-size="8">
                     {% for duration in game_durations %}
-                        <option value="{{ duration.0 }}" {% if duration.0 == selected_game_duration %}selected{% endif %}>{{ duration.1 }}</option>
+                        <option value="{{ duration.0 }}" {% if duration.0 in selected_game_durations %}selected{% endif %}>{{ duration.1 }}</option>
                     {% endfor %}
                 </select>
             </div>
 
             <div class="col-md-4">
                 <label for="filming_status" class="form-label d-block">Viewing Format</label>
-                <select id="filming_status" name="filming_status" class="selectpicker w-100" onchange="submitFormWithNonEmptyParams()">
-                    <option value="">All</option>
+                <select id="filming_status" name="filming_status" multiple class="selectpicker w-100" data-actions-box="true" data-size="8">
                     {% for status in filming_statuses %}
-                        <option value="{{ status.0 }}" {% if status.0 == selected_filming_status %}selected{% endif %}>{{ status.1 }}</option>
+                        <option value="{{ status.0 }}" {% if status.0 in selected_filming_statuses %}selected{% endif %}>{{ status.1 }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -140,98 +152,17 @@
                 </select>
             </div>
             <div class="col-md-4 d-flex align-items-end">
-                <button type="button" class="btn btn-outline-secondary w-100" id="resetBtn" aria-label="Reset all filters">Reset</button>
+                <button type="button" class="btn btn-danger w-100 btn-hover-scale" id="resetBtn" aria-label="Reset all filters">Reset</button>
             </div>
         </div>
     </div>
 </form>
 
-<div class="row g-4">
-    {% for game in page_obj %}
-    <div class="col-12">
-        <a href="{% url 'game_detail' slug=game.slug %}" class="text-decoration-none text-body">
-            <div class="card bg-body-tertiary border h-100 btn-hover-scale transition">
-                <div class="row g-0 h-100">
-                    <div class="col-4 d-flex align-items-center">
-                        {% if game.logo %}
-                            <img src="{{ game.logo.url }}" class="img-fluid p-3 game-logo-small" alt="{{ game.name }} logo">
-                        {% elif game.get_default_logo_url %}
-                            <img src="{{ game.get_default_logo_url }}"
-                                class="img-fluid p-3 game-logo-small"
-                                alt="{{ game.get_game_format_display }} logo">
-                        {% else %}
-                            <div class="img-fluid p-3 game-logo-small"></div>
-                        {% endif %}
-                    </div>
-                    <div class="col-8 d-flex align-items-center">
-                        <div class="card-body py-3">
-                            <h5 class="card-title mb-1">{{ game.name }}</h5>
-                            {% if game.college_name %}
-                                <p class="card-text text-body-secondary mb-0">{{ game.college_name }}</p>
-                            {% endif %}
-                            <p class="card-text text-body-secondary mb-0">{{ game.location_display }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </div>
-    {% empty %}
-    <div class="col-12">
-        <div class="alert alert-info bg-info-subtle border border-info-subtle">
-            <b>No results found</b> <br/>
-            <a href="{% url 'game_list' %}">Reset search and filters</a>
-        </div>
-    </div>
-    {% endfor %}
+{% include "games/partials/game_list.html" %}
 </div>
 </div>
 
-{% comment %} Helper to build querystring for pagination links, excluding 'page' {% endcomment %}
-<nav aria-label="Game pagination">
-    <ul class="pagination minimalist-pagination justify-content-center mt-4">
-        {% if page_obj.has_previous %}
-            <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if pagination_querystring %}&{{ pagination_querystring }}{% endif %}" aria-label="Previous">
-                &laquo;
-            </a>
-            </li>
-        {% else %}
-            <li class="page-item disabled">
-            <span class="page-link">&laquo;</span>
-            </li>
-        {% endif %}
+{% include "games/partials/game_map.html" %}
 
-        {% for num in page_obj.paginator.page_range %}
-            {% if num == page_obj.number %}
-            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
-            {% elif num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
-            <li class="page-item"><a class="page-link" href="?page={{ num }}{% if pagination_querystring %}&{{ pagination_querystring }}{% endif %}">{{ num }}</a></li>
-            {% endif %}
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-            <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if pagination_querystring %}&{{ pagination_querystring }}{% endif %}" aria-label="Next">
-                &raquo;
-            </a>
-            </li>
-        {% else %}
-            <li class="page-item disabled">
-                <span class="page-link">&raquo;</span>
-            </li>
-        {% endif %}
-    </ul>
-</nav>
-</div>
-</div>
-
-{% load static %}
 <script src="{% static 'games/js/game_list.js' %}"></script>
-<script>
-    // Initialize Bootstrap Select (needs to run after jQuery is loaded)
-    $(function () {
-        $('.selectpicker').selectpicker();
-    });
-</script>
 {% endblock %}
