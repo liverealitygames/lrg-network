@@ -252,6 +252,59 @@ strong {
     display: block;
 }
 
+/* Games page: List/Map toggle (nav-link style) */
+.games-view-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+.games-view-toggle-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    font-weight: 500;
+    border-bottom: 0;
+    border-radius: 0;
+    transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+.games-view-toggle-link:hover {
+    color: var(--bs-primary);
+    background-color: var(--hover-overlay);
+}
+.games-view-toggle-link.active {
+    font-weight: 700;
+    color: var(--bs-primary);
+    border-bottom: 2px solid var(--bs-primary);
+}
+.games-view-toggle-sep {
+    color: var(--text-secondary);
+    font-weight: 400;
+    user-select: none;
+}
+
+/* Games page: Search row — search group + distinct Filter button */
+.games-search-row {
+    margin-bottom: 0;
+}
+.games-search-group {
+    flex: 1 1 200px;
+    max-width: 100%;
+}
+.games-search-btn,
+.games-filter-btn {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 700;
+}
+
+/* Filter count badge on green button — white pill with green text */
+.games-filter-badge {
+    background-color: #fff;
+    color: var(--bs-success);
+}
+
 /* Search input */
 .search-container {
     background: white;
@@ -259,13 +312,6 @@ strong {
     margin: 0;
     height: 38px;
     max-width: 350px;
-}
-
-.search-icon {
-    font-size: 1.2rem;
-    color: var(--bs-gray-600);
-    padding-left: 0.75rem;
-    padding-right: 0.5rem;
 }
 
 .search-input {

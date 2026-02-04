@@ -22,11 +22,16 @@
             // Handle Bootstrap Select change events for auto-submit
             // Bootstrap Select fires 'changed.bs.select' event, not regular 'change'
             $('.selectpicker').on('changed.bs.select', function() {
-                // Don't auto-submit for country/region as they have special handling
                 const id = $(this).attr('id');
-                if (id !== 'country' && id !== 'region') {
+                // Don't auto-submit for country/region (special handling) or multi-selects (submit on close)
+                if (id !== 'country' && id !== 'region' && id !== 'game_format' && id !== 'game_duration' && id !== 'filming_status') {
                     submitFormWithNonEmptyParams();
                 }
+            });
+
+            // Multi-selects: submit when dropdown closes so user can pick several items first
+            $('#game_format, #game_duration, #filming_status').on('hidden.bs.select', function() {
+                submitFormWithNonEmptyParams();
             });
         }
 
@@ -47,6 +52,18 @@
             window.history.replaceState({}, '', url);
         }
 
+        // Update List/Map link hrefs from current URL so filter_open and other state are preserved when switching views
+        function updateViewLinks() {
+            const listLink = document.getElementById('games-view-list-link');
+            const mapLink = document.getElementById('games-view-map-link');
+            if (!listLink || !mapLink) return;
+            const params = new URLSearchParams(window.location.search);
+            params.set('view', 'list');
+            listLink.href = window.location.pathname + '?' + params.toString();
+            params.set('view', 'map');
+            mapLink.href = window.location.pathname + '?' + params.toString();
+        }
+
         // Filter count indicator logic
         function getFilterCount() {
             let count = 0;
@@ -57,15 +74,15 @@
             if ((country && country.value) || (region && region.value) || (city && city.value)) {
                 count += 1;
             }
-            // Game format
+            // Game format (multi-select)
             const gameFormat = document.getElementById('game_format');
-            if (gameFormat && gameFormat.value) count += 1;
-            // Game duration
+            if (gameFormat && gameFormat.selectedOptions && gameFormat.selectedOptions.length > 0) count += 1;
+            // Game duration (multi-select)
             const gameDuration = document.getElementById('game_duration');
-            if (gameDuration && gameDuration.value) count += 1;
-            // Filming status
+            if (gameDuration && gameDuration.selectedOptions && gameDuration.selectedOptions.length > 0) count += 1;
+            // Filming status (multi-select)
             const filmingStatus = document.getElementById('filming_status');
-            if (filmingStatus && filmingStatus.value) count += 1;
+            if (filmingStatus && filmingStatus.selectedOptions && filmingStatus.selectedOptions.length > 0) count += 1;
             // Only active
             const inactiveFilter = document.getElementById('inactive_filter');
             if (inactiveFilter && inactiveFilter.value) count += 1;
@@ -111,6 +128,7 @@
             if (filterOpenInput) filterOpenInput.value = '0';
         }
         updateFilterCountBadge();
+        updateViewLinks();
 
         // Toggle filter section and update URL param
         toggleBtn.addEventListener('click', function() {
@@ -128,6 +146,7 @@
                 setUrlParam('filter_open', '1');
                 if (filterOpenInput) filterOpenInput.value = '1';
             }
+            updateViewLinks();
         });
 
         function submitFormWithNonEmptyParams() {
@@ -223,11 +242,14 @@
             });
         }
 
-        // Reset button
+        // Reset button: clear filters but keep current view (list or map)
         const resetBtn = document.getElementById('resetBtn');
         if (resetBtn) {
             resetBtn.addEventListener('click', function() {
-                window.location.href = '/games/?filter_open=1';
+                const viewInput = form.querySelector('input[name="view"]');
+                const view = (viewInput && viewInput.value) || getUrlParam('view') || 'list';
+                const baseUrl = '/games/?filter_open=1';
+                window.location.href = view === 'map' ? baseUrl + '&view=map' : baseUrl;
             });
         }
     });

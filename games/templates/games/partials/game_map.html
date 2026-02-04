@@ -1,0 +1,35 @@
+{% load static %}
+{% if view_mode == 'map' %}
+<div class="map-full-width">
+  <div
+    id="games-map"
+    data-map-data-url="{% url 'game_map_data' %}"
+    data-map-location-games-url="{% url 'game_map_location_games' %}"
+  ></div>
+</div>
+<div id="map-panel-backdrop" class="map-side-panel-backdrop" aria-hidden="true"></div>
+<aside id="map-side-panel" class="map-side-panel" aria-label="Games in this location">
+  <div class="map-side-panel-header">
+    <div class="map-side-panel-title-wrap">
+      <h2 id="map-panel-title" class="map-side-panel-title">Games</h2>
+      <p id="map-panel-count" class="map-side-panel-count mb-0" aria-live="polite"></p>
+    </div>
+    <button type="button" class="map-side-panel-close" id="map-panel-close" aria-label="Close panel">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+  <div class="map-side-panel-body">
+    <ul id="map-panel-list" class="map-side-panel-list"></ul>
+    <div id="map-panel-loading" class="map-side-panel-loading" style="display: none;">
+      <div class="spinner-border text-primary" role="status" aria-hidden="true"></div>
+      <p class="mb-0 mt-2 small">Loading games…</p>
+    </div>
+    <p id="map-panel-empty" class="map-side-panel-empty" style="display: none;">No games in this location.</p>
+  </div>
+</aside>
+<div class="container-xl px-4 py-3">
+  <p id="map-zoom-caption" class="text-muted small mb-0 mt-3">Showing countries. Zoom in for regions and cities.</p>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="{% static 'games/js/game_map.js' %}"></script>
+{% endif %}

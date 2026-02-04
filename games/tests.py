@@ -234,7 +234,7 @@ class GameListViewTest(TestCase):
 
     def test_view_uses_correct_template(self):
         response = self.client.get(reverse("game_list"))
-        self.assertTemplateUsed(response, "games/game_list.html")
+        self.assertTemplateUsed(response, "games/games.html")
 
     def test_view_returns_paginated_games(self):
         # Create additional games to exceed the pagination limit
@@ -391,3 +391,79 @@ class GameSlugGenerationTest(TestCase):
         game.save()
         game.refresh_from_db()
         self.assertEqual(game.slug, original_slug)
+
+
+class GameMapViewTest(TestCase):
+    def setUp(self):
+        self.country = Country.objects.create(name="United States", code2="US")
+        self.game = Game.objects.create(
+            name="Map Test Game",
+            game_format=Game.GameFormat.SURVIVOR,
+            active=True,
+            country=self.country,
+        )
+
+    def test_map_view_url_and_template(self):
+        response = self.client.get(reverse("game_map"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "games/map.html")
+
+    def test_map_view_url_at_desired_location(self):
+        response = self.client.get("/games/map/")
+        self.assertEqual(response.status_code, 200)
+
+
+class GameMapDataViewTest(TestCase):
+    def setUp(self):
+        self.country = Country.objects.create(name="United States", code2="US")
+        self.game = Game.objects.create(
+            name="Map Data Game",
+            game_format=Game.GameFormat.SURVIVOR,
+            active=True,
+            country=self.country,
+        )
+
+    def test_map_data_returns_json_with_expected_keys(self):
+        response = self.client.get(reverse("game_map_data"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], "application/json")
+        data = response.json()
+        self.assertIn("countries", data)
+        self.assertIn("regions", data)
+        self.assertIn("cities", data)
+        self.assertIn("country_only", data)
+        self.assertIn("region_only", data)
+        self.assertIsInstance(data["countries"], list)
+        self.assertIsInstance(data["regions"], list)
+        self.assertIsInstance(data["cities"], list)
+        self.assertIsInstance(data["country_only"], list)
+        self.assertIsInstance(data["region_only"], list)
+
+    def test_map_data_country_count_matches(self):
+        response = self.client.get(reverse("game_map_data"))
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        expected_count = Game.objects.filter(
+            country_id=self.country.id, is_removed=False
+        ).count()
+        self.assertEqual(expected_count, 1)
+        country_entries = [
+            c for c in data["countries"] if c["id"] == str(self.country.id)
+        ]
+        self.assertEqual(len(country_entries), 1)
+        self.assertEqual(country_entries[0]["count"], expected_count)
+        self.assertEqual(country_entries[0]["name"], "United States")
+        self.assertEqual(country_entries[0]["code2"], "US")
+        self.assertIn("lat", country_entries[0])
+        self.assertIn("lng", country_entries[0])
+
+    def test_map_data_excludes_removed_games(self):
+        self.game.delete()
+        self.assertTrue(self.game.is_removed)
+        response = self.client.get(reverse("game_map_data"))
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        country_entries = [
+            c for c in data["countries"] if c["id"] == str(self.country.id)
+        ]
+        self.assertEqual(len(country_entries), 0)
