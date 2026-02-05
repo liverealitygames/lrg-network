@@ -21,7 +21,11 @@
   const BUBBLE_MAX_R = 28;
   const BUBBLE_SCALE = 3;
 
-  const map = L.map("games-map").setView([20, 0], 2);
+  const map = L.map("games-map", {
+    minZoom: 2,
+    maxBounds: L.latLngBounds(L.latLng(-85, -180), L.latLng(85, 180)),
+    maxBoundsViscosity: 1.0,
+  }).setView([20, 0], 2);
   L.tileLayer(
     "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
     {
@@ -29,6 +33,7 @@
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
       subdomains: "abcd",
       maxZoom: 20,
+      noWrap: true,
     }
   ).addTo(map);
 

@@ -1,5 +1,8 @@
 {% load static %}
 {% if view_mode == 'map' %}
+<div class="container-xl px-4 pt-3 pb-2">
+  <p id="map-zoom-caption" class="text-muted small mb-0 text-center">Showing countries. Zoom in for regions and cities.</p>
+</div>
 <div class="map-full-width">
   <div
     id="games-map"
@@ -27,9 +30,6 @@
     <p id="map-panel-empty" class="map-side-panel-empty" style="display: none;">No games in this location.</p>
   </div>
 </aside>
-<div class="container-xl px-4 py-3">
-  <p id="map-zoom-caption" class="text-muted small mb-0 mt-3">Showing countries. Zoom in for regions and cities.</p>
-</div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="{% static 'games/js/game_map.js' %}"></script>
 {% endif %}
