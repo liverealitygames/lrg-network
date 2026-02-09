@@ -109,7 +109,7 @@ make help
 
 Production deployment is handled via [Fly.io](https://fly.io) with environment variables and secrets configured via the dashboard or `flyctl` CLI.
 
-Media is stored in AWS S3, optionally served via CloudFront CDN.
+Media is stored in AWS S3, served via Cloudflare CDN.
 
 ---
 
