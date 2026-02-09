@@ -40,7 +40,7 @@ For more detailed setup, environment configuration, and developer instructions, 
 * Python 3.12 / Django
 * PostgreSQL
 * AWS S3 (media storage)
-* CloudFront (CDN, optional)
+* Cloudflare (CDN)
 * Docker
 
 ---
