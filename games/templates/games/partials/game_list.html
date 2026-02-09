@@ -1,7 +1,7 @@
 <div id="games-list-section" class="{% if view_mode == 'map' %}d-none{% endif %}">
-<div class="row g-4">
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     {% for game in page_obj %}
-    <div class="col-12">
+    <div class="col">
         <a href="{% url 'game_detail' slug=game.slug %}" class="text-decoration-none text-body">
             <div class="card bg-body-tertiary border h-100 btn-hover-scale transition">
                 <div class="row g-0 h-100">
@@ -13,7 +13,7 @@
                                 class="img-fluid p-3 game-logo-small"
                                 alt="{{ game.get_game_format_display }} logo">
                         {% else %}
-                            <div class="img-fluid p-3 game-logo-small"></div>
+                            <div class="img-fluid p-3 game-logo-small game-logo-placeholder"></div>
                         {% endif %}
                     </div>
                     <div class="col-8 d-flex align-items-center">

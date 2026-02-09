@@ -152,6 +152,9 @@ def _build_location_context(
     }
 
 
+GAME_LIST_PAGE_SIZE = 12  # Divisible by 2 and 3 for grid layout
+
+
 def game_list(request: HttpRequest) -> HttpResponse:
     """
     Display a paginated list of games with filtering options.
@@ -181,7 +184,7 @@ def game_list(request: HttpRequest) -> HttpResponse:
     games = _apply_filters(games, filters)
 
     # Pagination
-    paginator = Paginator(games, 10)
+    paginator = Paginator(games, GAME_LIST_PAGE_SIZE)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
