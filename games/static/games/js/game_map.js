@@ -15,8 +15,8 @@
     return window.location.search ? window.location.search.substring(1) : "";
   }
 
-  const ZOOM_COUNTRY = 5;
-  const ZOOM_REGION = 8;
+  const ZOOM_COUNTRY = 4;
+  const ZOOM_REGION = 6;
   const BUBBLE_MIN_R = 12;
   const BUBBLE_MAX_R = 28;
   const BUBBLE_SCALE = 3;
@@ -49,6 +49,14 @@
   function radiusFromCount(count) {
     const r = Math.min(BUBBLE_MAX_R, BUBBLE_MIN_R + count * BUBBLE_SCALE);
     return Math.max(BUBBLE_MIN_R, r);
+  }
+
+  function bubbleColorClass(item) {
+    if (item.type === "country" || item.type === "country_only")
+      return "map-bubble--country";
+    if (item.type === "region" || item.type === "region_only")
+      return "map-bubble--region";
+    return "map-bubble--city";
   }
 
   function getLevel(zoom) {
@@ -222,10 +230,13 @@
     const items = buildItems();
     items.forEach(function (item) {
       const r = radiusFromCount(item.count);
+      const colorClass = bubbleColorClass(item);
       const icon = L.divIcon({
         className: "map-bubble-div",
         html:
-          "<span class=\"map-bubble\" style=\"width:" +
+          "<span class=\"map-bubble " +
+          colorClass +
+          "\" style=\"width:" +
           r * 2 +
           "px;height:" +
           r * 2 +

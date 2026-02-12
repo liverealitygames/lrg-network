@@ -38,6 +38,18 @@
   transition: filter 0.2s ease, transform 0.2s ease;
 }
 
+.map-bubble--country {
+  background: var(--bs-primary);
+}
+
+.map-bubble--region {
+  background: var(--bs-success);
+}
+
+.map-bubble--city {
+  background: var(--color-email);
+}
+
 .map-bubble:hover {
   filter: brightness(1.1);
   transform: scale(1.05);
