@@ -248,7 +248,7 @@ class GameListViewTest(TestCase):
 
         response = self.client.get(reverse("game_list"))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context["page_obj"]), 10)
+        self.assertEqual(len(response.context["page_obj"]), 12)
         self.assertIn(self.game1, response.context["page_obj"])
         self.assertIn(self.game2, response.context["page_obj"])
 

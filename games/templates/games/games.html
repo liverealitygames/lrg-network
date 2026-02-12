@@ -23,8 +23,8 @@
     </div>
 </div>
 
-<div class="container-md mx-auto">
-<form id="game-filter-form" method="get" class="mb-4">
+<div class="container-md mx-auto mb-4">
+<form id="game-filter-form" method="get">
 <input type="hidden" name="view" value="{{ view_mode }}">
     <input type="hidden" name="filter_open" id="filterOpenInput" value="{{ request.GET.filter_open|default_if_none:'' }}">
     <div class="games-search-row d-flex flex-wrap align-items-center gap-3">
@@ -157,7 +157,9 @@
         </div>
     </div>
 </form>
+</div>
 
+<div class="container-xl">
 {% include "games/partials/game_list.html" %}
 </div>
 </div>
