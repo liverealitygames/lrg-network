@@ -4,7 +4,7 @@
 {% block title %}Community - LRG Network{% endblock %}
 
 {% block content %}
-<div class="container-xl py-3">
+<div class="container-xl py-3 community-page">
   <div class="row">
     <div class="col-12 text-center">
       <h1 class="mb-4">Community</h1>
@@ -16,7 +16,7 @@
     <h2 class="h3 mb-3">Contact LRG Network</h2>
     <p class="lead mb-4">Have questions or want to get in touch?</p>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
-      <div class="col" style="max-width: 400px;">
+      <div class="col">
         <a href="mailto:liverealitygames@googlegroups.com" class="text-decoration-none text-body">
           <div class="card bg-body-tertiary border h-100 btn-hover-scale transition">
             <div class="card-body">
@@ -26,7 +26,7 @@
           </div>
         </a>
       </div>
-      <div class="col" style="max-width: 400px;">
+      <div class="col">
         <a href="https://forms.gle/g43kFpuxuHT7dgEU8" class="text-decoration-none text-body" target="_blank" rel="noopener noreferrer">
           <div class="card bg-body-tertiary border h-100 btn-hover-scale transition">
             <div class="card-body">
@@ -219,105 +219,4 @@
     </div>
   </section>
 </div>
-
-<style>
-  /* Community page specific styles */
-  /* Ensure cards have consistent minimum height */
-  .card {
-    min-height: 150px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .card-body {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
-
-  .card-text {
-    flex-grow: 1;
-  }
-
-  /* Better card hover effects - expand on hover like games list */
-  .btn-hover-scale {
-    transition: all 0.2s ease;
-  }
-
-  .btn-hover-scale:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-
-  /* Section spacing */
-  section {
-    margin-bottom: 4rem !important;
-  }
-
-  /* Card styling - different colors per section with white text */
-  /* Contact section - green (matches website/season links) */
-  section:nth-of-type(1) .card {
-    background-color: var(--bs-success) !important;
-    border-color: var(--bs-success) !important;
-  }
-
-  section:nth-of-type(1) .btn-hover-scale:hover .card {
-    background-color: #157347 !important;
-  }
-
-  /* Community Links section - purple (matches email) */
-  section:nth-of-type(2) .card {
-    background-color: #6f42c1 !important;
-    border-color: #6f42c1 !important;
-  }
-
-  section:nth-of-type(2) .btn-hover-scale:hover .card {
-    background-color: #5a32a8 !important;
-  }
-
-  /* News section - Instagram pink */
-  section:nth-of-type(3) .card {
-    background-color: #E4405F !important;
-    border-color: #E4405F !important;
-  }
-
-  section:nth-of-type(3) .btn-hover-scale:hover .card {
-    background-color: #c7364f !important;
-  }
-
-  /* Common card text styling - white text for all sections */
-  section .card-title {
-    margin-bottom: 0.75rem;
-    color: white !important;
-  }
-
-  section .card-text {
-    color: rgba(255, 255, 255, 0.9) !important;
-    line-height: 1.6;
-  }
-
-  /* Override text-muted for news articles */
-  section .card-text.text-muted {
-    color: rgba(255, 255, 255, 0.85) !important;
-  }
-
-  /* Ensure links maintain white text */
-  section a.text-body {
-    color: inherit !important;
-  }
-
-  section a.text-body:hover {
-    color: inherit !important;
-  }
-
-  /* Ensure uniform card heights in grid */
-  .row > .col > .card {
-    height: 100%;
-  }
-
-  /* Center incomplete rows by limiting column width */
-  section .row.justify-content-center > .col {
-    max-width: 400px;
-  }
-</style>
 {% endblock %}

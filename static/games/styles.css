@@ -2,13 +2,19 @@
 :root {
     /* Bootstrap Colors */
     --bs-success: #198754;
+    --bs-success-hover: #157347;
     --bs-primary: #0d6efd;
-    --bs-gray-600: #6C757D;
+    --bs-gray-600: #191d21;
     --bs-gray-100: #f8f9fa;
 
-    /* Social Media Brand Colors */
-    --color-email: #6f42c1;
+    /* Semantic / UI Colors (used across pages) */
+    --color-secondary: #6f42c1;        /* purple - cards, map city bubbles, etc. */
+    --color-secondary-hover: #5a32a8;
+
+    /* Social Media Brand Colors (icons, etc.) */
+    --color-email: var(--color-secondary);
     --color-instagram: #E4405F;
+    --color-instagram-hover: #c7364f;
     --color-facebook: #1877F2;
     --color-youtube: #FF0000;
     --color-wiki: #FF9800;
@@ -19,14 +25,22 @@
     --text-primary: #333;
     --text-secondary: #999;
     --text-white: #fff;
+    --text-white-soft: rgba(255, 255, 255, 0.9);
+    --text-white-muted: rgba(255, 255, 255, 0.85);
     --text-black: #000;
 
     /* UI Colors */
     --carousel-control-gray: #bbb;
+    --border-white-muted: rgba(255, 255, 255, 0.3);
     --hover-overlay: rgba(0, 0, 0, 0.05);
     --shadow-light: rgba(0, 0, 0, 0.1);
     --shadow-medium: rgba(0, 0, 0, 0.2);
     --shadow-drop: rgba(0, 0, 0, 0.25);
+    --overlay-dark: rgba(0, 0, 0, 0.6);
+    --backdrop-overlay: rgba(0, 0, 0, 0.35);
+    --shadow-panel: rgba(0, 0, 0, 0.12);
+    --border-light: #dee2e6;
+    --border-medium: #adb5bd;
 }
 
 /* Font styles */
@@ -120,7 +134,7 @@ strong {
 }
 .btn-hover-scale:hover {
     transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px var(--shadow-medium);
 }
 .btn-youtube {
     color: var(--text-white) !important;
@@ -301,13 +315,13 @@ strong {
 
 /* Filter count badge on green button — white pill with green text */
 .games-filter-badge {
-    background-color: #fff;
+    background-color: var(--text-white);
     color: var(--bs-success);
 }
 
 /* Search input */
 .search-container {
-    background: white;
+    background: var(--text-white);
     border-radius: 4px;
     margin: 0;
     height: 38px;
@@ -316,7 +330,7 @@ strong {
 
 .search-input {
     box-shadow: none;
-    background: white;
+    background: var(--text-white);
     height: 38px;
 }
 
@@ -384,8 +398,8 @@ strong {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
+    background: var(--overlay-dark);
+    color: var(--text-white);
     font-family: 'Roboto Condensed', sans-serif;
     font-weight: 700;
     font-size: 1rem;
@@ -398,4 +412,142 @@ strong {
 .gallery-item:hover .gallery-overlay,
 .gallery-item:focus-within .gallery-overlay {
     opacity: 1;
+}
+
+/* ========== Base layout: footer & navbar (from base.html) ========== */
+.footer-link {
+    transition: opacity 0.2s ease;
+}
+.footer-link:hover {
+    opacity: 0.8;
+    color: var(--text-white) !important;
+}
+
+.navbar-toggler {
+    border-color: var(--border-white-muted);
+}
+.navbar-toggler i {
+    color: var(--text-white) !important;
+}
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* ========== Community page: section-colored cards ========== */
+.community-page .card {
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+}
+.community-page .card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+.community-page .card-text {
+    flex-grow: 1;
+}
+.community-page .btn-hover-scale:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px var(--shadow-medium);
+}
+.community-page section {
+    margin-bottom: 4rem !important;
+}
+
+/* Contact section - green */
+.community-page section:nth-of-type(1) .card {
+    background-color: var(--bs-success) !important;
+    border-color: var(--bs-success) !important;
+}
+.community-page section:nth-of-type(1) .btn-hover-scale:hover .card {
+    background-color: var(--bs-success-hover) !important;
+}
+
+/* Community Links section - purple (secondary) */
+.community-page section:nth-of-type(2) .card {
+    background-color: var(--color-secondary) !important;
+    border-color: var(--color-secondary) !important;
+}
+.community-page section:nth-of-type(2) .btn-hover-scale:hover .card {
+    background-color: var(--color-secondary-hover) !important;
+}
+
+/* News section - Instagram pink */
+.community-page section:nth-of-type(3) .card {
+    background-color: var(--color-instagram) !important;
+    border-color: var(--color-instagram) !important;
+}
+.community-page section:nth-of-type(3) .btn-hover-scale:hover .card {
+    background-color: var(--color-instagram-hover) !important;
+}
+
+.community-page section .card-title {
+    margin-bottom: 0.75rem;
+    color: var(--text-white) !important;
+}
+.community-page section .card-text {
+    color: var(--text-white-soft) !important;
+    line-height: 1.6;
+}
+.community-page section .card-text.text-muted {
+    color: var(--text-white-muted) !important;
+}
+.community-page section a.text-body {
+    color: inherit !important;
+}
+.community-page section a.text-body:hover {
+    color: inherit !important;
+}
+.community-page .row > .col > .card {
+    height: 100%;
+}
+.community-page section .row.justify-content-center > .col {
+    max-width: 400px;
+}
+
+/* ========== Resources index page: green cards ========== */
+.resources-index-page .card {
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+}
+.resources-index-page .card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+.resources-index-page .card-text {
+    flex-grow: 1;
+}
+.resources-index-page .btn-hover-scale:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px var(--shadow-medium);
+}
+.resources-index-page .row > .col .card {
+    background-color: var(--bs-success) !important;
+    border-color: var(--bs-success) !important;
+}
+.resources-index-page .row > .col .btn-hover-scale:hover .card {
+    background-color: var(--bs-success-hover) !important;
+}
+.resources-index-page .card-title {
+    margin-bottom: 0.75rem;
+    color: var(--text-white) !important;
+}
+.resources-index-page .card-text {
+    color: var(--text-white-soft) !important;
+    line-height: 1.6;
+}
+.resources-index-page a.text-body {
+    color: inherit !important;
+}
+.resources-index-page a.text-body:hover {
+    color: inherit !important;
+}
+.resources-index-page .row > .col > .card {
+    height: 100%;
+}
+.resources-index-page .row.justify-content-center > .col {
+    max-width: 400px;
 }
