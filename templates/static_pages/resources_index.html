@@ -4,7 +4,7 @@
 {% block title %}Resources - LRG Network{% endblock %}
 
 {% block content %}
-<div class="container-xl py-3">
+<div class="container-xl py-3 resources-index-page">
   <div class="row">
     <div class="col-12 text-center">
       <h1 class="mb-4">Resources for Hosting an LRG</h1>
@@ -129,74 +129,4 @@
     </div>
   </div>
 </div>
-
-<style>
-  /* Resources page specific styles */
-  /* Ensure cards have consistent minimum height */
-  .card {
-    min-height: 150px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .card-body {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
-
-  .card-text {
-    flex-grow: 1;
-  }
-
-  /* Better card hover effects - expand on hover like games list */
-  .btn-hover-scale {
-    transition: all 0.2s ease;
-  }
-
-  .btn-hover-scale:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-
-  /* All cards green (community page palette) */
-  .row > .col .card {
-    background-color: var(--bs-success) !important;
-    border-color: var(--bs-success) !important;
-  }
-
-  .row > .col .btn-hover-scale:hover .card {
-    background-color: #157347 !important;
-  }
-
-  /* Common card text styling - white text for all cards */
-  .card-title {
-    margin-bottom: 0.75rem;
-    color: white !important;
-  }
-
-  .card-text {
-    color: rgba(255, 255, 255, 0.9) !important;
-    line-height: 1.6;
-  }
-
-  /* Ensure links maintain white text */
-  a.text-body {
-    color: inherit !important;
-  }
-
-  a.text-body:hover {
-    color: inherit !important;
-  }
-
-  /* Ensure uniform card heights in grid */
-  .row > .col > .card {
-    height: 100%;
-  }
-
-  /* Center incomplete rows by limiting column width */
-  .row.justify-content-center > .col {
-    max-width: 400px;
-  }
-</style>
 {% endblock %}

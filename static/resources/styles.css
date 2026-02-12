@@ -66,7 +66,7 @@
 .resource-image-caption {
   font-style: italic;
   font-size: 0.875rem;
-  color: #6c757d;
+  color: var(--bs-gray-600);
   margin-top: 0.5rem;
   margin-bottom: 0;
   text-align: center;
@@ -130,7 +130,7 @@
 
 .resource-back-btn:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px var(--shadow-medium);
 }
 
 /* About page: full-bleed collage (break out of main container, edge-to-edge) */
