@@ -18,12 +18,19 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.http import HttpResponse
 from django.urls import include, path
 from django.views.generic import TemplateView
 
 from games.views import gallery
 
+
+def health(request):
+    return HttpResponse("ok", content_type="text/plain", status=200)
+
+
 urlpatterns = [
+    path("health/", health, name="health"),
     path(
         "",
         TemplateView.as_view(template_name="static_pages/about.html"),
