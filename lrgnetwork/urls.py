@@ -29,8 +29,14 @@ def health(request):
     return HttpResponse("ok", content_type="text/plain", status=200)
 
 
+def test_sentry(request):
+    """Temporary: raise to verify Sentry in prod. Remove after testing."""
+    raise ValueError("Sentry test – remove this route after verifying.")
+
+
 urlpatterns = [
     path("health/", health, name="health"),
+    path("test-sentry/", test_sentry, name="test_sentry"),
     path(
         "",
         TemplateView.as_view(template_name="static_pages/about.html"),

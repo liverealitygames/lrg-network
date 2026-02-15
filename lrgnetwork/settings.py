@@ -276,3 +276,18 @@ LOGGING = {
         },
     },
 }
+
+# Sentry (only init when DSN is set, e.g. in prod)
+SENTRY_DSN = os.getenv("SENTRY_DSN")
+if SENTRY_DSN:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        environment=ENVIRONMENT,
+        release=os.getenv("FLY_APP_VERSION"),
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=0.0,
+        send_default_pii=False,
+    )
