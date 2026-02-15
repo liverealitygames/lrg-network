@@ -29,9 +29,12 @@ if ENVIRONMENT == "prod":
     DEBUG = False
 
     # Allowed hosts for production
+    # Include .internal for Fly.io internal proxy/health checks (Host can be 172.x.x.x or *.internal)
     ALLOWED_HOSTS = [
         "lrg-network.fly.dev",
         "www.liverealitygames.com",
+        ".internal",  # Fly.io private network hostnames
+        "172.19.14.210",  # Fly.io internal proxy IP (health checks, etc.)
     ]
 
     # Security settings
