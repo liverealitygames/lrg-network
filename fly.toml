@@ -30,6 +30,10 @@ console_command = '/code/manage.py shell'
     path = "/health/"
     timeout = "5s"
 
+[metrics]
+  port = 8000
+  path = "/metrics"
+
 [[vm]]
   memory = '1gb'
   cpu_kind = 'shared'

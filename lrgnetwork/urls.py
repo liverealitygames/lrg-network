@@ -36,6 +36,7 @@ def test_sentry(request):
 
 urlpatterns = [
     path("health/", health, name="health"),
+    path("", include("django_prometheus.urls")),
     path("test-sentry/", test_sentry, name="test_sentry"),
     path(
         "",
