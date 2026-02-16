@@ -28,13 +28,11 @@ ENVIRONMENT = os.getenv("ENVIRONMENT", "dev")
 if ENVIRONMENT == "prod":
     DEBUG = False
 
-    # Allowed hosts for production
-    # Include .internal for Fly.io internal proxy/health checks (Host can be 172.x.x.x or *.internal)
+    # Allowed hosts for production.
     ALLOWED_HOSTS = [
         "lrg-network.fly.dev",
         "www.liverealitygames.com",
         ".internal",  # Fly.io private network hostnames
-        "172.19.14.210",  # Fly.io internal proxy IP (health checks, etc.)
     ]
 
     # Security settings
@@ -102,6 +100,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 MIDDLEWARE = [
+    "lrgnetwork.health_check_middleware.HealthCheckMiddleware",
     "django_prometheus.middleware.PrometheusBeforeMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
