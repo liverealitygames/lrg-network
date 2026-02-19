@@ -43,6 +43,7 @@ if ENVIRONMENT == "prod":
 
     # When behind a proxy like Fly.io's load balancer
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    USE_X_FORWARDED_HOST = True
 
     # Required for CSRF validation on custom domains/HTTPS
     CSRF_TRUSTED_ORIGINS = [
@@ -50,6 +51,10 @@ if ENVIRONMENT == "prod":
         "https://liverealitygames.com",
         "https://www.liverealitygames.com",
     ]
+
+    # Canonical host: bare domain redirects to www (301) for SEO and consistency
+    CANONICAL_HOST = "www.liverealitygames.com"
+    REDIRECT_TO_CANONICAL_HOSTS = ["liverealitygames.com"]
 
     # HSTS settings for HTTPS enforcement
     SECURE_HSTS_SECONDS = 31536000  # 1 year
@@ -108,6 +113,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "lrgnetwork.canonical_host_middleware.CanonicalHostMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
