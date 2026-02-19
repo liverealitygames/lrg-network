@@ -6,6 +6,7 @@ from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from cities_light.models import Country, Region, City
+from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db.models import Q
 
@@ -357,13 +358,20 @@ def map_data(request: HttpRequest) -> JsonResponse:
     regions_qs = Region.objects.filter(id__in=region_ids).select_related("country")
     regions_by_id = {r.id: r for r in regions_qs}
 
-    region_coords = {}
-    for rid in region_ids:
-        agg = City.objects.filter(region_id=rid).aggregate(
+    all_region_coords = cache.get("games:map_region_coords")
+    if all_region_coords is None:
+        region_coords_qs = City.objects.values("region_id").annotate(
             lat=Avg("latitude"), lng=Avg("longitude")
         )
-        if agg["lat"] is not None and agg["lng"] is not None:
-            region_coords[rid] = [float(agg["lat"]), float(agg["lng"])]
+        all_region_coords = {
+            row["region_id"]: [float(row["lat"]), float(row["lng"])]
+            for row in region_coords_qs
+            if row["lat"] is not None and row["lng"] is not None
+        }
+        cache.set("games:map_region_coords", all_region_coords, timeout=None)
+    region_coords = {
+        rid: all_region_coords[rid] for rid in region_ids if rid in all_region_coords
+    }
 
     regions = []
     for row in region_counts:
