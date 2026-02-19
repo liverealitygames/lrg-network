@@ -11,6 +11,33 @@ from django.db.models import Q
 
 from games.models import Game, GameImages
 
+# Combined "Episodes" option in the filter: label "Episodes", filters for both EP and FI in DB
+FILMING_STATUS_EPISODES_VALUE = "EP_FI"
+FILMING_STATUS_EPISODES_EXPANDS_TO = [
+    Game.FilmingStatus.EPISODES,
+    Game.FilmingStatus.FILMED,
+]
+
+# Viewing format dropdown: custom order and combined Episodes option (no model change)
+FILMING_STATUS_DROPDOWN_CHOICES = [
+    (FILMING_STATUS_EPISODES_VALUE, "Episodes"),
+    (Game.FilmingStatus.LIVESTREAMED.value, "Livestreamed"),
+    (Game.FilmingStatus.NOT_FILMED.value, "Not Filmed"),
+]
+
+
+def _expand_filming_statuses(raw_values: list) -> list:
+    """Expand combined 'Episodes' option to DB values EP + FI. Return list of DB codes for filtering."""
+    if not raw_values:
+        return []
+    out = []
+    for v in raw_values:
+        if v == FILMING_STATUS_EPISODES_VALUE:
+            out.extend(FILMING_STATUS_EPISODES_EXPANDS_TO)
+        else:
+            out.append(v)
+    return out
+
 
 def _get_country_centroids() -> Dict[str, list]:
     """Load country code -> [lat, lng] from fixtures. Cached at module level."""
@@ -160,11 +187,12 @@ def game_list(request: HttpRequest) -> HttpResponse:
     Display a paginated list of games with filtering options.
     """
     # Extract filter parameters from request (format/duration/status are multi-select)
+    raw_filming = request.GET.getlist("filming_status")
     filters = {
         "query": request.GET.get("q", ""),
         "game_formats": request.GET.getlist("game_format"),
         "game_durations": request.GET.getlist("game_duration"),
-        "filming_statuses": request.GET.getlist("filming_status"),
+        "filming_statuses": _expand_filming_statuses(raw_filming),
         "country_id": request.GET.get("country"),
         "no_region": request.GET.get("no_region") == "1",
         "region_id": request.GET.get("region"),
@@ -217,13 +245,13 @@ def game_list(request: HttpRequest) -> HttpResponse:
         "query": filters["query"],
         "game_formats": Game.GameFormat.choices,
         "game_durations": Game.GameDuration.choices,
-        "filming_statuses": Game.FilmingStatus.choices,
+        "filming_statuses": FILMING_STATUS_DROPDOWN_CHOICES,
         "selected_country": filters["country_id"],
         "selected_region": filters["region_id"],
         "selected_city": filters["city_id"],
         "selected_game_formats": filters["game_formats"],
         "selected_game_durations": filters["game_durations"],
-        "selected_filming_statuses": filters["filming_statuses"],
+        "selected_filming_statuses": raw_filming,
         "inactive_filter": filters["inactive_filter"],
         "college_filter": filters["college_filter"],
         "friends_and_family_filter": filters["friends_and_family_filter"],
@@ -268,7 +296,9 @@ def _get_map_filters(request: HttpRequest) -> Dict[str, Any]:
         "query": request.GET.get("q", ""),
         "game_formats": request.GET.getlist("game_format"),
         "game_durations": request.GET.getlist("game_duration"),
-        "filming_statuses": request.GET.getlist("filming_status"),
+        "filming_statuses": _expand_filming_statuses(
+            request.GET.getlist("filming_status")
+        ),
         "country_id": request.GET.get("country"),
         "no_region": request.GET.get("no_region") == "1",
         "region_id": request.GET.get("region"),
