@@ -32,10 +32,6 @@ console_command = '/app/manage.py shell'
     timeout = "5s"
     grace_period = "60s"
 
-[metrics]
-  port = 8000
-  path = "/metrics"
-
 [[vm]]
   memory = '1gb'
   cpu_kind = 'shared'
