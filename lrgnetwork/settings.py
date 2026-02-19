@@ -31,6 +31,7 @@ if ENVIRONMENT == "prod":
     # Allowed hosts for production.
     ALLOWED_HOSTS = [
         "lrg-network.fly.dev",
+        "liverealitygames.com",
         "www.liverealitygames.com",
         ".internal",  # Fly.io private network hostnames
     ]
@@ -46,6 +47,7 @@ if ENVIRONMENT == "prod":
     # Required for CSRF validation on custom domains/HTTPS
     CSRF_TRUSTED_ORIGINS = [
         "https://lrg-network.fly.dev",
+        "https://liverealitygames.com",
         "https://www.liverealitygames.com",
     ]
 
