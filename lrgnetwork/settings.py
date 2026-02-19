@@ -86,7 +86,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django_prometheus",
     "cities_light",
     "model_utils",
     "dal",
@@ -108,7 +107,6 @@ AUTHENTICATION_BACKENDS = [
 
 MIDDLEWARE = [
     "lrgnetwork.health_check_middleware.HealthCheckMiddleware",
-    "django_prometheus.middleware.PrometheusBeforeMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -124,7 +122,6 @@ MIDDLEWARE = [
     # If you do not want Axes to override the authentication response
     # you can skip installing the middleware and use your own views.
     "axes.middleware.AxesMiddleware",
-    "django_prometheus.middleware.PrometheusAfterMiddleware",
 ]
 
 ROOT_URLCONF = "lrgnetwork.urls"
@@ -301,6 +298,6 @@ if SENTRY_DSN:
         environment=ENVIRONMENT,
         release=os.getenv("FLY_APP_VERSION"),
         integrations=[DjangoIntegration()],
-        traces_sample_rate=0.0,
+        traces_sample_rate=0.2,
         send_default_pii=False,
     )
