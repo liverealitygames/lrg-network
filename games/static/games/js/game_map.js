@@ -10,6 +10,9 @@
 
   const mapDataUrl = mapEl.dataset.mapDataUrl || "";
   const mapLocationGamesUrl = mapEl.dataset.mapLocationGamesUrl || "";
+  const centerParts = (mapEl.dataset.mapCenter || "20,0,2").split(",").map(Number);
+  const defaultCenter = [centerParts[0], centerParts[1]];
+  const defaultZoom = centerParts[2] || 2;
 
   function currentQueryString() {
     return window.location.search ? window.location.search.substring(1) : "";
@@ -25,7 +28,7 @@
     minZoom: 2,
     maxBounds: L.latLngBounds(L.latLng(-85, -180), L.latLng(85, 180)),
     maxBoundsViscosity: 1.0,
-  }).setView([20, 0], 2);
+  }).setView(defaultCenter, defaultZoom);
   L.tileLayer(
     "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
     {
