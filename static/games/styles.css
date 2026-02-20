@@ -195,7 +195,7 @@ strong {
     border: none;     /* override Bootstrap */
 }
 
-.minimalist-pagination .page-link:focus {
+.minimalist-pagination .page-link:focus:not(:focus-visible) {
     box-shadow: none !important;
     outline: none !important;
 }
