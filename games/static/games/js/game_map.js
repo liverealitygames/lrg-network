@@ -40,7 +40,9 @@
     }
   ).addTo(map);
 
-  if (navigator.geolocation) {
+  var params = new URLSearchParams(window.location.search);
+  var hasLocationFilter = params.has("country") || params.has("region") || params.has("city");
+  if (navigator.geolocation && !hasLocationFilter) {
     navigator.geolocation.getCurrentPosition(function (pos) {
       map.flyTo([pos.coords.latitude, pos.coords.longitude], ZOOM_COUNTRY, {
         duration: 1.5,

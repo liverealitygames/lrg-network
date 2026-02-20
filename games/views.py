@@ -41,30 +41,45 @@ def _expand_filming_statuses(raw_values: list) -> list:
     return out
 
 
-_LANGUAGE_TO_MAP_CENTER = {
-    "US": [39.8, -98.5, 4],
-    "CA": [56.1, -106.3, 4],
-    "GB": [54.0, -2.0, 5],
-    "AU": [-25.3, 133.8, 4],
-    "DE": [51.2, 10.4, 5],
-    "FR": [46.6, 2.2, 5],
-    "NL": [52.1, 5.3, 7],
-    "NZ": [-41.3, 174.8, 5],
-    "IE": [53.4, -8.2, 6],
-    "ZA": [-30.6, 25.0, 5],
-}
 _DEFAULT_MAP_CENTER = [20, 0, 2]
+_REGION_RE = re.compile(r"^[A-Z]{2}$")
+_SMALL_COUNTRIES = {"NL", "BE", "LU", "CH", "AT", "IE", "DK", "SI", "SK", "CZ", "IL", "SG", "MT"}
+
+
+def _country_from_language_tag(tag: str) -> Optional[str]:
+    """Extract ISO 3166-1 region subtag from a BCP47 language tag."""
+    tag = tag.split(";")[0].strip().replace("_", "-")
+    if not tag:
+        return None
+    parts = tag.split("-")
+    for sub in parts[1:]:
+        upper = sub.upper()
+        if _REGION_RE.match(upper):
+            return upper
+        if len(sub) == 1:
+            break
+    return None
+
+
+def _zoom_for_country(code: str) -> int:
+    """Pick a reasonable default zoom level based on country size."""
+    if code in _SMALL_COUNTRIES:
+        return 7
+    if code in {"US", "CA", "AU", "RU", "CN", "BR"}:
+        return 4
+    return 5
 
 
 def _map_center_from_accept_language(header: str) -> list:
     """Extract a country hint from Accept-Language to pick a default map center."""
-    for tag in re.split(r",\s*", header):
-        lang = tag.split(";")[0].strip()
-        parts = lang.split("-")
-        if len(parts) >= 2:
-            country = parts[-1].upper()
-            if country in _LANGUAGE_TO_MAP_CENTER:
-                return _LANGUAGE_TO_MAP_CENTER[country]
+    if not header:
+        return _DEFAULT_MAP_CENTER
+    centroids = _get_country_centroids()
+    for raw in re.split(r",\s*", header):
+        country = _country_from_language_tag(raw)
+        if country and country in centroids:
+            lat, lng = centroids[country]
+            return [float(lat), float(lng), _zoom_for_country(country)]
     return _DEFAULT_MAP_CENTER
 
 
