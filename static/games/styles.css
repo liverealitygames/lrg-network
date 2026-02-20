@@ -183,8 +183,12 @@ strong {
 }
 
 .minimalist-pagination .page-item {
-    border-radius: 50%; /* Ensure the parent container is circular */
-    overflow: hidden; /* Clip any child content that overflows */
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.minimalist-pagination .page-item:has(.page-link:focus-visible) {
+    overflow: visible;
 }
 
 .minimalist-pagination .page-item.disabled .page-link {
