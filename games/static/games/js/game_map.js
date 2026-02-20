@@ -40,6 +40,14 @@
     }
   ).addTo(map);
 
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      map.flyTo([pos.coords.latitude, pos.coords.longitude], ZOOM_COUNTRY, {
+        duration: 1.5,
+      });
+    });
+  }
+
   let data = {
     countries: [],
     regions: [],
