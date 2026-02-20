@@ -118,12 +118,12 @@
         const filterOpen = getUrlParam('filter_open');
         if (filterOpen === '1') {
             filtersContainer.classList.remove('hidden');
-            toggleBtn.setAttribute('aria-label', 'Hide Filters');
+            toggleBtn.setAttribute('aria-expanded', 'true');
             toggleBtn.classList.add('active');
             if (filterOpenInput) filterOpenInput.value = '1';
         } else {
             filtersContainer.classList.add('hidden');
-            toggleBtn.setAttribute('aria-label', 'Show Filters');
+            toggleBtn.setAttribute('aria-expanded', 'false');
             toggleBtn.classList.remove('active');
             if (filterOpenInput) filterOpenInput.value = '0';
         }
@@ -135,13 +135,13 @@
             const isVisible = !filtersContainer.classList.contains('hidden');
             if (isVisible) {
                 filtersContainer.classList.add('hidden');
-                this.setAttribute('aria-label', 'Show Filters');
+                this.setAttribute('aria-expanded', 'false');
                 this.classList.remove('active');
                 setUrlParam('filter_open', '0');
                 if (filterOpenInput) filterOpenInput.value = '0';
             } else {
                 filtersContainer.classList.remove('hidden');
-                this.setAttribute('aria-label', 'Hide Filters');
+                this.setAttribute('aria-expanded', 'true');
                 this.classList.add('active');
                 setUrlParam('filter_open', '1');
                 if (filterOpenInput) filterOpenInput.value = '1';
