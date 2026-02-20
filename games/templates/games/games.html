@@ -38,6 +38,8 @@
                 class="form-control"
                 placeholder="Search games..."
                 value="{{ request.GET.q }}"
+                data-typeahead-url="{% url 'game_search' %}"
+                autocomplete="off"
             />
             <button type="submit" class="btn btn-primary games-search-btn btn-hover-scale" aria-label="Search games">Search</button>
         </div>
