@@ -10,28 +10,9 @@
 {% block twitter_description %}{{ game.name }} — a {{ game.get_game_format_display }} style Live Reality Game in {{ game.location_display }}.{% endblock %}
 
 {% block structured_data %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Event",
-  "name": "{{ game.name }}",
-  "description": "{{ game.name }} — a {{ game.get_game_format_display }} style Live Reality Game in {{ game.location_display }}.",
-  "url": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}",
-  "location": {
-    "@type": "Place",
-    "name": "{{ game.location_display }}"
-  },
-  "organizer": {
-    "@type": "Organization",
-    "name": "{{ game.name }}"
-  },
-  {% if game.active and game.next_season_date.first %}"eventStatus": "https://schema.org/EventScheduled",
-  {% if game.next_season_date.first.start_date %}"startDate": "{{ game.next_season_date.first.start_date|date:'Y-m-d' }}",{% endif %}
-  {% if game.next_season_date.first.end_date %}"endDate": "{{ game.next_season_date.first.end_date|date:'Y-m-d' }}",{% endif %}
-  {% endif %}{% if game.logo %}"image": "{{ game.logo.url }}",{% endif %}
-  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode"
-}
-</script>
+{% if event_jsonld %}
+<script type="application/ld+json">{{ event_jsonld|safe }}</script>
+{% endif %}
 {% endblock %}
 
 {% block content %}

@@ -6,20 +6,9 @@
 {% block meta_description %}LRG Network connects players and games in the Live Reality Games community — fan-created competitions inspired by Survivor, Big Brother, The Traitors, and more.{% endblock %}
 
 {% block structured_data %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "LRG Network",
-  "url": "{{ request.scheme }}://{{ request.get_host }}/",
-  "description": "Discover and connect with Live Reality Games — fan-created competitions inspired by Survivor, Big Brother, The Traitors, and more.",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "{{ request.scheme }}://{{ request.get_host }}/games/?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
-</script>
+{% if website_jsonld %}
+<script type="application/ld+json">{{ website_jsonld|safe }}</script>
+{% endif %}
 {% endblock %}
 
 {% block extra_css %}

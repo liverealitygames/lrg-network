@@ -20,10 +20,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.urls import include, path
 from django.views.generic import TemplateView
 
 from games.views import gallery
+from lrgnetwork.seo import build_website_jsonld
 from lrgnetwork.sitemaps import GameSitemap, StaticViewSitemap
 
 sitemaps = {
@@ -34,6 +36,14 @@ sitemaps = {
 
 def health(request):
     return HttpResponse("ok", content_type="text/plain", status=200)
+
+
+def home(request):
+    return render(
+        request,
+        "static_pages/about.html",
+        {"website_jsonld": build_website_jsonld(request)},
+    )
 
 
 def robots_txt(request):
@@ -61,11 +71,7 @@ urlpatterns = [
     ),
     path("health/", health, name="health"),
     path("test-sentry/", test_sentry, name="test_sentry"),
-    path(
-        "",
-        TemplateView.as_view(template_name="static_pages/about.html"),
-        name="home",
-    ),
+    path("", home, name="home"),
     path("game-management/", admin.site.urls),
     path("games/", include("games.urls")),
     path("gallery/", gallery, name="gallery"),

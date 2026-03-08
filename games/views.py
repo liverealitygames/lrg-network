@@ -282,13 +282,19 @@ def game_detail(request: HttpRequest, slug: str) -> HttpResponse:
     Raises:
         Http404: If game with given slug doesn't exist
     """
+    from lrgnetwork.seo import build_event_jsonld
+
     game = get_object_or_404(
         Game.objects.select_related("country", "region", "city").prefetch_related(
             "seasons", "images", "next_season_date"
         ),
         slug=slug,
     )
-    return render(request, "games/game_detail.html", {"game": game})
+    context = {
+        "game": game,
+        "event_jsonld": build_event_jsonld(game, request),
+    }
+    return render(request, "games/game_detail.html", context)
 
 
 def _get_map_filters(request: HttpRequest) -> Dict[str, Any]:
