@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from typing import Dict, Any, Optional
 from django.db.models import QuerySet, Count, Avg
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -38,6 +39,62 @@ def _expand_filming_statuses(raw_values: list) -> list:
         else:
             out.append(v)
     return out
+
+
+_DEFAULT_MAP_CENTER = [20, 0, 2]
+_REGION_RE = re.compile(r"^[A-Z]{2}$")
+_SMALL_COUNTRIES = {
+    "NL",
+    "BE",
+    "LU",
+    "CH",
+    "AT",
+    "IE",
+    "DK",
+    "SI",
+    "SK",
+    "CZ",
+    "IL",
+    "SG",
+    "MT",
+}
+
+
+def _country_from_language_tag(tag: str) -> Optional[str]:
+    """Extract ISO 3166-1 region subtag from a BCP47 language tag."""
+    tag = tag.split(";")[0].strip().replace("_", "-")
+    if not tag:
+        return None
+    parts = tag.split("-")
+    for sub in parts[1:]:
+        upper = sub.upper()
+        if _REGION_RE.match(upper):
+            return upper
+        if len(sub) == 1:
+            break
+    return None
+
+
+def _zoom_for_country(code: str) -> int:
+    """Pick a reasonable default zoom level based on country size."""
+    if code in _SMALL_COUNTRIES:
+        return 7
+    if code in {"US", "CA", "AU", "RU", "CN", "BR"}:
+        return 4
+    return 5
+
+
+def _map_center_from_accept_language(header: str) -> list:
+    """Extract a country hint from Accept-Language to pick a default map center."""
+    if not header:
+        return _DEFAULT_MAP_CENTER
+    centroids = _get_country_centroids()
+    for raw in re.split(r",\s*", header):
+        country = _country_from_language_tag(raw)
+        if country and country in centroids:
+            lat, lng = centroids[country]
+            return [float(lat), float(lng), _zoom_for_country(country)]
+    return _DEFAULT_MAP_CENTER
 
 
 def _get_country_centroids() -> Dict[str, list]:
@@ -228,6 +285,11 @@ def game_list(request: HttpRequest) -> HttpResponse:
         filters["country_id"], filters["region_id"]
     )
 
+    # Guess a map center from Accept-Language (no geolocation API needed)
+    map_default_center = _map_center_from_accept_language(
+        request.META.get("HTTP_ACCEPT_LANGUAGE", "")
+    )
+
     # View mode: list or map (Redfin/Zillow-style toggle)
     view_mode = request.GET.get("view", "list")
     if view_mode not in ("list", "map"):
@@ -262,6 +324,7 @@ def game_list(request: HttpRequest) -> HttpResponse:
         "view_mode": view_mode,
         "list_view_url": list_view_url,
         "map_view_url": map_view_url,
+        "map_default_center": map_default_center,
         **location_context,  # Unpack location context (countries, regions, etc.)
     }
 
