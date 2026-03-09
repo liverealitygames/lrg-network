@@ -43,7 +43,21 @@ def _expand_filming_statuses(raw_values: list) -> list:
 
 _DEFAULT_MAP_CENTER = [20, 0, 2]
 _REGION_RE = re.compile(r"^[A-Z]{2}$")
-_SMALL_COUNTRIES = {"NL", "BE", "LU", "CH", "AT", "IE", "DK", "SI", "SK", "CZ", "IL", "SG", "MT"}
+_SMALL_COUNTRIES = {
+    "NL",
+    "BE",
+    "LU",
+    "CH",
+    "AT",
+    "IE",
+    "DK",
+    "SI",
+    "SK",
+    "CZ",
+    "IL",
+    "SG",
+    "MT",
+}
 
 
 def _country_from_language_tag(tag: str) -> Optional[str]:
