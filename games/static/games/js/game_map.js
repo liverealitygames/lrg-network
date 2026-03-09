@@ -44,8 +44,8 @@
   var hasLocationFilter = params.has("country") || params.has("region") || params.has("city");
   if (navigator.geolocation && !hasLocationFilter) {
     navigator.geolocation.getCurrentPosition(function (pos) {
-      map.flyTo([pos.coords.latitude, pos.coords.longitude], ZOOM_COUNTRY, {
-        duration: 1.5,
+      map.setView([pos.coords.latitude, pos.coords.longitude], ZOOM_COUNTRY, {
+        animate: true,
       });
     });
   }
