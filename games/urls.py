@@ -1,4 +1,11 @@
-from .views import game_list, game_detail, game_search, map_view, map_data, map_location_games
+from .views import (
+    game_list,
+    game_detail,
+    game_search,
+    map_view,
+    map_data,
+    map_location_games,
+)
 from django.urls import path
 from . import autocomplete
 
