@@ -1,9 +1,10 @@
 # Makefile for lrg-network
 
-.PHONY: help build up down migrate cities_light shell logs test format format-check optimize-images
+.PHONY: help setup build up down migrate cities_light shell logs test format format-check optimize-images
 
 help:
 	@echo "Makefile commands:"
+	@echo "  setup         	Install pre-commit hooks and dev dependencies"
 	@echo "  build         	Build Docker images"
 	@echo "  up            	Start containers (detached)"
 	@echo "  down          	Stop and remove containers"
@@ -16,6 +17,10 @@ help:
 	@echo "  format			Format code with Black"
 	@echo "  format-check	Check code formatting (mirrors CI)"
 	@echo "  optimize-images	Optimize images >500KB in static/resources/images/"
+
+setup:
+	pip install -r requirements-dev.txt
+	pre-commit install
 
 build:
 	docker compose build
