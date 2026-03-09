@@ -583,8 +583,10 @@ SEARCH_MAX_RESULTS = 8
 @require_GET
 def game_search(request: HttpRequest) -> JsonResponse:
     """
-    Typeahead search endpoint. Returns minimal JSON for up to SEARCH_MAX_RESULTS games
-    matching the query string (name or description, case-insensitive).
+    Global navbar typeahead endpoint. Returns minimal JSON for up to
+    SEARCH_MAX_RESULTS games matching the query string (name or description,
+    case-insensitive). Intentionally unfiltered — searches all games regardless
+    of any page-level filters.
     GET params: q (required, min 3 chars)
     """
     query = request.GET.get("q", "").strip()
