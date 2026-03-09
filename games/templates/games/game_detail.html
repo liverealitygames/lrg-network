@@ -2,6 +2,18 @@
 {% load static %}
 
 {% block title %}{{ game.name }} - LRG Network{% endblock %}
+{% block meta_description %}{{ game.name }} — a {{ game.get_game_format_display }} style Live Reality Game in {{ game.location_display }}.{% endblock %}
+{% block og_title %}{{ game.name }} - LRG Network{% endblock %}
+{% block og_description %}{{ game.name }} — a {{ game.get_game_format_display }} style Live Reality Game in {{ game.location_display }}.{% endblock %}
+{% block og_image %}{% if game.logo %}<meta property="og:image" content="{{ game.logo.url }}">{% endif %}{% endblock %}
+{% block twitter_title %}{{ game.name }} - LRG Network{% endblock %}
+{% block twitter_description %}{{ game.name }} — a {{ game.get_game_format_display }} style Live Reality Game in {{ game.location_display }}.{% endblock %}
+
+{% block structured_data %}
+{% if event_jsonld %}
+<script type="application/ld+json">{{ event_jsonld|safe }}</script>
+{% endif %}
+{% endblock %}
 
 {% block content %}
 <div class="container-lg game-detail-page py-3">

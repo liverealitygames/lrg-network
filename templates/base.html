@@ -7,6 +7,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}LRG Network{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Discover and connect with Live Reality Games (LRGs) — fan-created competitions inspired by Survivor, Big Brother, The Traitors, and more.{% endblock %}">
+    {% block canonical %}<link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">{% endblock %}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}LRG Network{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Discover and connect with Live Reality Games — fan-created competitions inspired by Survivor, Big Brother, The Traitors, and more.{% endblock %}">
+    <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+    {% block og_image %}{% endblock %}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{% block twitter_title %}LRG Network{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Discover and connect with Live Reality Games — fan-created competitions inspired by Survivor, Big Brother, The Traitors, and more.{% endblock %}">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,6 +42,7 @@
         <link rel="stylesheet" href="/static/games/styles.css">
     {% endcompress %}
     {% block extra_css %}{% endblock %}
+    {% block structured_data %}{% endblock %}
 </head>
 <body class="d-flex flex-column min-vh-100">
     <!-- Navigation -->
