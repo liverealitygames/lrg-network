@@ -183,8 +183,12 @@ strong {
 }
 
 .minimalist-pagination .page-item {
-    border-radius: 50%; /* Ensure the parent container is circular */
-    overflow: hidden; /* Clip any child content that overflows */
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.minimalist-pagination .page-item:has(.page-link:focus-visible) {
+    overflow: visible;
 }
 
 .minimalist-pagination .page-item.disabled .page-link {
@@ -195,9 +199,15 @@ strong {
     border: none;     /* override Bootstrap */
 }
 
-.minimalist-pagination .page-link:focus {
+.minimalist-pagination .page-link:focus:not(:focus-visible) {
     box-shadow: none !important;
     outline: none !important;
+}
+
+.minimalist-pagination .page-link:focus-visible {
+    outline: 2px solid var(--bs-primary) !important;
+    outline-offset: 2px;
+    box-shadow: none !important;
 }
 
 /* Game details tags */
