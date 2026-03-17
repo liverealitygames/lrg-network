@@ -1,4 +1,11 @@
-from .views import game_list, game_detail, map_view, map_data, map_location_games
+from .views import (
+    game_list,
+    game_detail,
+    game_search,
+    map_view,
+    map_data,
+    map_location_games,
+)
 from django.urls import path
 from . import autocomplete
 
@@ -18,6 +25,7 @@ urlpatterns = [
         autocomplete.CityAutocomplete.as_view(),
         name="city-autocomplete",
     ),
+    path("search/", game_search, name="game_search"),
     path("map/data/", map_data, name="game_map_data"),
     path("map/games/", map_location_games, name="game_map_location_games"),
     path("map/", map_view, name="game_map"),

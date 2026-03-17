@@ -4,6 +4,7 @@ from typing import Dict, Any, Optional
 from django.db.models import QuerySet, Count, Avg
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_GET
 from django.urls import reverse
 from cities_light.models import Country, Region, City
 from django.core.cache import cache
@@ -572,6 +573,56 @@ def map_location_games(request: HttpRequest) -> JsonResponse:
             "games": games_data,
             "location_label": location_label,
             "game_list_url": game_list_url,
+        }
+    )
+
+
+SEARCH_MAX_RESULTS = 8
+
+
+@require_GET
+def game_search(request: HttpRequest) -> JsonResponse:
+    """
+    Global navbar typeahead endpoint. Returns minimal JSON for up to
+    SEARCH_MAX_RESULTS games matching the query string (name or description,
+    case-insensitive). Intentionally unfiltered — searches all games regardless
+    of any page-level filters.
+    GET params: q (required, min 3 chars)
+    """
+    query = request.GET.get("q", "").strip()
+    if len(query) < 3:
+        return JsonResponse({"games": []})
+
+    games = (
+        Game.objects.filter(is_removed=False)
+        .filter(Q(name__icontains=query) | Q(description__icontains=query))
+        .select_related("country", "region", "city")
+        .order_by("name")[:SEARCH_MAX_RESULTS]
+    )
+
+    def logo_url_for(g: Game) -> Optional[str]:
+        if g.logo:
+            url = g.logo.url
+        else:
+            url = g.get_default_logo_url()
+        if not url:
+            return None
+        if url.startswith("http"):
+            return url
+        return request.build_absolute_uri(url)
+
+    return JsonResponse(
+        {
+            "games": [
+                {
+                    "name": g.name,
+                    "url": reverse("game_detail", args=[g.slug]),
+                    "logo_url": logo_url_for(g),
+                    "location": g.location_display(),
+                    "format": g.get_game_format_display(),
+                }
+                for g in games
+            ]
         }
     )
 
