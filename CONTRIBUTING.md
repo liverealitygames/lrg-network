@@ -42,7 +42,10 @@ python3 -m venv lrgvenv
 source lrgvenv/bin/activate
 pip install --upgrade pip
 pip install -r requirements-dev.txt
+pre-commit install
 ```
+
+This installs Git hooks that automatically check formatting before each commit.
 
 ### 5. Database Setup
 
