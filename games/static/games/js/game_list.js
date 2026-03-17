@@ -116,36 +116,24 @@
 
         // On page load, show/hide filters based only on filter_open param
         const filterOpen = getUrlParam('filter_open');
-        if (filterOpen === '1') {
-            filtersContainer.classList.remove('hidden');
-            toggleBtn.setAttribute('aria-label', 'Hide Filters');
-            toggleBtn.classList.add('active');
-            if (filterOpenInput) filterOpenInput.value = '1';
-        } else {
-            filtersContainer.classList.add('hidden');
-            toggleBtn.setAttribute('aria-label', 'Show Filters');
-            toggleBtn.classList.remove('active');
-            if (filterOpenInput) filterOpenInput.value = '0';
-        }
+        const isOpen = filterOpen === '1';
+        filtersContainer.hidden = !isOpen;
+        toggleBtn.setAttribute('aria-expanded', String(isOpen));
+        toggleBtn.classList.toggle('active', isOpen);
+        if (filterOpenInput) filterOpenInput.value = isOpen ? '1' : '0';
         updateFilterCountBadge();
         updateViewLinks();
 
         // Toggle filter section and update URL param
         toggleBtn.addEventListener('click', function() {
-            const isVisible = !filtersContainer.classList.contains('hidden');
-            if (isVisible) {
-                filtersContainer.classList.add('hidden');
-                this.setAttribute('aria-label', 'Show Filters');
-                this.classList.remove('active');
-                setUrlParam('filter_open', '0');
-                if (filterOpenInput) filterOpenInput.value = '0';
-            } else {
-                filtersContainer.classList.remove('hidden');
-                this.setAttribute('aria-label', 'Hide Filters');
-                this.classList.add('active');
-                setUrlParam('filter_open', '1');
-                if (filterOpenInput) filterOpenInput.value = '1';
-            }
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            const next = !expanded;
+
+            filtersContainer.hidden = !next;
+            this.setAttribute('aria-expanded', String(next));
+            this.classList.toggle('active', next);
+            setUrlParam('filter_open', next ? '1' : '0');
+            if (filterOpenInput) filterOpenInput.value = next ? '1' : '0';
             updateViewLinks();
         });
 

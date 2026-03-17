@@ -89,9 +89,9 @@
                     </ul>
                 </div>
                 <div class="collapse navbar-collapse justify-content-lg-end" id="navbarSearch" data-bs-parent="#navbarCollapseGroup">
-                    <form method="get" action="/games/" class="d-flex ms-lg-auto w-100 w-lg-auto mb-2 mb-lg-0 justify-content-center justify-content-lg-end pt-3 pt-lg-0">
+                    <form method="get" action="/games/" role="search" class="d-flex ms-lg-auto w-100 w-lg-auto mb-2 mb-lg-0 justify-content-center justify-content-lg-end pt-3 pt-lg-0">
                         <div class="d-flex align-items-center w-100 search-container">
-                            <input type="text" name="q" class="form-control border-0 search-input" placeholder="Search games..." data-typeahead-url="{% url 'game_search' %}" autocomplete="off">
+                            <input type="text" name="q" class="form-control border-0 search-input" placeholder="Search games..." aria-label="Search games" data-typeahead-url="{% url 'game_search' %}" autocomplete="off">
                         </div>
                     </form>
                 </div>
