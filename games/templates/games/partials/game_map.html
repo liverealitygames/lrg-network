@@ -8,6 +8,7 @@
     id="games-map"
     data-map-data-url="{% url 'game_map_data' %}"
     data-map-location-games-url="{% url 'game_map_location_games' %}"
+    data-map-center="{{ map_default_center|join:',' }}"
   ></div>
 </div>
 <div id="map-panel-backdrop" class="map-side-panel-backdrop" aria-hidden="true"></div>
