@@ -2,7 +2,7 @@ Django~=5.1.2
 django-cities-light==3.10.1
 django-model-utils==5.0.0
 django-autocomplete-light==3.12.1
-Pillow==12.1.1
+Pillow==12.2.0
 django-bootstrap5==23.4
 django-compressor==4.5.1
 whitenoise==6.9.0
@@ -10,7 +10,7 @@ dj-database-url==3.0.1
 psycopg2-binary==2.9.10
 boto3==1.39.4
 django-storages==1.14.6
-python-dotenv==1.1.1
+python-dotenv==1.2.2
 gunicorn==23.0.0
 django-axes==8.0.0
 sentry-sdk[django]>=2.0.0
