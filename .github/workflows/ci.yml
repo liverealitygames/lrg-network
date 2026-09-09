@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DJANGO_SECRET_KEY: "dummy-for-ci"
-      CARTO_BASEMAP_KEY: "dummy-for-ci"
       DJANGO_SETTINGS_MODULE: lrgnetwork.settings
       PYTHONUNBUFFERED: 1
     steps:
@@ -60,6 +59,7 @@ jobs:
     name: Run Tests
     runs-on: ubuntu-latest
     env:
+      CARTO_BASEMAP_KEY: "dummy-for-ci"
       DJANGO_SECRET_KEY: "dummy-for-ci"
       DJANGO_SETTINGS_MODULE: lrgnetwork.settings
       PYTHONUNBUFFERED: 1
