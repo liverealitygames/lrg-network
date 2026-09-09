@@ -14,6 +14,19 @@
   const defaultCenter = [centerParts[0], centerParts[1]];
   const defaultZoom = centerParts[2] || 2;
 
+  // Restore map position saved before a filter-triggered page reload
+  const MAP_POS_KEY = "lrg_map_position";
+  let savedMapPos = null;
+  try {
+    const raw = sessionStorage.getItem(MAP_POS_KEY);
+    if (raw) {
+      const p = JSON.parse(raw);
+      if (p.lat != null && p.lng != null && p.zoom != null) savedMapPos = p;
+    }
+  } catch (e) { /* sessionStorage unavailable */ }
+  const initialCenter = savedMapPos ? [savedMapPos.lat, savedMapPos.lng] : defaultCenter;
+  const initialZoom = savedMapPos ? savedMapPos.zoom : defaultZoom;
+
   function currentQueryString() {
     return window.location.search ? window.location.search.substring(1) : "";
   }
@@ -28,7 +41,7 @@
     minZoom: 2,
     maxBounds: L.latLngBounds(L.latLng(-85, -180), L.latLng(85, 180)),
     maxBoundsViscosity: 1.0,
-  }).setView(defaultCenter, defaultZoom);
+  }).setView(initialCenter, initialZoom);
 
   const cartoKey = mapEl.dataset.cartoKey;
 
@@ -278,6 +291,17 @@
   }
 
   map.on("zoomend moveend", updateBubbles);
+  // Persist position so filter reloads don't reset the map
+  map.on("moveend", function () {
+    try {
+      const center = map.getCenter();
+      sessionStorage.setItem(MAP_POS_KEY, JSON.stringify({
+        lat: center.lat,
+        lng: center.lng,
+        zoom: map.getZoom(),
+      }));
+    } catch (e) { /* sessionStorage unavailable */ }
+  });
 
   const panelEl = document.getElementById("map-side-panel");
   const panelBackdrop = document.getElementById("map-panel-backdrop");
