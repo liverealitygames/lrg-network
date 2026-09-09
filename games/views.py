@@ -263,6 +263,7 @@ def game_list(request: HttpRequest) -> HttpResponse:
         "view_mode": view_mode,
         "list_view_url": list_view_url,
         "map_view_url": map_view_url,
+        "carto_basemap_key": os.environ["CARTO_BASEMAP_KEY"],
         **location_context,  # Unpack location context (countries, regions, etc.)
     }
 

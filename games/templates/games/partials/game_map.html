@@ -6,6 +6,7 @@
 <div class="map-full-width">
   <div
     id="games-map"
+    data-carto-key="{{ carto_basemap_key }}"
     data-map-data-url="{% url 'game_map_data' %}"
     data-map-location-games-url="{% url 'game_map_location_games' %}"
   ></div>

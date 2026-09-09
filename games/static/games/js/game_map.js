@@ -26,8 +26,11 @@
     maxBounds: L.latLngBounds(L.latLng(-85, -180), L.latLng(85, 180)),
     maxBoundsViscosity: 1.0,
   }).setView([20, 0], 2);
+
+  const cartoKey = mapEl.dataset.cartoKey;
+
   L.tileLayer(
-    "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+    "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png?key=${encodeURIComponent(cartoKey)}",
     {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
