@@ -1,0 +1,17 @@
+# Base dependencies
+Django
+django-cities-light
+django-model-utils
+django-autocomplete-light
+Pillow
+django-bootstrap5
+django-compressor
+whitenoise
+dj-database-url
+psycopg2-binary
+boto3
+django-storages
+python-dotenv
+gunicorn
+django-axes
+sentry-sdk[django]
