@@ -337,3 +337,26 @@ class Season(CoreModel):
         verbose_name = "Season"
         verbose_name_plural = "Seasons"
         ordering = ["game", "number"]
+
+
+class MiscLink(CoreModel):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="misc_links")
+    url = models.URLField(max_length=500)
+    title = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        help_text="Optional custom label (e.g. 'Weibo', 'Bilibili'). Defaults to 'Website'.",
+    )
+
+    @property
+    def link(self):
+        return self.url
+
+    def __str__(self):
+        return self.title if self.title else self.url
+
+    class Meta:
+        verbose_name = "Miscellaneous Link"
+        verbose_name_plural = "Miscellaneous Links"
+        ordering = ["game", "created"]
