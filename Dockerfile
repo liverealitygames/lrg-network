@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -31,6 +31,8 @@ RUN python manage.py collectstatic --noinput
 
 # Expose port 8000
 EXPOSE 8000
+
+ENTRYPOINT ["/app/entrypoint.sh"]
 
 # Run the Django development server
 CMD ["gunicorn", "lrgnetwork.wsgi:application", "--bind", "0.0.0.0:8000"]
