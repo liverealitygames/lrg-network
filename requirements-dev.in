@@ -1,0 +1,11 @@
+-c requirements.txt
+
+black
+coverage
+django-debug-toolbar
+pytest
+pytest-django
+pre-commit
+python-dotenv
+pytest-dotenv
+pip-audit
