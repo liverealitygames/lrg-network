@@ -2,7 +2,7 @@ from datetime import date
 from django.forms import ValidationError
 from django.test import TestCase
 from django.urls import reverse
-from .models import Game, GameDate, Season
+from .models import Game, GameDate, Season, MiscLink
 from .form import GameAdminForm
 from django.contrib.auth import get_user_model
 from cities_light.models import Country, Region, City
@@ -355,6 +355,54 @@ class GameDetailViewTest(TestCase):
         self.assertIn("game", response.context)
         self.assertEqual(response.context["game"], self.game)
 
+    def test_view_displays_misc_links_with_website_icon(self):
+        link1 = MiscLink.objects.create(
+            game=self.game,
+            url="https://weibo.com/u/12345678",
+            title="Weibo",
+        )
+        link2 = MiscLink.objects.create(
+            game=self.game,
+            url="https://space.bilibili.com/12345678",
+        )
+        response = self.client.get(reverse("game_detail", args=[self.game.slug]))
+        self.assertEqual(response.status_code, 200)
+        content = response.content.decode()
+        self.assertIn('href="https://weibo.com/u/12345678"', content)
+        self.assertIn('title="Weibo"', content)
+        self.assertIn('href="https://space.bilibili.com/12345678"', content)
+        self.assertIn('title="Website"', content)
+        # Verify the website class and globe icon are used
+        self.assertIn('class="social-icon website"', content)
+        self.assertIn('<i class="bi bi-globe"></i>', content)
+
+    def test_view_displays_multiple_misc_links_alongside_website(self):
+        self.game.website = "https://example.com"
+        self.game.save()
+        MiscLink.objects.create(
+            game=self.game,
+            url="https://weibo.com/test",
+            title="Weibo",
+        )
+        response = self.client.get(reverse("game_detail", args=[self.game.slug]))
+        self.assertEqual(response.status_code, 200)
+        content = response.content.decode()
+        self.assertIn('href="https://example.com"', content)
+        self.assertIn('href="https://weibo.com/test"', content)
+
+    def test_view_does_not_display_removed_misc_links(self):
+        link = MiscLink.objects.create(
+            game=self.game,
+            url="https://removed-link.com",
+            title="Removed Link",
+            is_removed=True,
+        )
+        response = self.client.get(reverse("game_detail", args=[self.game.slug]))
+        self.assertEqual(response.status_code, 200)
+        content = response.content.decode()
+        self.assertNotIn("https://removed-link.com", content)
+        self.assertNotIn("Removed Link", content)
+
 
 class GameSlugGenerationTest(TestCase):
     def setUp(self):
@@ -476,3 +524,99 @@ class GameMapDataViewTest(TestCase):
             c for c in data["countries"] if c["id"] == str(self.country.id)
         ]
         self.assertEqual(len(country_entries), 0)
+
+
+class MiscLinkModelTest(TestCase):
+    def setUp(self):
+        self.country = Country.objects.create(name="Test Country")
+        self.game = Game.objects.create(
+            name="Test Game",
+            game_format=Game.GameFormat.SURVIVOR,
+            active=True,
+            country=self.country,
+        )
+
+    def test_create_misc_link(self):
+        link = MiscLink.objects.create(
+            game=self.game,
+            url="https://weibo.com/u/123456",
+            title="Weibo",
+        )
+        self.assertEqual(link.game, self.game)
+        self.assertEqual(link.url, "https://weibo.com/u/123456")
+        self.assertEqual(link.title, "Weibo")
+        self.assertEqual(link.link, "https://weibo.com/u/123456")
+        self.assertEqual(str(link), "Weibo")
+        self.assertFalse(link.is_removed)
+
+    def test_str_fallback_to_url(self):
+        link = MiscLink.objects.create(
+            game=self.game,
+            url="https://space.bilibili.com/123456",
+        )
+        self.assertEqual(str(link), "https://space.bilibili.com/123456")
+
+    def test_soft_delete(self):
+        link = MiscLink.objects.create(
+            game=self.game,
+            url="https://example.com",
+            title="Example",
+        )
+        link.delete()
+        link.refresh_from_db()
+        self.assertTrue(link.is_removed)
+
+    def test_related_name_misc_links(self):
+        link1 = MiscLink.objects.create(
+            game=self.game,
+            url="https://link1.com",
+            title="Link 1",
+        )
+        link2 = MiscLink.objects.create(
+            game=self.game,
+            url="https://link2.com",
+            title="Link 2",
+        )
+        self.assertEqual(list(self.game.misc_links.all()), [link1, link2])
+
+
+class MiscLinkAdminTest(TestCase):
+    def setUp(self):
+        self.country = Country.objects.create(name="Test Country")
+        self.game = Game.objects.create(
+            name="Test Game",
+            game_format=Game.GameFormat.SURVIVOR,
+            active=True,
+            country=self.country,
+        )
+
+    def test_inline_registered_in_game_admin(self):
+        from .admin import GameAdmin, MiscLinkInline
+
+        self.assertIn(MiscLinkInline, GameAdmin.inlines)
+
+    def test_inline_queryset_excludes_removed(self):
+        from .admin import MiscLinkInline
+        from django.contrib.admin.sites import AdminSite
+        from django.test.client import RequestFactory
+
+        link_active = MiscLink.objects.create(
+            game=self.game,
+            url="https://active.com",
+            title="Active",
+        )
+        link_removed = MiscLink.objects.create(
+            game=self.game,
+            url="https://removed.com",
+            title="Removed",
+            is_removed=True,
+        )
+
+        inline = MiscLinkInline(Game, AdminSite())
+        request = RequestFactory().get("/")
+        request.user = get_user_model().objects.create_superuser(
+            username="adminuser", password="password", email="admin@example.com"
+        )
+        qs = inline.get_queryset(request)
+        self.assertIn(link_active, qs)
+        self.assertNotIn(link_removed, qs)

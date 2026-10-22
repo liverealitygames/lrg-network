@@ -4,7 +4,7 @@ from core.admin_mixins import AuditAdminMixin
 from cities_light.models import Country, Region, City, SubRegion
 
 from games.form import GameAdminForm
-from .models import Game, GameDate, GameImages, Season
+from .models import Game, GameDate, GameImages, Season, MiscLink
 
 admin.site.unregister(Country)
 admin.site.unregister(Region)
@@ -44,10 +44,21 @@ class GameImagesInline(admin.TabularInline):
         return qs.filter(is_removed=False)
 
 
+class MiscLinkInline(admin.TabularInline):
+    model = MiscLink
+    extra = 1
+    can_delete = False  # disables hard delete
+    fields = ["url", "title", "is_removed"]
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(is_removed=False)
+
+
 @admin.register(Game)
 class GameAdmin(AuditAdminMixin):
     form = GameAdminForm
-    inlines = [GameDateInline, SeasonInline, GameImagesInline]
+    inlines = [GameDateInline, SeasonInline, GameImagesInline, MiscLinkInline]
     exclude = ("slug",)
 
     list_display = (

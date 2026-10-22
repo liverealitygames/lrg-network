@@ -126,6 +126,13 @@
                     <i class="bi bi-tiktok"></i>
                 </a>
             {% endif %}
+            {% for misc_link in game.misc_links.all %}
+                {% if not misc_link.is_removed and misc_link.url %}
+                    <a href="{{ misc_link.url }}" class="social-icon website" target="_blank" rel="noopener noreferrer" title="{{ misc_link.title|default:'Website' }}" aria-label="{{ misc_link.title|default:'Website' }}">
+                        <i class="bi bi-globe"></i>
+                    </a>
+                {% endif %}
+            {% endfor %}
         </div>
 
         <div class="mb-4">

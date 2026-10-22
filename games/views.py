@@ -351,7 +351,7 @@ def game_detail(request: HttpRequest, slug: str) -> HttpResponse:
 
     game = get_object_or_404(
         Game.objects.select_related("country", "region", "city").prefetch_related(
-            "seasons", "images", "next_season_date"
+            "seasons", "images", "next_season_date", "misc_links"
         ),
         slug=slug,
     )
