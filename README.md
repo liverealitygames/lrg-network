@@ -2,7 +2,7 @@
 
 ## 🌐 Overview
 
-lrg-network is a Django web application for managing and displaying data about Live Reality Games (LRGs). It includes functionality for event listings, player profiles, and media uploads.
+lrg-network is a Django web application for managing and displaying data about Live Reality Games (LRGs).
 
 ---
 
